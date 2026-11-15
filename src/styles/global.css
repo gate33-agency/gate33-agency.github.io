@@ -450,7 +450,11 @@ body.lock { overflow: hidden; }
 .motion-intro .hero__media, .motion-intro .hero__eyebrow, .motion-intro .hero__title, .motion-intro .hero__lede,
 .motion-intro .hero__actions, .motion-intro .hero__services, .motion-intro .hero__toggle, .motion-intro .header { opacity: 0; }
 .g-line-mask { padding-bottom: 0.12em; margin-bottom: -0.12em; } /* room under the line inside the mask; bottom-only so sibling margins collapse to a net layout change of zero */
-[lang='ar'] .g-line-mask { padding-block: 0.14em 0.42em; margin-block: -0.14em -0.42em; } /* Arabic: deep descenders (ي، ج، ع) and dots below, marks above; net layout change zero */
+[lang='ar'] .g-line-mask { padding-block: 0.14em 0.42em; margin-block: -0.14em -0.42em; }
+/* QA 15 Nov: while a heading is split into masked lines it lays them out as a flex column, so the negative margins above
+   never collapse (between lines or through the heading) and the heading keeps exactly its height: nothing below moves
+   during the reveal or jumps when the masks are removed. Arabic headings used to grow by up to 80px for 2 seconds. */
+:where(h1, h2, h3, p, div):has(> .g-line-mask) { display: flex; flex-direction: column; } /* Arabic: deep descenders (ي، ج، ع) and dots below, marks above; net layout change zero */
 html.lenis, html.lenis body { height: auto; }
 html.lenis { scroll-behavior: auto; }
 .lenis.lenis-stopped { overflow: hidden; overflow: clip; }

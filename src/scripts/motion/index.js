@@ -41,7 +41,11 @@ if (!reduced) {
   // First visit of the session: the gate entry plays first, and the page intro starts as the gate parts.
   const gateWait = new Promise((r) => { const ms = entryDelay() * 1000 - performance.now(); if (ms > 0) setTimeout(r, ms); else r(); });
   Promise.all([fontsReady, gateWait]).then(() => {
-    heroIntro(gsap, SplitText);
+    // Intros first, paused: their start states are rendered at once (nothing is shown and then hidden). They start
+    // after the rest of the set-up below, so the heavy work never stalls them halfway (15 Nov: About "shook" on load).
+    let intro = null;
+    try { intro = heroIntro(gsap, SplitText) || pageIntro(gsap, SplitText); }
+    finally { root.classList.remove('motion-intro'); } // never leave the page hidden, even if an intro fails
     heroScroll(gsap);
     // Stage 3.5 B: one idea per section, created in page order (the work pin refreshes first: refreshPriority 1)
     const mm = gsap.matchMedia();
@@ -55,7 +59,6 @@ if (!reduced) {
     processLine(gsap, mm);
     ctaScale(gsap);
     // Stage 4A: services index + service pages (no-ops elsewhere)
-    pageIntro(gsap, SplitText);
     rowsWipe(gsap);
     askGrow(gsap);
     scopeTilt(gsap);
@@ -82,6 +85,7 @@ if (!reduced) {
     textReveals(gsap, ScrollTrigger, SplitText);
     pointerDetails(gsap);
     ScrollTrigger.refresh();
+    if (intro) requestAnimationFrame(() => intro.play());
   });
   // Images change heights (lazy work frames, logos): measure again once everything has loaded.
   if (document.readyState === 'complete') fontsReady.then(() => ScrollTrigger.refresh());

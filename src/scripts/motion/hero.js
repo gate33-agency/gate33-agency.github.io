@@ -3,12 +3,13 @@
 // The page is usable from the first frame (nothing blocks clicks; this is not a preloader).
 import { scrubLag } from './tokens.js';
 import { DUR, STAGGER } from './tokens.js';
+import { keepFlow, markFlow } from './pages.js';
 
 export function heroIntro(gsap, SplitText) {
   const root = document.documentElement;
   const hero = document.querySelector('[data-hero]');
   const done = () => root.classList.remove('motion-intro');
-  if (!hero) return done();
+  if (!hero) return null; // inner pages: pageIntro owns the hide (html.motion-intro)
   const q = (s) => hero.querySelector(s);
   const qa = (s) => [...hero.querySelectorAll(s)];
   const header = document.querySelector('[data-header]');
@@ -18,13 +19,17 @@ export function heroIntro(gsap, SplitText) {
   const services = qa('.hero__services-label, .hero__services li');
 
   // Reloaded mid-page: no intro, just show everything.
-  if (window.scrollY > hero.offsetHeight * 0.3) return done();
+  if (window.scrollY > hero.offsetHeight * 0.3) { done(); return null; }
 
+  markFlow(title);
   const split = SplitText.create(title, { type: 'lines', mask: 'lines', linesClass: 'g-line', aria: 'auto' });
+  const flow = keepFlow(title);
   const tl = gsap.timeline({
+    paused: true,
     defaults: { ease: 'gate' },
     onComplete: () => {
-      split.revert(); // back to the original markup (and its accessible name) once settled
+      split.revert();
+      flow(); // back to the original markup (and its accessible name) once settled
       gsap.set([media, shade, header, ...services, ...qa('.hero__eyebrow, .hero__lede, .hero__actions > *, .hero__toggle')], { clearProps: 'transform,opacity,willChange' });
     },
   });
@@ -33,14 +38,15 @@ export function heroIntro(gsap, SplitText) {
     .fromTo(media, { opacity: 0, scale: 1.08, willChange: 'transform,opacity' }, { opacity: 1, duration: 0.8, ease: 'power2.out' }, 0)
     .to(media, { scale: 1, duration: 1.6, ease: 'gateHero' }, 0)
     .fromTo(shade, { opacity: 0 }, { opacity: 1, duration: 1.0, ease: 'power1.out' }, 0.1)
-    .from(q('.hero__eyebrow'), { opacity: 0, y: 12, duration: DUR.base }, 0.2)
-    .from(split.lines, { yPercent: 108, duration: 1.05, stagger: STAGGER.lines, ease: 'gateHero' }, 0.28)
-    .from(qa('.hero__lede, .hero__actions > *'), { opacity: 0, y: 16, duration: 0.7, stagger: STAGGER.items }, 0.68)
-    .from(services, { opacity: 0, y: 10, duration: DUR.base, stagger: STAGGER.list }, 0.8)
-    .from(q('.hero__toggle'), { opacity: 0, duration: 0.5 }, 1.0);
-  if (header) tl.from(header, { opacity: 0, y: -18, duration: DUR.base }, 1.0);
+    .from(q('.hero__eyebrow'), { opacity: 0, y: 12, duration: DUR.base, immediateRender: true }, 0.2)
+    .from(split.lines, { yPercent: 108, duration: 1.05, stagger: STAGGER.lines, ease: 'gateHero', immediateRender: true }, 0.28)
+    .from(qa('.hero__lede, .hero__actions > *'), { opacity: 0, y: 16, duration: 0.7, stagger: STAGGER.items, immediateRender: true }, 0.68)
+    .from(services, { opacity: 0, y: 10, duration: DUR.base, stagger: STAGGER.list, immediateRender: true }, 0.8)
+    .from(q('.hero__toggle'), { opacity: 0, duration: 0.5, immediateRender: true }, 1.0);
+  if (header) tl.from(header, { opacity: 0, y: -18, duration: DUR.base, immediateRender: true }, 1.0);
 
-  // From-values are rendered now; the CSS hide (html.motion-intro) can go without a flash.
+  // From-values are rendered now (immediateRender); the CSS hide (html.motion-intro) can go without a flash.
+  gsap.set(title, { opacity: 1 }); // its lines are already hidden under their masks
   done();
   return tl;
 }

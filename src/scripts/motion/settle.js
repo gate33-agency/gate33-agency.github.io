@@ -17,8 +17,8 @@ export function formSettle(gsap) {
     const fields = [...form.querySelectorAll('.co-field, .co-check, .ct-field, .ct-chips, fieldset, .co-pay, .ct-send, .co-alt')].filter((el, i, a) => !a.some((o) => o !== el && o.contains(el)));
     const parts = [head, ...fields].filter(Boolean);
     const tl = gsap.timeline({ paused: true, defaults: { ease: 'gateHero' } });
-    if (card) tl.from(card, { y: 36, opacity: 0, duration: 1.1, clearProps: 'transform,opacity' }, 0);
-    tl.from(parts, { y: 18, opacity: 0, duration: 0.9, stagger: 0.05, clearProps: 'transform,opacity' }, card ? 0.15 : 0);
+    if (card) tl.from(card, { y: 36, opacity: 0, duration: 1.1, clearProps: 'transform,opacity', immediateRender: true }, 0);
+    tl.from(parts, { y: 18, opacity: 0, duration: 0.9, stagger: 0.05, clearProps: 'transform,opacity', immediateRender: true }, card ? 0.15 : 0);
     if (inView(sec)) tl.delay(0.55).play();
     else gsap.timeline({ scrollTrigger: { trigger: sec, start: 'top 82%', once: true, onEnter: () => tl.play() } });
   });
@@ -33,9 +33,9 @@ export function legalOpen(gsap) {
   const fold = grid.querySelector('.lg-toc--fold');
   const body = grid.querySelector('.lg-body');
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'gateHero' } });
-  if (items.length) tl.from(items, { x: rtl ? 24 : -24, opacity: 0, duration: 0.9, stagger: 0.04, clearProps: 'transform,opacity' }, 0);
-  if (fold && fold.getClientRects().length) tl.from(fold, { y: 20, opacity: 0, duration: 0.9, clearProps: 'transform,opacity' }, 0);
-  if (body) tl.from(body, { y: 28, opacity: 0, duration: 1.1, clearProps: 'transform,opacity' }, 0.1);
+  if (items.length) tl.from(items, { x: rtl ? 24 : -24, opacity: 0, duration: 0.9, stagger: 0.04, clearProps: 'transform,opacity', immediateRender: true }, 0);
+  if (fold && fold.getClientRects().length) tl.from(fold, { y: 20, opacity: 0, duration: 0.9, clearProps: 'transform,opacity', immediateRender: true }, 0);
+  if (body) tl.from(body, { y: 28, opacity: 0, duration: 1.1, clearProps: 'transform,opacity', immediateRender: true }, 0.1);
   if (inView(grid)) tl.delay(0.5).play();
   else gsap.timeline({ scrollTrigger: { trigger: grid, start: 'top 84%', once: true, onEnter: () => tl.play() } });
 }
@@ -49,7 +49,7 @@ export function nextArrive(gsap) {
   const img = thumb && thumb.querySelector('img');
   const text = [...link.querySelectorAll('.case-next__text > *')];
   const tl = gsap.timeline({ defaults: { ease: 'gateHero' }, scrollTrigger: { trigger: link, start: 'top 84%', once: true } });
-  if (thumb) tl.from(thumb, { x: rtl ? -64 : 64, opacity: 0, duration: 1.2, clearProps: 'transform,opacity' }, 0);
-  if (img) tl.from(img, { scale: 1.08, duration: 1.3, clearProps: 'transform' }, 0);
-  tl.from(text, { y: 16, opacity: 0, duration: 0.8, stagger: 0.06, clearProps: 'transform,opacity' }, 0.2);
+  if (thumb) tl.from(thumb, { x: rtl ? -64 : 64, opacity: 0, duration: 1.2, clearProps: 'transform,opacity', immediateRender: true }, 0);
+  if (img) tl.from(img, { scale: 1.08, duration: 1.3, clearProps: 'transform', immediateRender: true }, 0);
+  tl.from(text, { y: 16, opacity: 0, duration: 0.8, stagger: 0.06, clearProps: 'transform,opacity', immediateRender: true }, 0.2);
 }

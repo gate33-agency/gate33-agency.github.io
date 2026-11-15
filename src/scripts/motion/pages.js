@@ -13,16 +13,20 @@ const HEX_FROM = 'polygon(38% 32%, 62% 32%, 74% 50%, 62% 68%, 38% 68%, 26% 50%)'
 const HEX_TO = 'polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%)';
 export function pageIntro(gsap, SplitText) {
   const hero = document.querySelector('[data-page-hero]');
-  if (!hero || window.scrollY > hero.offsetHeight * 0.5) return;
+  const done = () => document.documentElement.classList.remove('motion-intro');
+  if (!hero || window.scrollY > hero.offsetHeight * 0.5) { done(); return null; }
+  const header = document.querySelector('[data-header]');
   const title = hero.querySelector('.page-hero__title');
   const parts = [...hero.querySelectorAll('.ph-part')];
   const hex = hero.querySelector('[data-hex]');
+  markFlow(title);
   const split = SplitText.create(title, { type: 'lines', mask: 'lines', linesClass: 'g-line', aria: 'auto' });
-  const tl = gsap.timeline({ defaults: { ease: 'gate' }, onComplete: () => { split.revert(); gsap.set([title, ...parts], { clearProps: 'opacity,transform' }); } });
-  tl.set(title, { opacity: 1 })
-    .from(parts.slice(0, 2), { opacity: 0, y: 12, duration: DUR.base, stagger: STAGGER.items }, 0.1)
-    .from(split.lines, { yPercent: 108, duration: 1.05, stagger: STAGGER.lines, ease: 'gateHero' }, 0.2)
-    .from(parts.slice(2), { opacity: 0, y: 18, duration: 0.7, stagger: STAGGER.items }, 0.6);
+  const flow = keepFlow(title); // the line masks must not change the space the title takes (no jump when they are removed)
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'gate' }, onComplete: () => { split.revert(); flow(); gsap.set([title, ...parts, header].filter(Boolean), { clearProps: 'opacity,transform' }); } });
+  tl.set(title, { opacity: 1 }, 0)
+    .from(parts.slice(0, 2), { opacity: 0, y: 12, duration: DUR.base, stagger: STAGGER.items, immediateRender: true }, 0.1)
+    .from(split.lines, { yPercent: 108, duration: 1.05, stagger: STAGGER.lines, ease: 'gateHero', immediateRender: true }, 0.2)
+    .from(parts.slice(2), { opacity: 0, y: 18, duration: 0.7, stagger: STAGGER.items, immediateRender: true }, 0.6);
   if (hex) {
     const frame = hex.querySelector('.svc-visual__frame');
     const media = frame.querySelectorAll('img, video');
@@ -30,7 +34,27 @@ export function pageIntro(gsap, SplitText) {
       .fromTo(frame, { clipPath: HEX_FROM }, { clipPath: HEX_TO, duration: 1.1, ease: 'gateHero', clearProps: 'clipPath' }, 0.25)
       .fromTo(media, { scale: 1.15 }, { scale: 1, duration: 1.3, ease: 'gateHero', clearProps: 'transform' }, 0.25);
   }
+  if (header) tl.from(header, { opacity: 0, y: -12, duration: DUR.base, immediateRender: true }, 0);
+  gsap.set(title, { opacity: 1 }); // lines are already hidden under their masks
+  done(); // every start state is rendered now, so the CSS hide can go without a flash
+  return tl;
 }
+
+// Line masks add room under each line; in some layouts that changes the title's height for the length of the reveal and
+// the content below jumps back when the masks go. Measure the next element before and after the split and cancel the
+// difference with a temporary margin. Returns the undo function.
+export function keepFlow(el) {
+  const next = el.nextElementSibling;
+  const probe = () => (next ? next.getBoundingClientRect().top : el.parentElement.getBoundingClientRect().bottom);
+  const before = el.__flowBefore;
+  if (before === undefined) return () => {};
+  const delta = probe() - before;
+  if (Math.abs(delta) < 0.5) return () => {};
+  const mb = parseFloat(getComputedStyle(el).marginBottom) || 0;
+  el.style.marginBottom = `${mb - delta}px`;
+  return () => { el.style.marginBottom = ''; };
+}
+export const markFlow = (el) => { const next = el.nextElementSibling; el.__flowBefore = next ? next.getBoundingClientRect().top : el.parentElement.getBoundingClientRect().bottom; };
 
 // INDEX LIST: each row wipes in from the reading edge (left in EN, right in AR) with its hairline, in sequence.
 export function rowsWipe(gsap) {
