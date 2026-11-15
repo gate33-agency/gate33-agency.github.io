@@ -116,13 +116,13 @@ const isT = (v: Cell): v is { en: string; ar: string } => typeof v === 'object';
         </div>
         <p class="cmp-swipe">{x.swipe}</p>
         <div class="cmp-scroll" role="region" aria-labelledby="compare-title" tabindex="0" data-lenis-prevent-horizontal>
-          <table class="cmp" data-cmp>
+          <table class="cmp" data-cmp role="table">
             <caption class="visually-hidden">{x.caption}</caption>
-            <thead>
-              <tr>
-                <th scope="col" class="cmp__corner"><span class="cmp__corner-in">{x.feature}{SAMPLE && <SampleTag lang={lang} />}</span></th>
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" class="cmp__corner" role="columnheader"><span class="cmp__corner-in">{x.feature}{SAMPLE && <SampleTag lang={lang} />}</span></th>
                 {packageDefs.map((p) => (
-                  <th scope="col" class={`cmp__pkg ${p.popular ? 'is-popular' : ''}`}>
+                  <th scope="col" role="columnheader" class={`cmp__pkg ${p.popular ? 'is-popular' : ''}`}>
                     <span class="cmp__pkg-name">{p.name[lang].replace(/\u00A0/g, ' ').replace(/-(?=\p{L})/gu, '-\u2060')}</span>
                     {p.popular && <span class="cmp__pop">{c.packages.popular}</span>}
                   </th>
@@ -130,13 +130,13 @@ const isT = (v: Cell): v is { en: string; ar: string } => typeof v === 'object';
               </tr>
             </thead>
             {compare.map((g) => (
-              <tbody>
-                <tr class="cmp__group"><th scope="rowgroup" colspan="5"><span>{g.title[lang]}</span></th></tr>
+              <tbody role="rowgroup">
+                <tr class="cmp__group" role="row"><th scope="rowgroup" colspan="5" role="rowheader"><span>{g.title[lang]}</span></th></tr>
                 {g.rows.map((r) => (
-                  <tr>
-                    <th scope="row">{r.label[lang]}</th>
+                  <tr role="row">
+                    <th scope="row" role="rowheader">{r.label[lang]}</th>
                     {r.cells.map((v, j) => (
-                      <td class={packageDefs[j].popular ? 'is-popular' : ''}>
+                      <td role="cell" class={packageDefs[j].popular ? 'is-popular' : ''}>
                         {v === true && <span class="cmp__mark cmp__yes"><Icon name="tick" /><span class="visually-hidden">{x.yes}</span></span>}
                         {v === false && <span class="cmp__mark cmp__no"><span aria-hidden="true">—</span><span class="visually-hidden">{x.no}</span></span>}
                         {isT(v) && <span class="cmp__mark cmp__val">{v[lang]}</span>}
@@ -146,11 +146,12 @@ const isT = (v: Cell): v is { en: string; ar: string } => typeof v === 'object';
                 ))}
               </tbody>
             ))}
-            <tfoot>
-              <tr>
-                <th scope="row"><span class="cmp__price-h">{x.priceRow}{SAMPLE && <SampleTag lang={lang} />}</span></th>
+            <tfoot role="rowgroup">
+              <tr role="row">
+                <th scope="row" role="rowheader"><span class="cmp__price-h">{x.priceRow}{SAMPLE && <SampleTag lang={lang} />}</span></th>
                 {packageDefs.map((p, i) => (
-                  <td class={p.popular ? 'is-popular' : ''}>
+                  <td role="cell" class={p.popular ? 'is-popular' : ''}>
+                    <span class="cmp__foot-name" aria-hidden="true">{p.name[lang].replace(/\u00A0/g, ' ')}</span>
                     <span class="cmp__price">{price(i) ? (lang === 'en' ? `AED ${price(i)}` : `${price(i)} درهم`) : '—'}</span>
                     <span class="cmp__vat">{c.packages.vat}</span>
                     <a class="cmp__buy" href={`/${lang}/checkout/${p.slug}/`}>{c.packages.buy}<span class="visually-hidden">: {p.name[lang]}</span><Icon name="arrow" /></a>
