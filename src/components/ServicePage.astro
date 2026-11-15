@@ -1,0 +1,242 @@
+---
+// Service page template (/<lang>/services/<slug>/). Copy: service-pages.<lang>.ts; shared structure: service-pages.ts.
+// One motion idea per section (src/scripts/motion/pages.js):
+//   hero = masked line rise + the visual opens out of a hexagon (the Gate33 hex) · scope = cards tilt up into place ·
+//   process = cards stack (sticky, desktop) · work = lateral drift with scroll · package/custom = price counts up ·
+//   testimonial = word cascade · FAQ = hairlines draw · final CTA = masked lines + scale (shared with Home).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import Picture from './Picture.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SampleTag from './SampleTag.astro';
+import Testimonial from './Testimonial.astro';
+import Faq from './Faq.astro';
+import WorkCard from './WorkCard.astro';
+import PackageCard from './PackageCard.astro';
+import { services } from '../data/services';
+import { cases } from '../data/work';
+import { pagesCopy, serviceShared } from '../data/service-pages';
+import { packages as pkgSamples, serviceFrom, SAMPLE } from '../data/placeholders';
+import type { HomeCopy } from '../data/types';
+import { tail, fitClass } from '../data/text';
+interface Props { c: HomeCopy; slug: string }
+const { c, slug } = Astro.props;
+const lang = c.lang;
+const P = pagesCopy(lang);
+const ui = P.ui;
+const s = P.services[slug];
+const sh = serviceShared[slug];
+const idx = services.findIndex((x) => x.slug === slug);
+const svc = services[idx];
+const prev = services[(idx - 1 + services.length) % services.length];
+const next = services[(idx + 1) % services.length];
+const path = `services/${slug}/`;
+const other = `/${lang === 'en' ? 'ar' : 'en'}/${path}`;
+const work = sh.work.map((w) => cases.find((k) => k.slug === w)).filter(Boolean) as typeof cases;
+const fromS = serviceFrom[slug].value;
+const n2 = (i: number) => String(i + 1).padStart(2, '0');
+// Creative Production: two scope groups (Film 01-05 / Photo, edit + social 06-08)
+const groups = s.groups ? [{ title: s.groups[0], items: s.scope.slice(0, 5), start: 0 }, { title: s.groups[1], items: s.scope.slice(5), start: 5 }] : [{ title: '', items: s.scope, start: 0 }];
+const visual = sh.visual;
+---
+<BaseLayout lang={lang} title={s.meta.title} description={s.meta.description} path={path}>
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main">
+    <!-- HERO -->
+    <section class="page-hero page-hero--svc" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="ph-part"><Breadcrumbs label={ui.breadcrumb} items={[{ name: ui.home, href: `/${lang}/` }, { name: ui.services, href: `/${lang}/services/` }, { name: svc.name[lang] }]} /></div>
+        <div class="svc-hero">
+          <div class="svc-hero__text">
+            <p class="overline ph-part"><span class="svc-hero__num">{n2(idx)}</span>{s.overline}</p>
+            <h1 class={`page-hero__title page-hero__title--svc ${fitClass(s.headline)}`} id="page-title">{s.headline}</h1>
+            <p class="page-hero__intro ph-part">{s.intro}</p>
+            <div class="page-hero__actions ph-part">
+              <Button variant="primary" arrow data-open-drawer data-service={slug}>{s.cta}</Button>
+              <button class="btn btn--secondary" type="button" data-open-panel data-ask-intent="services" aria-haspopup="dialog"><Icon name="gate" />{ui.askAbout}</button>
+            </div>
+            <p class="price-chip ph-part">
+              <span class="price-chip__label">{ui.from}</span>
+              <strong class="price-chip__amount">{lang === 'en' ? 'AED ' : ''}{fromS.amount}{lang === 'ar' ? ' درهم' : ''}{fromS.unit && <span class="price-chip__unit"> {fromS.unit[lang]}</span>}</strong>
+              <span class="price-chip__note">{[fromS.note?.[lang], ui.vat].filter(Boolean).join(' · ')}</span>
+              <SampleTag lang={lang} />
+            </p>
+            {s.honesty && <p class="honesty ph-part">{s.honesty}</p>}
+          </div>
+          <figure class={`svc-visual ${visual.flip ? 'is-flip' : ''}`} data-hex>
+            <div class="svc-visual__frame">
+              <Picture img={visual.img} lang={lang} sizes="(max-width: 899px) 100vw, 46vw" loading="eager" fetchpriority="high" class="svc-visual__img" />
+              {visual.video && (
+                <video class="svc-visual__video" muted loop playsinline preload="none" poster={`/images/${visual.img.base}-1280.webp`} tabindex="-1" aria-hidden="true" data-loop-video={visual.video}></video>
+              )}
+            </div>
+            {visual.video && (
+              <button class="loop-toggle" type="button" data-loop-toggle aria-label={lang === 'en' ? 'Pause background video' : 'إيقاف الفيديو الخلفي'} data-label-pause={lang === 'en' ? 'Pause background video' : 'إيقاف الفيديو الخلفي'} data-label-play={lang === 'en' ? 'Play background video' : 'تشغيل الفيديو الخلفي'} hidden>
+                <Icon name="pause" class="loop-toggle__pause" /><Icon name="play" class="loop-toggle__play" />
+              </button>
+            )}
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCOPE -->
+    <section class="section scope-sec" aria-labelledby="scope-title">
+      <div class="container">
+        <div class="sec-head">
+          <div>
+            <p class="overline" data-reveal="fade">{ui.scopeOver}</p>
+            <h2 class="h2 sec-head__title" id="scope-title" data-reveal="fade">{ui.scopeTitle}</h2>
+          </div>
+        </div>
+        {groups.map((g) => (
+          <div class={`scope-group ${g.title ? 'scope-group--titled' : ''}`}>
+            {g.title && <div class="scope-group__title" data-reveal="fade"><h3>{g.title}</h3><span aria-hidden="true">{String(g.items.length).padStart(2, '0')}</span></div>}
+            <ul class="scope" data-scope>
+              {g.items.map((it, i) => (
+                <li class="scope__card">
+                  <span class="scope__num" aria-hidden="true">{n2(g.start + i)}</span>
+                  {g.title ? <h4 class="scope__name">{it.name}</h4> : <h3 class="scope__name">{it.name}</h3>}
+                  <p class="scope__desc">{it.desc}</p>
+                  <p class="scope__best"><span>{ui.best}</span>{it.best}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- PROCESS: four cards that stack as you scroll (desktop) -->
+    <section class="section stack-sec on-dark" aria-labelledby="process-title">
+      <div class="container stack-wrap">
+        <div class="stack-head">
+          <p class="overline" data-reveal="fade">{ui.processOver}</p>
+          <h2 class="h2 sec-head__title" id="process-title" data-reveal="fade">{ui.processTitle}</h2>
+        </div>
+        <ol class="stack" data-stack>
+          {s.process.map((p, i) => (
+            <li class="stack__card">
+              <span class="stack__num" aria-hidden="true">{n2(i)}</span>
+              <div>
+                <h3 class="stack__title">{p.title}</h3>
+                <p class="stack__line">{p.line}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- WORK: real cases only (related, or the closest real projects as "Selected work") -->
+    {work.length > 0 && (
+      <section class="section rwork-sec" aria-labelledby="rwork-title">
+        <div class="container">
+          <div class="sec-head">
+            <div>
+              <p class="overline" data-reveal="fade">{sh.workMode === 'related' ? ui.workRelated : ui.workSelected}</p>
+              <h2 class="h2 sec-head__title" id="rwork-title" data-reveal="fade">{sh.workMode === 'related' ? ui.workRelatedLine : ui.workSelectedLine}</h2>
+            </div>
+          </div>
+          <div class={`rwork rwork--${work.length}`} data-drift>
+            {work.map((k) => <WorkCard k={k} lang={lang} viewCase={c.work.viewCase} play={c.work.play} />)}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- PACKAGE or CUSTOM QUOTE -->
+    <section class="section offer-sec" aria-labelledby="offer-title">
+      <div class="container">
+        {sh.packages.length > 0 ? (
+          <>
+            <div class="sec-head">
+              <div>
+                <p class="overline" data-reveal="fade">{ui.pkgOver}</p>
+                <h2 class="h2 sec-head__title" id="offer-title" data-reveal="fade">{ui.pkgTitle}</h2>
+              </div>
+              <p class="sec-head__line" data-reveal="fade" data-reveal-delay="200">{ui.pkgLine}</p>
+            </div>
+            <div class={`offer offer--${sh.packages.length}`} data-count-group>
+              {sh.packages.map((i) => (
+                <PackageCard pkg={c.packages.items[i]} popular={c.packages.popular} from={c.packages.from} price={c.packages.price} priceNote={c.packages.priceNote} vat={c.packages.vat} buy={c.packages.buy} sample={pkgSamples[i].value} lang={lang} service={slug} />
+              ))}
+              <div class="custom custom--side">
+                <span class="mark custom__mark" aria-hidden="true"><Icon name="gate" /></span>
+                <p class="custom__title">{ui.customTitle}</p>
+                <p class="custom__line">{s.custom}</p>
+                <Button variant="link" arrow data-open-drawer data-service={slug}>{ui.customCta}</Button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div class="custom custom--big" data-count-group>
+            <div>
+              <p class="overline">{ui.pkgOver}</p>
+              <h2 class="h2 custom__h" id="offer-title">{ui.customTitle}</h2>
+              <p class="custom__line">{s.custom}</p>
+            </div>
+            <div class="custom__price">
+              <p class="custom__from">{ui.from}<SampleTag lang={lang} /></p>
+              <p class="custom__amount">{lang === 'en' && <span class="custom__cur">AED</span>}<span data-count={fromS.amount}>{fromS.amount}</span>{lang === 'ar' && <span class="custom__cur">درهم</span>}</p>
+              <p class="custom__note">{[fromS.unit?.[lang], fromS.note?.[lang], ui.vat].filter(Boolean).join(' · ')}</p>
+              <Button variant="light" arrow data-open-drawer data-service={slug}>{ui.customCta}</Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- TESTIMONIAL (sample) -->
+    <section class="section quote-sec" aria-label={ui.quoteOver}>
+      <div class="container"><Testimonial lang={lang} id={slug} over={ui.quoteOver} /></div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-sec" aria-labelledby="faq-title">
+      <div class="container faq-wrap">
+        <div class="faq-head">
+          <p class="overline" data-reveal="fade">{ui.faqOver}</p>
+          <h2 class="h2 sec-head__title" id="faq-title" data-reveal="fade">{ui.faqTitle.replace(/\u00A0/g, " ")}</h2>
+        </div>
+        <Faq items={s.faq} lang={lang} idBase="faq" />
+      </div>
+    </section>
+
+    <!-- FINAL CTA + previous / next service -->
+    <section class="cta-sec on-dark" id="contact" aria-labelledby="cta-title">
+      <div class="container">
+        <p class="overline" data-reveal="fade">{c.cta.eyebrow}</p>
+        <h2 class="cta__title" id="cta-title" data-reveal="lines" data-cta-scale>{c.cta.title}</h2>
+        <div class="cta__row">
+          <p class="cta__line">{c.cta.line}</p>
+          <div class="cta__actions">
+            <Button variant="light" arrow data-open-drawer data-service={slug}>{c.cta.button}</Button>
+            <button class="btn btn--ghost" type="button" data-open-panel data-ask-intent="services" aria-haspopup="dialog"><Icon name="gate" />{c.cta.ask}</button>
+          </div>
+        </div>
+        <nav class="pager" aria-label={ui.allServices}>
+          <a class="pager__link pager__link--prev" href={`/${lang}/services/${prev.slug}/`} rel="prev">
+            <span class="pager__dir"><Icon name="arrow" class="pager__ico" />{ui.prev}</span>
+            <span class="pager__name">{tail(prev.name[lang])}</span>
+          </a>
+          <a class="pager__all" href={`/${lang}/services/`}>{ui.allServices}</a>
+          <a class="pager__link pager__link--next" href={`/${lang}/services/${next.slug}/`} rel="next">
+            <span class="pager__dir">{ui.next}<Icon name="arrow" /></span>
+            <span class="pager__name">{tail(next.name[lang])}</span>
+          </a>
+        </nav>
+        {SAMPLE && <p class="pager__note">{ui.samplesNote}</p>}
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} service={slug} questions={s.form} />
+</BaseLayout>

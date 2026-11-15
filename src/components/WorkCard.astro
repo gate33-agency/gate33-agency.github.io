@@ -1,0 +1,34 @@
+---
+// Editorial work card. Image cards: the whole media + title links to the case page.
+// Video cards: poster first, plays inline on tap (with controls); the title still links to the case page.
+import Picture from './Picture.astro';
+import Icon from './Icon.astro';
+import type { Case } from '../data/work';
+import { isTodo } from '../data/clients';
+// slices: the icon-slices reveal on the image frame (motion/icon.js) — key project images only. sizes: override for other grids.
+interface Props { k: Case; lang: 'en' | 'ar'; viewCase: string; play: string; delay?: number; slices?: boolean; sizes?: string }
+const { k, lang, viewCase, play, delay = 0, slices = false, sizes: sizesProp } = Astro.props;
+const href = `/${lang}/work/${k.slug}/`;
+const poster = lang === 'ar' && k.posterAr ? k.posterAr : k.img;
+// Caption system: client · service · sector · market (TODO values are skipped, never rendered)
+const cap = [k.client[lang], k.tag[lang], k.sector[lang], k.market[lang]].filter((x) => x && !isTodo(x));
+const cycle = k.cycle ? k.cycle.map((b) => `/images/${b}-1200.webp`).join(',') : undefined;
+const sizes = sizesProp ?? (k.layout === 'cinema' ? '(max-width: 899px) 100vw, 1200px' : k.layout === 'tall' ? '(max-width: 899px) 100vw, 500px' : '(max-width: 899px) 100vw, 700px');
+---
+<article class={`work work--${k.layout} ${k.video ? 'work--video' : ''} ${k.contain ? 'work--contain' : ''}`}>
+  {k.video ? (
+    <div class="work__media" data-video-card data-video={k.video[lang]}>
+      <div class="work__frame"><Picture img={poster} lang={lang} sizes={sizes} /></div>
+      <button class="work__play" type="button" data-play aria-label={`${play}: ${k.client[lang]}`}><Icon name="play" /><span>{play}</span></button>
+    </div>
+  ) : (
+    <a class="work__media" href={href} tabindex="-1" aria-hidden="true">
+      <div class="work__frame" data-cycle={cycle} data-slices={slices ? '' : undefined}><Picture img={k.img} lang={lang} sizes={sizes} /></div>
+    </a>
+  )}
+  <div class="work__body">
+    <p class="work__meta">{cap.map((x) => <span>{x}</span>)}</p>
+    <h3 class="work__title"><a href={href}>{k.line[lang]}</a></h3>
+    <p class="work__outcome">{k.outcome[lang]}</p>
+  </div>
+</article>

@@ -1,0 +1,9 @@
+---
+// /en/contact/ and /ar/contact/ (Stage 5-3)
+import ContactPage from '../../../components/ContactPage.astro';
+import en from '../../../data/home.en';
+import ar from '../../../data/home.ar';
+export function getStaticPaths() { return [{ params: { lang: 'en' } }, { params: { lang: 'ar' } }]; }
+const { lang } = Astro.params;
+---
+<ContactPage c={lang === 'ar' ? ar : en} />

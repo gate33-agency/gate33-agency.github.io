@@ -1,0 +1,10 @@
+---
+import { existsSync } from 'node:fs';
+import type { Img } from '../data/media';
+interface Props { img: Img; lang: 'en' | 'ar'; sizes?: string; loading?: 'lazy' | 'eager'; class?: string; fetchpriority?: 'high' | 'auto' }
+const { img, lang, sizes = '100vw', loading = 'lazy', class: cls, fetchpriority } = Astro.props;
+const ws = img.widths.filter((w) => existsSync(`public/images/${img.base}-${w}.webp`));
+const srcset = ws.map((w) => `/images/${img.base}-${w}.webp ${w}w`).join(', ');
+const src = `/images/${img.base}-${ws[ws.length - 1]}.webp`;
+---
+<img class={cls} src={src} srcset={srcset} sizes={sizes} width={img.w} height={img.h} alt={img.alt[lang]} loading={loading} decoding="async" fetchpriority={fetchpriority} />

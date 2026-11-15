@@ -1,0 +1,9 @@
+---
+// /en/privacy/ and /ar/privacy/ (Stage 5-4). SAMPLE legal text, noindex, not in the sitemap yet.
+import LegalPage from '../../../components/LegalPage.astro';
+import en from '../../../data/home.en';
+import ar from '../../../data/home.ar';
+export function getStaticPaths() { return [{ params: { lang: 'en' } }, { params: { lang: 'ar' } }]; }
+const { lang } = Astro.params;
+---
+<LegalPage c={lang === 'ar' ? ar : en} kind="privacy" />

@@ -1,0 +1,13 @@
+---
+// /en/work/<slug>/ and /ar/work/<slug>/ — one page per entry in src/data/case-studies.ts (Stage 4B-2 template).
+import CasePage from '../../../components/CasePage.astro';
+import en from '../../../data/home.en';
+import ar from '../../../data/home.ar';
+import { caseStudies } from '../../../data/case-studies';
+export function getStaticPaths() {
+  return caseStudies.flatMap((k) => (['en', 'ar'] as const).map((lang) => ({ params: { lang, slug: k.slug }, props: { k } })));
+}
+const { lang } = Astro.params;
+const { k } = Astro.props;
+---
+<CasePage c={lang === 'ar' ? ar : en} k={k} />

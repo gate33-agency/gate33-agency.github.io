@@ -1,0 +1,27 @@
+---
+// Gate entry (Ahmed, 10 Nov): the six blocks of the Gate33 icon assemble, then the two "3"s part like a gate.
+// Shown once per browser session, only when boot.js adds html.has-gate-entry (JS on, motion allowed).
+// Pure CSS animation (src/styles/icon-motion.css): it cannot get stuck if a script fails. Decorative: hidden from assistive tech.
+// The icon is never mirrored: left "3" on the left leaf, right "3" on the right leaf, in both languages.
+const top = 'M540 388.91 L670.10 388.91 L670.10 312.68 L540 312.68 Z';
+const mid = 'M682.23 553.125 L591.52 553.125 L591.52 465.13 L670.10 388.91 L760.81 388.91 L760.81 476.90 Z';
+const low = 'M630.71 767.32 L540 767.32 L540 679.32 L670.10 553.125 L760.81 553.125 L760.81 641.12 Z';
+---
+<div class="gate-entry" aria-hidden="true">
+  <div class="gate-entry__leaf gate-entry__leaf--l">
+    <svg class="gate-entry__mark" viewBox="319.19 312.68 220.81 454.63" focusable="false">
+      <g transform="translate(-220.81 0)">
+        <path class="ge-b ge-b--top" d={top} />
+        <path class="ge-b ge-b--mid" d={mid} />
+        <path class="ge-b ge-b--low" d={low} />
+      </g>
+    </svg>
+  </div>
+  <div class="gate-entry__leaf gate-entry__leaf--r">
+    <svg class="gate-entry__mark" viewBox="540 312.68 220.81 454.63" focusable="false">
+      <path class="ge-b ge-b--top ge-b--late" d={top} />
+      <path class="ge-b ge-b--mid ge-b--late" d={mid} />
+      <path class="ge-b ge-b--low ge-b--late" d={low} />
+    </svg>
+  </div>
+</div>

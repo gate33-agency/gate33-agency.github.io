@@ -1,0 +1,4 @@
+---
+const { color = 'yellow' } = Astro.props as { color?: 'yellow' | 'green' };
+---
+<span class={`tag ${color === 'green' ? 'tag--green' : ''}`}><slot /></span>

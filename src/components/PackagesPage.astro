@@ -1,0 +1,213 @@
+---
+// Packages page (/<lang>/packages/), Stage 5-1. Data: packages.ts (shared with Home) · copy: packages-page.ts ·
+// sample figures: placeholders.ts (every price / timeline / number carries the Sample tag while SAMPLE is true).
+// One motion idea per section (src/scripts/motion/packages.js + pages.js):
+//   hero = masked line rise (shared page intro) · cards = the four cards arrive as a staircase and level into one row ·
+//   compare = the marks are ticked in column by column (labels always visible) · Ask Gate block = grows out of the
+//   launcher corner (shared) · FAQ = hairlines draw (shared) · final CTA = masked lines + scale (shared).
+// Stage 5-2: the card and compare-table "Buy now" go to that package's checkout page (/<lang>/checkout/<slug>/).
+// Home keeps opening the proposal sheet with the package (Ahmed has not decided there).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import Tag from './Tag.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SampleTag from './SampleTag.astro';
+import Faq from './Faq.astro';
+import { packageDefs, compare, pkgPrice, type Cell } from '../data/packages';
+import { packagesPage } from '../data/packages-page';
+import { pagesCopy } from '../data/service-pages';
+import { packages as pkgSamples, SAMPLE } from '../data/placeholders';
+import { tail, fitClass } from '../data/text';
+import type { HomeCopy } from '../data/types';
+interface Props { c: HomeCopy }
+const { c } = Astro.props;
+const lang = c.lang;
+const x = packagesPage(lang);
+const ui = pagesCopy(lang).ui;
+const other = lang === 'en' ? '/ar/packages/' : '/en/packages/';
+const price = (i: number) => pkgPrice(i);
+const isT = (v: Cell): v is { en: string; ar: string } => typeof v === 'object';
+---
+<BaseLayout lang={lang} title={x.meta.title} description={x.meta.description} path="packages/">
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main">
+    <!-- HERO -->
+    <section class="page-hero page-hero--index page-hero--pk" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="ph-part"><Breadcrumbs label={ui.breadcrumb} items={[{ name: ui.home, href: `/${lang}/` }, { name: x.crumb }]} /></div>
+        <div class="page-hero__grid">
+          <div class="page-hero__text">
+            <p class="overline ph-part">{x.overline}</p>
+            <h1 class={`page-hero__title ${fitClass(x.headline)}`} id="page-title">{x.headline}</h1>
+          </div>
+        </div>
+        <div class="page-hero__row">
+          <p class="page-hero__intro ph-part">{x.intro}</p>
+          <div class="page-hero__side">
+            <p class="page-hero__count ph-part" aria-hidden="true"><span>04</span></p>
+            <div class="page-hero__actions ph-part">
+            <Button variant="primary" arrow data-open-drawer>{x.cta}</Button>
+            <Button variant="link" href="#compare" arrow>{x.compareLink}</Button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE FOUR PACKAGES -->
+    <section class="section pk-sec" aria-labelledby="pk-title">
+      <div class="container">
+        <div class="sec-head">
+          <div>
+            <p class="overline" data-reveal="fade">{x.cardsOver}</p>
+            <h2 class="h2 sec-head__title" id="pk-title" data-reveal="fade">{x.cardsTitle}</h2>
+          </div>
+          <p class="sec-head__line" data-reveal="fade" data-reveal-delay="200">{x.cardsLine}</p>
+        </div>
+        <ul class="pk-cards" data-pk-cards>
+          {packageDefs.map((p, i) => {
+            const s = pkgSamples[i].value; const amount = price(i);
+            return (
+              <li class={`pk-card ${p.popular ? 'pk-card--popular' : ''}`} id={p.slug}>
+                <article class="pk-card__in" aria-labelledby={`pk-${p.slug}`}>
+                  <div class="pk-card__top">
+                    <h3 class="pk-card__name" id={`pk-${p.slug}`}>{tail(p.name[lang])}</h3>
+                    {p.popular && <Tag>{c.packages.popular}</Tag>}
+                  </div>
+                  <p class="pk-card__line">{p.line[lang]}</p>
+                  <p class="pk-card__for"><span class="pk-card__label">{x.bestFor}</span>{p.forWho[lang]}</p>
+                  <h4 class="pk-card__label pk-card__label--list">{x.youGet}</h4>
+                  <ul class="pk-card__list">
+                    {p.gets.map((g) => <li><span class="tick"><Icon name="tick" /></span><span>{g[lang]}</span></li>)}
+                  </ul>
+                  <div class="pk-card__foot">
+                    <p class="pk-card__from">{c.packages.from}{SAMPLE && <SampleTag lang={lang} />}</p>
+                    {amount
+                      ? <p class="pk-card__amount">{amount}{lang === 'ar' && <span class="pk-card__cur">درهم</span>}</p>
+                      : <p class="pk-card__amount pk-card__amount--todo"><span aria-hidden="true">—</span><span class="visually-hidden">{c.packages.priceNote}</span></p>}
+                    <p class="pk-card__vat">{amount ? c.packages.vat : c.packages.priceNote}</p>
+                    {SAMPLE && <p class="pk-card__meta"><span>{x.timeline}: {s.timeline[lang]}</span>{s.revisions && <span>{s.revisions[lang]}</span>}</p>}
+                  </div>
+                  <Button variant={p.popular ? 'light' : 'secondary'} block arrow href={`/${lang}/checkout/${p.slug}/`}>{c.packages.buy}<span class="visually-hidden">: {p.name[lang]}</span></Button>
+                </article>
+              </li>
+            );
+          })}
+        </ul>
+        <p class="pk-note">{x.note}</p>
+      </div>
+    </section>
+
+    <!-- COMPARE: real table; under 900px it scrolls sideways with the first column pinned (sticky) -->
+    <section class="section cmp-sec" id="compare" aria-labelledby="compare-title">
+      <div class="container">
+        <div class="sec-head">
+          <div>
+            <p class="overline" data-reveal="fade">{x.compareOver}</p>
+            <h2 class="h2 sec-head__title" id="compare-title" data-reveal="fade">{x.compareTitle}</h2>
+          </div>
+          <p class="sec-head__line" data-reveal="fade" data-reveal-delay="200">{x.compareLine}</p>
+        </div>
+        <p class="cmp-swipe">{x.swipe}</p>
+        <div class="cmp-scroll" role="region" aria-labelledby="compare-title" tabindex="0" data-lenis-prevent-horizontal>
+          <table class="cmp" data-cmp>
+            <caption class="visually-hidden">{x.caption}</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="cmp__corner"><span class="cmp__corner-in">{x.feature}{SAMPLE && <SampleTag lang={lang} />}</span></th>
+                {packageDefs.map((p) => (
+                  <th scope="col" class={`cmp__pkg ${p.popular ? 'is-popular' : ''}`}>
+                    <span class="cmp__pkg-name">{tail(p.name[lang])}</span>
+                    {p.popular && <span class="cmp__pop">{c.packages.popular}</span>}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            {compare.map((g) => (
+              <tbody>
+                <tr class="cmp__group"><th scope="rowgroup" colspan="5"><span>{g.title[lang]}</span></th></tr>
+                {g.rows.map((r) => (
+                  <tr>
+                    <th scope="row">{r.label[lang]}</th>
+                    {r.cells.map((v, j) => (
+                      <td class={packageDefs[j].popular ? 'is-popular' : ''}>
+                        {v === true && <span class="cmp__mark cmp__yes"><Icon name="tick" /><span class="visually-hidden">{x.yes}</span></span>}
+                        {v === false && <span class="cmp__mark cmp__no"><span aria-hidden="true">—</span><span class="visually-hidden">{x.no}</span></span>}
+                        {isT(v) && <span class="cmp__mark cmp__val">{v[lang]}</span>}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            ))}
+            <tfoot>
+              <tr>
+                <th scope="row"><span class="cmp__price-h">{x.priceRow}{SAMPLE && <SampleTag lang={lang} />}</span></th>
+                {packageDefs.map((p, i) => (
+                  <td class={p.popular ? 'is-popular' : ''}>
+                    <span class="cmp__price">{price(i) ? (lang === 'en' ? `AED ${price(i)}` : `${price(i)} درهم`) : '—'}</span>
+                    <span class="cmp__vat">{c.packages.vat}</span>
+                    <a class="cmp__buy" href={`/${lang}/checkout/${p.slug}/`}>{c.packages.buy}<span class="visually-hidden">: {p.name[lang]}</span><Icon name="arrow" /></a>
+                  </td>
+                ))}
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOT SURE WHICH ONE: Ask Gate (packages chip) or the proposal sheet -->
+    <section class="section ask-sec" aria-labelledby="ask-title">
+      <div class="container">
+        <div class="ask-block ask-block--pk" data-ask-block>
+          <div class="ask-block__text">
+            <p class="overline">{x.askOver}</p>
+            <h2 class="h2 ask-block__title" id="ask-title">{x.askTitle}</h2>
+            <p class="ask-block__line">{x.askLine}</p>
+          </div>
+          <div class="ask-block__actions">
+            <button class="btn btn--primary" type="button" data-open-panel data-ask-intent="packages" aria-haspopup="dialog"><Icon name="gate" />{x.askCta}</button>
+            <Button variant="link" arrow data-open-drawer>{x.briefCta}</Button>
+          </div>
+          <span class="ask-block__mark" aria-hidden="true"><img src="/images/logo/gate33-icon-purple.svg" alt="" width="120" height="124" /></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-sec" aria-labelledby="faq-title">
+      <div class="container faq-wrap">
+        <div class="faq-head">
+          <p class="overline" data-reveal="fade">{x.faqOver}</p>
+          <h2 class="h2 sec-head__title" id="faq-title" data-reveal="fade">{x.faqTitle}</h2>
+        </div>
+        <Faq items={x.faq} lang={lang} idBase="pfaq" />
+      </div>
+    </section>
+
+    <!-- FINAL CTA (dark, flows into the footer) -->
+    <section class="cta-sec on-dark" id="contact" aria-labelledby="cta-title">
+      <div class="container">
+        <p class="overline" data-reveal="fade">{x.ctaOver}</p>
+        <h2 class="cta__title" id="cta-title" data-reveal="lines" data-cta-scale>{x.ctaTitle}</h2>
+        <div class="cta__row">
+          <p class="cta__line">{x.ctaLine}</p>
+          <div class="cta__actions">
+            <Button variant="light" arrow data-open-drawer>{x.ctaBrief}</Button>
+            <button class="btn btn--ghost" type="button" data-open-panel data-ask-intent="packages" aria-haspopup="dialog"><Icon name="gate" />{x.ctaAsk}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} />
+</BaseLayout>

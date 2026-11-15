@@ -1,0 +1,25 @@
+---
+// Fixed header: transparent over the hero reel (white logo), solid lavender once the page scrolls (ui.js toggles .is-solid).
+import Icon from './Icon.astro';
+import type { HomeCopy } from '../data/types';
+// ink: pages without the dark hero reel (services) start with ink text + the primary logo, and turn glassy on scroll.
+interface Props { c: HomeCopy; other: string; ink?: boolean }
+const { c, other, ink = false } = Astro.props;
+const here = Astro.url.pathname;
+---
+<header class={`header ${ink ? 'header--ink' : ''}`} data-header>
+  <div class="container header__bar">
+    <a class="header__logo" href={`/${c.lang}/`} aria-label="Gate33">
+      <img class="header__logo-light" src="/images/logo/gate33-logo-white.svg" width="135" height="18" alt="" />
+      <img class="header__logo-dark" src="/images/logo/gate33-logo-primary.svg" width="135" height="18" alt="" />
+    </a>
+    <nav class="header__nav" aria-label={c.lang === 'en' ? 'Primary' : 'التنقل الرئيسي'}>
+      {c.nav.map((n) => <a href={n.href} aria-current={!n.href.includes('#') && here.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>)}
+    </nav>
+    <div class="header__utils">
+      <a class="lang-switch" href={other} hreflang={c.lang === 'en' ? 'ar' : 'en'} lang={c.lang === 'en' ? 'ar' : 'en'}>{c.switchLabel}</a>
+      {/* Ahmed 9 Nov: no "Ask Gate" in the header — the floating launcher is always there. */}
+      <button class="menu-btn" type="button" data-open-nav aria-label={c.ui.openMenu} aria-haspopup="dialog"><Icon name="menu" /></button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,73 @@
+---
+// Privacy and Terms (/<lang>/privacy/, /<lang>/terms/), Stage 5-4. SAMPLE legal text (legal-pages.ts): clearly labelled, states no law,
+// court, retention period, refund policy, registration or address as fact. Layout: page hero + sample notice, numbered sections,
+// sticky contents on desktop and a collapsible list on mobile, anchor links, back to top. No new motion beyond the shared page intro.
+// noindex while the text is a sample (BaseLayout prop); not in sitemap.xml.ts until the real text replaces it.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Icon from './Icon.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import Tag from './Tag.astro';
+import { legalDoc, legalUi, LEGAL_UPDATED } from '../data/legal-pages';
+import type { HomeCopy } from '../data/types';
+interface Props { c: HomeCopy; kind: 'privacy' | 'terms' }
+const { c, kind } = Astro.props;
+const lang = c.lang;
+const d = legalDoc(lang, kind);
+const u = legalUi[lang];
+const other = `/${lang === 'en' ? 'ar' : 'en'}/${kind}/`;
+const num = (i: number) => String(i + 1).padStart(2, '0');
+const updated = LEGAL_UPDATED ? LEGAL_UPDATED[lang] : null;
+---
+<BaseLayout lang={lang} title={d.meta.title} description={d.meta.description} path={`${kind}/`} noindex>
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main">
+    <section class="page-hero lg-hero" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="ph-part"><Breadcrumbs label={u.breadcrumb} items={[{ name: u.home, href: `/${lang}/` }, { name: d.crumb }]} /></div>
+        <p class="overline ph-part lg-hero__over">{d.overline}</p>
+        <h1 class="page-hero__title lg-hero__title" id="page-title">{d.title}</h1>
+        <p class="page-hero__intro lg-hero__intro ph-part">{d.intro}</p>
+        {updated && <p class="lg-updated ph-part">{u.updated}: <time>{updated}</time></p>}
+        <p class="lg-notice ph-part" role="note"><Tag>{u.noticeTag}</Tag><span>{u.notice}</span></p>
+      </div>
+    </section>
+
+    <div class="container lg-grid">
+      <!-- Contents: always visible on desktop (sticky), collapsible on mobile. Two renderings; the hidden one is display:none. -->
+      <nav class="lg-toc lg-toc--side" aria-label={u.toc}>
+        <p class="lg-toc__title">{u.toc}</p>
+        <ol>{d.sections.map((s, i) => <li><a href={`#${s.id}`} data-toc-link><span class="lg-toc__n" aria-hidden="true">{num(i)}</span>{s.title}</a></li>)}</ol>
+      </nav>
+      <details class="lg-toc lg-toc--fold" data-toc-fold>
+        <summary><span>{u.toc}</span><span class="lg-toc__chev" aria-hidden="true"><Icon name="chevron" /></span></summary>
+        <nav aria-label={u.toc}>
+          <ol>{d.sections.map((s, i) => <li><a href={`#${s.id}`} data-toc-link><span class="lg-toc__n" aria-hidden="true">{num(i)}</span>{s.title}</a></li>)}</ol>
+        </nav>
+      </details>
+
+      <article class="lg-body">
+        {d.sections.map((s, i) => (
+          <section class="lg-sec" id={s.id} aria-labelledby={`${s.id}-h`}>
+            <div class="lg-sec__head">
+              <span class="lg-sec__n" aria-hidden="true">{num(i)}</span>
+              <h2 class="lg-sec__h" id={`${s.id}-h`}>{s.title}</h2>
+              <a class="lg-sec__anchor" href={`#${s.id}`} aria-label={`${u.section} ${i + 1}: ${s.title}`}>#</a>
+            </div>
+            {s.body.map((b) => typeof b === 'string' ? <p>{b}</p> : <ul>{b.list.map((li) => <li>{li}</li>)}</ul>)}
+          </section>
+        ))}
+        <p class="lg-related">{d.other.text} <a href={d.other.href}>{d.other.label}</a>.</p>
+        <p class="lg-top"><a href="#top"><span class="lg-top__ic" aria-hidden="true"><Icon name="arrow" /></span>{u.backTop}</a></p>
+      </article>
+    </div>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} />
+  <script>import '../scripts/legal.js';</script>
+</BaseLayout>

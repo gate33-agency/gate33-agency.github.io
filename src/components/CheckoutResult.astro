@@ -1,0 +1,80 @@
+---
+// Checkout result pages (/<lang>/checkout/success/ and /failed/), Stage 5-2. Static and noindex.
+// The browser reads ?package=<slug> (shows the package, points "Try again" at its checkout) and ?preview=1 (shows the
+// sample reference). No personal data ever reaches these pages. Motion: the shared page intro; on success a calm tick
+// draws itself once inside its ring (CSS, after the intro; reduced motion: drawn from the start).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import SampleTag from './SampleTag.astro';
+import { packageDefs } from '../data/packages';
+import { checkoutCopy, PAYMENT_LIVE } from '../data/checkout';
+import type { HomeCopy } from '../data/types';
+interface Props { c: HomeCopy; kind: 'success' | 'failed' }
+const { c, kind } = Astro.props;
+const lang = c.lang;
+const k = checkoutCopy(lang);
+const ok = kind === 'success';
+const x = ok ? k.success : k.failed;
+const meta = k.resultMeta[kind];
+const other = `/${lang === 'en' ? 'ar' : 'en'}/checkout/${kind}/`;
+---
+<BaseLayout lang={lang} title={meta.title} description={meta.description} path={`checkout/${kind}/`} noindex>
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main" data-co-result={kind} data-lang={lang}>
+    <section class={`page-hero co-res co-res--${kind}`} aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="co-res__mark ph-part" aria-hidden="true">
+          {ok
+            ? <svg viewBox="0 0 64 64" class="co-mark"><circle class="co-mark__ring" cx="32" cy="32" r="30" /><path class="co-mark__tick" d="m20 33 8.5 8.5L45 25" pathLength="1" /></svg>
+            : <svg viewBox="0 0 64 64" class="co-mark co-mark--retry"><circle class="co-mark__ring" cx="32" cy="32" r="30" /><path class="co-mark__bar" d="M22 32h20" /></svg>}
+        </div>
+        <p class="overline ph-part">{x.overline}</p>
+        <h1 class="page-hero__title co-res__title" id="page-title">{x.headline}</h1>
+        <p class="page-hero__intro co-res__intro ph-part">{x.intro}</p>
+        {!PAYMENT_LIVE && <p class="co-preview ph-part" role="note"><span class="co-preview__dot" aria-hidden="true"></span><span>{x.preview}</span></p>}
+        <dl class="co-res__facts ph-part" data-co-facts hidden>
+          <div data-co-pkg hidden><dt>{k.success.pkgLabel}</dt><dd>
+            {packageDefs.map((p) => <span data-pkg-name={p.slug} data-service={p.service} hidden>{p.name[lang]}</span>)}
+          </dd></div>
+          {ok && <div data-co-ref hidden><dt>{k.success.ref}<SampleTag lang={lang} /></dt><dd dir="ltr">{k.success.refValue}</dd></div>}
+        </dl>
+        {!ok && (
+          <div class="page-hero__actions co-res__actions ph-part">
+            <Button variant="primary" href={`/${lang}/packages/`} arrow data-co-retry data-label-retry={k.failed.retry}>{k.failed.retryAll}</Button>
+            <Button variant="secondary" data-open-drawer data-co-proposal>{k.failed.proposal}</Button>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section class="section co-next" aria-labelledby="co-next-title">
+      <div class="container">
+        <h2 class="h2 co-next__title" id="co-next-title" data-reveal="fade">{x.stepsTitle}</h2>
+        <ol class="co-steps">
+          {x.steps.map((st, i) => (
+            <li class="co-step">
+              <span class="co-step__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="co-step__title">{st.title}</h3>
+              <p class="co-step__line">{st.line}</p>
+            </li>
+          ))}
+        </ol>
+        <nav class="co-links" aria-label={k.links.title}>
+          <a class="co-link" href={`/${lang}/packages/`}><span>{k.links.packages}</span><Icon name="arrow" /></a>
+          <button class="co-link" type="button" data-open-panel data-ask-intent="packages" aria-haspopup="dialog"><span>{k.links.ask}</span><Icon name="gate" /></button>
+          <a class="co-link" href={`/${lang}/contact/`}><span>{k.links.contact}</span><Icon name="arrow" /></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} />
+  <script>import '../scripts/checkout.js';</script>
+</BaseLayout>

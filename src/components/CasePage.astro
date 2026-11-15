@@ -1,0 +1,245 @@
+---
+// Case-study template (/<lang>/work/<slug>/), Stage 4B-2. Data: src/data/cases/<slug>.ts via case-studies.ts; shared
+// labels: caseUi. Every block is optional and data-driven (text · full · pair · trio · video · system), so the same page
+// serves branding cases, a case with a film, and a short-film page (kind: 'film').
+// One motion idea per section (src/scripts/motion/case.js + shared modules):
+//   hero = masked line rise (shared page intro) · cover = icon slices (icon.js; the only data-slices on the page) ·
+//   gallery = "registration": the frames of a pair / trio start out of step and slide into one line as they reach the
+//   middle of the screen, a full-width image pulls into focus inside its frame (both scrubbed, transform only) ·
+//   final CTA = masked lines + scale (shared). Text blocks only use the shared fade. No pins.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import Picture from './Picture.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SampleTag from './SampleTag.astro';
+import Testimonial from './Testimonial.astro';
+import { caseUi as U } from '../data/case-studies';
+import type { CaseStudy } from '../data/case-studies';
+import { cases } from '../data/work';
+import { workPage } from '../data/work-page';
+import { isTodo } from '../data/clients';
+import { caseResults } from '../data/placeholders';
+import { bind, tail, fitClass } from '../data/text';
+import type { HomeCopy } from '../data/types';
+interface Props { c: HomeCopy; k: CaseStudy }
+const { c, k } = Astro.props;
+const lang = c.lang;
+// Arabic text with Latin runs ("The Blue House", "#023560", "Loew Next"): each run is isolated as LTR (U+2066 ... U+2069)
+// so quotes, hex codes and full stops keep their place in a right-to-left line. A run may contain " · " and " & "
+// ("The Point · Travel & Tourism" stays one LTR run instead of three). Meta / alt / JSON-LD use raw().
+const iso = (s: string) => (lang === 'ar' ? s.replace(/[#A-Za-z][A-Za-z0-9#’'\-]*(?:[ \u00A0](?:[·&][ \u00A0])?[#A-Za-z0-9][A-Za-z0-9#’'\-]*)*/g, '\u2066$&\u2069') : s);
+const raw = (x: { en: string; ar: string }) => x[lang];
+const L = (x: { en: string; ar: string }) => iso(x[lang]);
+const B = (x: { en: string; ar: string }) => iso(bind(x[lang], lang));
+const W = workPage(lang);
+const path = `work/${k.slug}/`;
+const other = `/${lang === 'en' ? 'ar' : 'en'}/${path}`;
+const ci = cases.findIndex((x) => x.slug === k.slug);
+const next = cases[(ci + 1) % cases.length];
+const facts = ([['client', k.facts.client], ['sector', k.facts.sector], ['services', k.facts.services], ['market', k.facts.market], ['year', k.facts.year]] as const)
+  .filter(([, v]) => v && !isTodo(v[lang]));
+// Short-film page (kind 'film'): the film comes first. Its first video block becomes the cover itself: the poster (k.cover)
+// keeps the icon slices, the play button sits on it, and the block is not repeated in the body.
+const film = k.kind === 'film' ? (k.blocks.find((b) => b.type === 'video') as Extract<CaseStudy['blocks'][number], { type: 'video' }> | undefined) : undefined;
+const results = k.sampleResults ? caseResults[k.sampleResults] : undefined;
+// Frame ratio from data (e.g. '7/5' for 1400x1000 deck pages, so slides with text are never cropped). A class, not an
+// inline style: the CSP has style-src 'self'. Supported values: see .case-fig--r* in case.css.
+const rc = (r?: string) => (r ? `case-fig--r${r.replace('/', 'x')}` : '');
+const n2 = (i: number) => String(i + 1).padStart(2, '0');
+const wide = '(max-width: 767px) 100vw, min(1200px, 100vw)';
+const half = '(max-width: 767px) 100vw, 600px';
+const third = '(max-width: 767px) 100vw, 400px';
+// JSON-LD (data only; CSP: script-src applies to executable scripts, application/ld+json is never executed).
+const site = 'https://gate-33.com';
+const ld = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'CreativeWork', name: raw(k.meta.title).replace(/ \| Gate33$/, ''), description: raw(k.meta.description), inLanguage: lang,
+      url: `${site}/${lang}/${path}`, image: `${site}/images/${k.cover.base}-1200.webp`, creator: { '@type': 'Organization', name: 'Gate33', url: site } },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: raw(U.home), item: `${site}/${lang}/` },
+      { '@type': 'ListItem', position: 2, name: raw(U.work), item: `${site}/${lang}/work/` },
+      { '@type': 'ListItem', position: 3, name: raw(k.facts.client) },
+    ] },
+  ],
+}).replace(/</g, '\\u003c');
+---
+<BaseLayout lang={lang} title={raw(k.meta.title)} description={raw(k.meta.description)} path={path} ogImage={{ src: `/images/${k.cover.base}-1200.webp`, w: 1200, h: Math.round((1200 * k.cover.h) / k.cover.w), alt: raw(k.cover.alt) }}>
+  <script type="application/ld+json" set:html={ld} slot="head" />
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main" class={`case case--${k.kind}`}>
+    <!-- HERO: breadcrumbs, title, intro + project facts, cover (icon slices) -->
+    <section class="page-hero case-hero" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="ph-part"><Breadcrumbs label={L(U.breadcrumb)} items={[{ name: L(U.home), href: `/${lang}/` }, { name: L(U.work), href: `/${lang}/work/` }, { name: tail(L(k.facts.client)) }]} /></div>
+        <p class="overline ph-part case-hero__over">{L(k.overline)}</p>
+        <h1 class="page-hero__title page-hero__title--case" id="page-title">{B(k.headline)}</h1>
+        <div class="case-hero__row">
+          <p class="page-hero__intro ph-part">{L(k.intro)}</p>
+          <dl class="case-facts ph-part" aria-label={L(U.details)}>
+            {facts.map(([key, v]) => (
+              <div class="case-facts__row"><dt>{L(U[key])}</dt><dd>{L(v!)}</dd></div>
+            ))}
+          </dl>
+        </div>
+      </div>
+      <div class="container case-cover-wrap">
+        {film ? (
+          <figure class={`case-cover case-cover--${k.coverTone ?? 'dark'} ${rc(film.ratio)}`}>
+            <div class="work__media case-video case-video--cover" data-video-card data-video={raw(film.src)}>
+              <div class="case-cover__frame work__frame" data-slices>
+                <Picture img={k.cover} lang={lang} sizes={wide} loading="eager" fetchpriority="high" />
+              </div>
+              <button class="work__play" type="button" data-play aria-label={`${L(U.play)}: ${L(film.title)}`}><Icon name="play" /><span>{L(U.play)}</span></button>
+            </div>
+            {film.caption && <figcaption class="case-cap">{L(film.caption)}</figcaption>}
+          </figure>
+        ) : (
+          <figure class={`case-cover case-cover--${k.coverTone ?? 'dark'}`}>
+            <div class="case-cover__frame" data-slices>
+              <Picture img={k.cover} lang={lang} sizes={wide} loading="eager" fetchpriority="high" />
+            </div>
+          </figure>
+        )}
+      </div>
+    </section>
+
+    <!-- BLOCKS (data order) -->
+    <div class="case-body">
+      {k.blocks.map((b, i) => {
+        if (b === film) return null;
+        if (b.type === 'text') return (
+          <section class="case-text" id={b.key} aria-labelledby={`case-${b.key}`}>
+            <div class="container case-text__grid">
+              <div class="case-text__head">
+                <p class="overline" data-reveal="fade">{L(b.over)}</p>
+                <h2 class={`h2 case-text__title ${fitClass(B(b.title))}`} id={`case-${b.key}`} data-reveal="fade">{B(b.title)}</h2>
+              </div>
+              <div class="case-text__body" data-reveal="fade" data-reveal-delay="120">
+                {b.body.map((p) => <p>{L(p)}</p>)}
+              </div>
+            </div>
+          </section>
+        );
+        if (b.type === 'system') return (
+          <section class="case-system" aria-labelledby={`case-system-${i}`}>
+            <div class="container">
+              <div class="case-text__head case-system__head">
+                <p class="overline" data-reveal="fade">{L(b.over)}</p>
+                <h2 class={`h2 case-text__title ${fitClass(B(b.title))}`} id={`case-system-${i}`} data-reveal="fade">{B(b.title)}</h2>
+              </div>
+              <dl class="case-system__list">
+                {b.rows.map((r, j) => (
+                  <div class="case-system__row">
+                    <dt><span class="case-system__num" aria-hidden="true">{n2(j)}</span>{L(r.label)}</dt>
+                    <dd>
+                      {r.swatches && (
+                        <svg class="case-swatches" viewBox={`0 0 ${r.swatches.length * 40} 40`} width={r.swatches.length * 40} height="40" aria-hidden="true" focusable="false">
+                          {r.swatches.map((hex, s) => <rect x={s * 40} y="0" width="40" height="40" fill={hex} />)}
+                        </svg>
+                      )}
+                      <span>{L(r.value)}</span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </section>
+        );
+        if (b.type === 'video') {
+          const poster = lang === 'ar' && b.posterAr ? b.posterAr : b.poster;
+          return (
+            <figure class={`container case-fig case-fig--video ${rc(b.ratio)}`} data-case-fig="full">
+              <div class="work__media case-video" data-video-card data-video={raw(b.src)}>
+                <div class="work__frame case-frame">{<Picture img={poster} lang={lang} sizes={wide} />}</div>
+                <button class="work__play" type="button" data-play aria-label={`${L(U.play)}: ${L(b.title)}`}><Icon name="play" /><span>{L(U.play)}</span></button>
+              </div>
+              {b.caption && <figcaption class="case-cap">{L(b.caption)}</figcaption>}
+            </figure>
+          );
+        }
+        const imgs = b.type === 'full' ? [b.img] : b.imgs;
+        return (
+          <figure class={`container case-fig case-fig--${b.type} ${b.type === 'full' ? `case-fig--${b.tone ?? 'light'}` : ''} ${rc(b.ratio)}`} data-case-fig={b.type}>
+            <div class="case-row">
+              {imgs.map((im) => (
+                <div class="case-frame"><Picture img={im} lang={lang} sizes={b.type === 'full' ? wide : b.type === 'pair' ? half : third} /></div>
+              ))}
+            </div>
+            {b.caption && <figcaption class="case-cap">{L(b.caption)}</figcaption>}
+          </figure>
+        );
+      })}
+    </div>
+
+    <!-- OUTCOME (+ sample results / sample testimonial only when the case data asks for them) -->
+    {k.outcome && (
+      <section class="section case-outcome" aria-labelledby="case-outcome">
+        <div class="container">
+          <p class="overline" data-reveal="fade">{L(k.outcome.over)}</p>
+          <h2 class="case-outcome__line" id="case-outcome" data-reveal="fade">{B(k.outcome.line)}</h2>
+          {k.outcome.facts && (
+            <ul class="case-stats" data-reveal="fade" data-reveal-delay="150">
+              {k.outcome.facts.map((f) => <li><span class="case-stats__v">{f.value}</span><span class="case-stats__l">{L(f.label)}</span></li>)}
+            </ul>
+          )}
+          {results && (
+            <div class="case-results">
+              <p class="overline case-results__title">{L(U.results)}<SampleTag lang={lang} /></p>
+              <ul class="case-stats">
+                {results.value.map((f) => <li><span class="case-stats__v">{f.value}</span><span class="case-stats__l">{L(f.label)}</span></li>)}
+              </ul>
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+    {k.sampleTestimonial && (
+      <section class="section quote-sec" aria-label={L(U.quoteOver)}>
+        <div class="container"><Testimonial lang={lang} id={k.sampleTestimonial} over={L(U.quoteOver)} /></div>
+      </section>
+    )}
+
+    <!-- NEXT PROJECT (work.ts order; the page may not exist until the next stage) -->
+    {next && next.slug !== k.slug && (
+      <nav class="case-next" aria-label={L(U.next)}>
+        <div class="container">
+          <a class="case-next__link" href={`/${lang}/work/${next.slug}/`}>
+            <span class="case-next__text">
+              <span class="overline">{L(U.next)}</span>
+              <span class="case-next__name">{tail(L(next.client))}</span>
+              <span class="case-next__line">{L(next.line)}</span>
+              <span class="case-next__go" aria-hidden="true"><Icon name="arrow" /></span>
+            </span>
+            <span class="case-next__thumb"><Picture img={next.img} lang={lang} sizes="(max-width: 767px) 100vw, 480px" /></span>
+          </a>
+          <a class="case-next__all" href={`/${lang}/work/`}>{L(U.allWork)}</a>
+        </div>
+      </nav>
+    )}
+
+    <!-- FINAL CTA (dark, flows into the footer) -->
+    <section class="cta-sec on-dark" id="contact" aria-labelledby="cta-title">
+      <div class="container">
+        <p class="overline" data-reveal="fade">{W.ctaOver}</p>
+        <h2 class="cta__title" id="cta-title" data-reveal="lines" data-cta-scale>{W.ctaTitle}</h2>
+        <div class="cta__row">
+          <p class="cta__line">{W.ctaBody}</p>
+          <div class="cta__actions">
+            <Button variant="light" arrow data-open-drawer>{W.ctaBrief}</Button>
+            <button class="btn btn--ghost" type="button" data-open-panel data-ask-intent="work" aria-haspopup="dialog"><Icon name="gate" />{L(U.ask)}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} />
+</BaseLayout>

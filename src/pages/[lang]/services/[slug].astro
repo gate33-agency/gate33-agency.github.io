@@ -1,0 +1,12 @@
+---
+// /<lang>/services/<slug>/ for the 7 services, EN + AR (14 pages)
+import ServicePage from '../../../components/ServicePage.astro';
+import en from '../../../data/home.en';
+import ar from '../../../data/home.ar';
+import { services } from '../../../data/services';
+export function getStaticPaths() {
+  return ['en', 'ar'].flatMap((lang) => services.map((s) => ({ params: { lang, slug: s.slug } })));
+}
+const { lang, slug } = Astro.params;
+---
+<ServicePage c={lang === 'ar' ? ar : en} slug={slug as string} />

@@ -1,0 +1,35 @@
+---
+// 404 (Cloudflare Pages serves /404.html for unknown paths). One bilingual page: the visitor's language is not known here.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AskGate from '../components/AskGate.astro';
+import Drawer from '../components/Drawer.astro';
+import Button from '../components/Button.astro';
+import c from '../data/home.en';
+---
+<BaseLayout lang="en" title="Page not found | Gate33" description="This page does not exist. Go back to the Gate33 home page or browse our services." error>
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other="/ar/" ink />
+  <main id="main">
+    <section class="page-hero nf" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <p class="overline ph-part">404</p>
+        <h1 class="page-hero__title" id="page-title">This gate leads&nbsp;nowhere.</h1>
+        <p class="page-hero__intro nf__line ph-part">The page you are looking for has moved or never existed.</p>
+        <div class="page-hero__actions nf__actions ph-part" id="contact">
+          <Button variant="primary" href="/en/" arrow>Back to home</Button>
+          <Button variant="secondary" href="/en/services/">Our services</Button>
+        </div>
+        <div class="nf__ar ph-part" lang="ar" dir="rtl">
+          <p class="nf__ar-title">هذه الصفحة غير موجودة.</p>
+          <p class="nf__ar-line">ربما نُقلت الصفحة التي تبحث عنها، أو لم تكن موجودة من الأساس.</p>
+          <p class="nf__ar-links"><a href="/ar/">العودة إلى الرئيسية</a><a href="/ar/services/">خدماتنا</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other="/ar/" />
+  <AskGate c={c} />
+  <Drawer c={c} />
+</BaseLayout>

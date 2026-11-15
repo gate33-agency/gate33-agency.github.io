@@ -1,0 +1,16 @@
+---
+// Home › Services › Name. Plain HTML breadcrumb (nav + ordered list + aria-current); schema comes in the SEO stage.
+import Icon from './Icon.astro';
+interface Props { label: string; items: { name: string; href?: string }[] }
+const { label, items } = Astro.props;
+---
+<nav class="crumbs" aria-label={label}>
+  <ol>
+    {items.map((it, i) => (
+      <li>
+        {it.href ? <a href={it.href}>{it.name}</a> : <span aria-current="page">{it.name}</span>}
+        {i < items.length - 1 && <Icon name="chevron" class="crumbs__sep" />}
+      </li>
+    ))}
+  </ol>
+</nav>

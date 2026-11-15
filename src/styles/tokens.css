@@ -1,0 +1,50 @@
+/* Design tokens: Figma variables "Gate33 · Brand" + Style Tile v2 */
+@font-face { font-family: 'Montserrat'; src: url('/fonts/montserrat-regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Montserrat'; src: url('/fonts/montserrat-medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Montserrat'; src: url('/fonts/montserrat-semibold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Montserrat'; src: url('/fonts/montserrat-bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Montserrat'; src: url('/fonts/montserrat-extrabold.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Readex Pro'; src: url('/fonts/readexpro-regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Readex Pro'; src: url('/fonts/readexpro-medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Readex Pro'; src: url('/fonts/readexpro-semibold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Readex Pro'; src: url('/fonts/readexpro-bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+:root {
+  --lavender: #f0edf4;
+  --ink: #0f0f0f;
+  --purple: #7477b8;
+  --yellow: #efc04b;
+  --green: #a9c973;
+  --white: #ffffff;
+  --muted: #5d5b66;          /* secondary text on lavender, AA */
+  --muted-dark: #b9b6c4;     /* secondary text on ink */
+  --line: #0f0f0f;
+
+  --font-en: 'Montserrat', system-ui, sans-serif;
+  --font-ar: 'Readex Pro', system-ui, sans-serif;
+  --font: var(--font-en);
+
+  --radius: 16px;            /* UI radius; mobile 12 */
+  --radius-sm: 8px;          /* buttons, tags, inputs, chips — Ahmed 9 Nov: small round to echo the cards */
+  --gutter: clamp(24px, 8.334vw, 120px);
+  --container: 1200px;
+  --section-y: clamp(64px, 8.334vw, 120px);
+  --tap: 44px;
+
+  /* Motion tokens (mirrored in src/scripts/motion/tokens.js) */
+  --ease-gate: cubic-bezier(0.2, 0.8, 0.2, 1);   /* signature: reveals + UI */
+  --ease-gate-hero: cubic-bezier(0.16, 1, 0.3, 1); /* long expo-out: hero moment, masked line rises */
+  --dur-fast: 150ms;
+  --dur-base: 600ms;
+  --dur-slow: 1100ms;
+  --dur-hero: 1400ms;
+  --stagger-lines: 90ms;
+  --stagger-items: 60ms;
+
+  --ease-reveal: var(--ease-gate);
+  --t-panel: 450ms ease-out;
+  --t-reveal: 650ms;
+  --t-hover: var(--dur-fast);
+}
+@media (max-width: 767px) { :root { --radius: 12px; } }
+[lang='ar'] { --font: var(--font-ar); }

@@ -1,0 +1,173 @@
+---
+// Checkout shell (/<lang>/checkout/<package>/), Stage 5-2. NO payment provider yet: no card fields, no external script,
+// nothing sent or stored. checkout.js validates in the browser, then opens the success page with ?preview=1&package=<slug>
+// (no personal data in the URL). Copy: checkout.ts · package data: packages.ts · sample figures: placeholders.ts (tagged).
+// Motion: the shared page intro only (masked headline + parts). Summary sticks beside the form from 1024px (CSS sticky).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import Tag from './Tag.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SampleTag from './SampleTag.astro';
+import { packageDefs, pkgPrice } from '../data/packages';
+import { checkoutCopy, withPkg, PAYMENT_LIVE } from '../data/checkout';
+import { pagesCopy } from '../data/service-pages';
+import { packages as pkgSamples, SAMPLE } from '../data/placeholders';
+import { tail } from '../data/text';
+import type { HomeCopy } from '../data/types';
+interface Props { c: HomeCopy; slug: string }
+const { c, slug } = Astro.props;
+const lang = c.lang;
+const k = checkoutCopy(lang);
+const ui = pagesCopy(lang).ui;
+const i = packageDefs.findIndex((p) => p.slug === slug);
+const p = packageDefs[i];
+const s = pkgSamples[i].value;
+const amount = pkgPrice(i);
+const name = p.name[lang];
+const other = `/${lang === 'en' ? 'ar' : 'en'}/checkout/${slug}/`;
+const f = k.form;
+const err = k.errors;
+// field helper ids
+const hint = (id: string) => `${id}-hint`;
+const er = (id: string) => `${id}-error`;
+---
+<BaseLayout lang={lang} title={withPkg(k.meta.title, name).replace(/ /g, ' ')} description={k.meta.description} path={`checkout/${slug}/`} noindex>
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main">
+    <section class="page-hero co-hero" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="ph-part"><Breadcrumbs label={ui.breadcrumb} items={[{ name: ui.home, href: `/${lang}/` }, { name: k.crumbPackages, href: `/${lang}/packages/` }, { name: k.crumb }]} /></div>
+        <p class="overline ph-part co-hero__over">{k.overline}</p>
+        <h1 class="page-hero__title co-hero__title" id="page-title">{withPkg(k.headline, name)}</h1>
+        <p class="page-hero__intro co-hero__intro ph-part">{k.intro}</p>
+        {!PAYMENT_LIVE && (
+          <p class="co-preview ph-part" role="note"><span class="co-preview__dot" aria-hidden="true"></span><span><strong>{k.preview.title}</strong> {k.preview.line}</span></p>
+        )}
+      </div>
+    </section>
+
+    <section class="section co-sec" aria-label={k.crumb}>
+      <div class="container co-grid">
+        <!-- ORDER SUMMARY (first in the DOM: on phones it comes before the form) -->
+        <aside class="co-sum" aria-labelledby="co-sum-title">
+          <div class="co-sum__in">
+            <div class="co-sum__head">
+              <p class="overline">{k.summary.over}</p>
+              <a class="co-sum__change" href={`/${lang}/packages/#${slug}`}>{k.summary.change}</a>
+            </div>
+            <div class="co-sum__name-row">
+              <h2 class="co-sum__name" id="co-sum-title">{tail(name)}</h2>
+              {p.popular && <Tag>{c.packages.popular}</Tag>}
+            </div>
+            <p class="co-sum__line">{p.line[lang]}</p>
+            <h3 class="co-sum__label">{k.summary.includes}</h3>
+            <ul class="co-sum__list">
+              {p.gets.map((g) => <li><span class="tick"><Icon name="tick" /></span><span>{g[lang]}</span></li>)}
+            </ul>
+            <dl class="co-sum__facts">
+              <div><dt>{k.summary.duration}</dt><dd>{s.timeline[lang]}</dd></div>
+              {s.revisions && <div><dt>{k.summary.revisions}</dt><dd>{s.revisions[lang]}</dd></div>}
+            </dl>
+            <div class="co-sum__price">
+              <p class="co-sum__price-h">{k.summary.price}{SAMPLE && <SampleTag lang={lang} />}</p>
+              {amount
+                ? <p class="co-sum__amount">{lang === 'en' ? <><span class="co-sum__cur">AED</span>{amount}</> : <>{amount}<span class="co-sum__cur">درهم</span></>}</p>
+                : <p class="co-sum__amount co-sum__amount--todo">—<span class="visually-hidden">{c.packages.priceNote}</span></p>}
+              <p class="co-sum__vat">{k.summary.vat}</p>
+              <dl class="co-sum__tax"><div><dt>{k.summary.vatLabel}</dt><dd>{k.summary.vatValue}</dd></div></dl>
+            </div>
+            <p class="co-sum__note">{k.summary.note}</p>
+          </div>
+        </aside>
+
+        <!-- DETAILS FORM: no action, no card fields. Without JS the button stays type="button", so nothing is ever sent. -->
+        <form class="co-form" data-checkout-form data-slug={slug} data-success={`/${lang}/checkout/success/`}
+          data-msg-one={err.summaryOne} data-msg-two={err.summaryTwo} data-msg-many={err.summaryMany} aria-labelledby="co-form-title">
+          <div class="co-form__head">
+            <h2 class="co-form__title" id="co-form-title">{f.title}</h2>
+            <p class="co-form__line">{f.line}</p>
+          </div>
+          <p class="co-errors" role="alert" data-co-summary tabindex="-1" hidden></p>
+          <div class="co-fields">
+            <div class="co-field" data-field>
+              <label for="co-name">{f.name}<span class="co-req" aria-hidden="true">*</span></label>
+              <input id="co-name" name="name" type="text" autocomplete="name" required aria-describedby={er('co-name')}
+                data-err-missing={err.name} />
+              <p class="co-error" id={er('co-name')} data-error></p>
+            </div>
+            <div class="co-field" data-field>
+              <label for="co-email">{f.email}<span class="co-req" aria-hidden="true">*</span></label>
+              <input id="co-email" name="email" type="email" autocomplete="email" dir="ltr" inputmode="email" required aria-describedby={er('co-email')}
+                data-err-missing={err.email} data-err-format={err.emailFormat} data-check="email" />
+              <p class="co-error" id={er('co-email')} data-error></p>
+            </div>
+            <div class="co-field" data-field>
+              <label for="co-phone">{f.phone}<span class="co-req" aria-hidden="true">*</span></label>
+              <input id="co-phone" name="phone" type="tel" autocomplete="tel" dir="ltr" inputmode="tel" required aria-describedby={`${hint('co-phone')} ${er('co-phone')}`}
+                data-err-missing={err.phone} data-err-format={err.phoneFormat} data-check="phone" />
+              <p class="co-hint" id={hint('co-phone')}>{f.phoneHint}</p>
+              <p class="co-error" id={er('co-phone')} data-error></p>
+            </div>
+            <div class="co-field" data-field>
+              <label for="co-company">{f.company} <span class="co-opt">({f.optional})</span></label>
+              <input id="co-company" name="company" type="text" autocomplete="organization" />
+            </div>
+            <div class="co-field" data-field>
+              <label for="co-country">{f.country}<span class="co-req" aria-hidden="true">*</span></label>
+              <span class="co-select">
+                <select id="co-country" name="country" autocomplete="off" required aria-describedby={er('co-country')} data-err-missing={err.country}>
+                  <option value="">{f.countryPick}</option>
+                  <optgroup label={f.uae}>{k.countries.uae.map((o) => <option value={o.value}>{o.label}</option>)}</optgroup>
+                  <optgroup label={f.gcc}>{k.countries.gcc.map((o) => <option value={o.value}>{o.label}</option>)}</optgroup>
+                  <optgroup label={f.other}>{k.countries.other.map((o) => <option value={o.value}>{o.label}</option>)}</optgroup>
+                </select>
+                <Icon name="chevron" class="co-select__icon" />
+              </span>
+              <p class="co-error" id={er('co-country')} data-error></p>
+            </div>
+            <div class="co-field" data-field>
+              <label for="co-trn">{f.trn} <span class="co-opt">({f.optional})</span></label>
+              <input id="co-trn" name="trn" type="text" inputmode="numeric" dir="ltr" autocomplete="off" aria-describedby={`${hint('co-trn')} ${er('co-trn')}`}
+                data-err-format={err.trn} data-check="trn" />
+              <p class="co-hint" id={hint('co-trn')}>{f.trnHint}</p>
+              <p class="co-error" id={er('co-trn')} data-error></p>
+            </div>
+            <div class="co-field co-field--wide" data-field>
+              <label for="co-notes">{f.notes} <span class="co-opt">({f.optional})</span></label>
+              <textarea id="co-notes" name="notes" rows="4" aria-describedby={hint('co-notes')}></textarea>
+              <p class="co-hint" id={hint('co-notes')}>{f.notesHint}</p>
+            </div>
+            <div class="co-field co-field--wide co-consent" data-field>
+              <span class="co-check">
+                <input id="co-consent" name="consent" type="checkbox" required aria-describedby={er('co-consent')} data-err-missing={err.consent} />
+                <span class="co-check__box" aria-hidden="true"><Icon name="tick" /></span>
+              </span>
+              <label for="co-consent">{f.consentA}<a href={`/${lang}/terms/`}>{f.terms}</a>{f.consentB}<a href={`/${lang}/privacy/`}>{f.privacy}</a>{f.consentC}</label>
+              <p class="co-error" id={er('co-consent')} data-error></p>
+            </div>
+          </div>
+
+          <!-- PAYMENT STEP (placeholder): the gateway plugs in here later -->
+          <div class="co-pay">
+            <div class="co-pay__head"><h2 class="co-pay__title">{k.pay.title}</h2>{!PAYMENT_LIVE && <span class="co-pay__flag">{lang === 'en' ? 'Preview' : 'معاينة'}</span>}</div>
+            <p class="co-pay__line">{k.pay.line}</p>
+            <button class="btn btn--primary btn--block co-pay__btn" type="button" data-checkout-submit data-working={k.pay.working}>{k.pay.button}<Icon name="arrow" /></button>
+            <p class="co-pay__status" role="status" data-co-status></p>
+            <noscript><p class="co-pay__noscript">{k.pay.noscript}</p></noscript>
+            <p class="co-pay__talk">{k.pay.talk} <Button variant="link" arrow data-open-drawer data-service={p.service} data-package={name}>{k.pay.talkLink}</Button></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} />
+  <script>import '../scripts/checkout.js';</script>
+</BaseLayout>

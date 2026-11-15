@@ -1,0 +1,9 @@
+---
+// /en/work/ and /ar/work/
+import WorkIndex from '../../../components/WorkIndex.astro';
+import en from '../../../data/home.en';
+import ar from '../../../data/home.ar';
+export function getStaticPaths() { return [{ params: { lang: 'en' } }, { params: { lang: 'ar' } }]; }
+const { lang } = Astro.params;
+---
+<WorkIndex c={lang === 'ar' ? ar : en} />

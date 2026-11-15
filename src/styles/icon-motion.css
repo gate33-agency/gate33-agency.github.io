@@ -1,0 +1,30 @@
+/* Icon-shape motion (Ahmed, 10 Nov). Two ideas built from the Gate33 mark, used only at key moments.
+   1) Gate entry: once per session, on arrival. 2) Icon slices: key project images only.
+   Transform / opacity only (no animated clip-path), so it stays light on macOS. */
+
+/* ---------- 1) Gate entry ---------- */
+.gate-entry { display: none; }
+html.has-gate-entry .gate-entry { display: block; position: fixed; inset: 0; z-index: 300; pointer-events: none; overflow: hidden; direction: ltr; }
+.gate-entry__leaf { position: absolute; top: 0; bottom: 0; width: calc(50% + 1px); background: var(--lavender); will-change: transform; animation: ge-open-l 0.8s var(--ease-gate-hero) 0.85s both; }
+.gate-entry__leaf--l { left: 0; }
+.gate-entry__leaf--r { right: 0; animation-name: ge-open-r; }
+.gate-entry__mark { position: absolute; top: 50%; height: clamp(84px, 13vw, 148px); width: auto; aspect-ratio: 220.81 / 454.63; margin-top: calc(clamp(84px, 13vw, 148px) / -2); overflow: visible; fill: var(--purple); }
+.gate-entry__leaf--l .gate-entry__mark { right: 1px; }
+.gate-entry__leaf--r .gate-entry__mark { left: 1px; }
+.ge-b { animation: ge-in 0.62s var(--ease-gate-hero) both; }
+.ge-b--top { --ge-x: 0px; --ge-y: -260px; }
+.ge-b--mid { --ge-x: 260px; --ge-y: -260px; animation-delay: 0.08s; }
+.ge-b--low { --ge-x: -260px; --ge-y: 260px; animation-delay: 0.16s; }
+.ge-b--late.ge-b--top { animation-delay: 0.06s; }
+.ge-b--late.ge-b--mid { animation-delay: 0.14s; }
+.ge-b--late.ge-b--low { animation-delay: 0.22s; }
+@keyframes ge-in { from { transform: translate(var(--ge-x), var(--ge-y)); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes ge-open-l { from { transform: none; visibility: visible; } to { transform: translateX(-101%); visibility: hidden; } }
+@keyframes ge-open-r { from { transform: none; visibility: visible; } to { transform: translateX(101%); visibility: hidden; } }
+
+/* ---------- 2) Icon slices: the frame opens in the slant of the mark (clip-path set and animated by icon.js, one-off) ---------- */
+[data-slices] { position: relative; overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.has-gate-entry .gate-entry { display: none; }
+}

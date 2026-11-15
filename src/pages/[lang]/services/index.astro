@@ -1,0 +1,9 @@
+---
+// /en/services/ and /ar/services/
+import ServicesIndex from '../../../components/ServicesIndex.astro';
+import en from '../../../data/home.en';
+import ar from '../../../data/home.ar';
+export function getStaticPaths() { return [{ params: { lang: 'en' } }, { params: { lang: 'ar' } }]; }
+const { lang } = Astro.params;
+---
+<ServicesIndex c={lang === 'ar' ? ar : en} />

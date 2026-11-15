@@ -1,0 +1,9 @@
+---
+// /<lang>/checkout/success/ (Stage 5-2). noindex, not in the sitemap. Reads ?package=<slug> and ?preview=1 in the browser.
+import CheckoutResult from '../../../components/CheckoutResult.astro';
+import en from '../../../data/home.en';
+import ar from '../../../data/home.ar';
+export function getStaticPaths() { return [{ params: { lang: 'en' } }, { params: { lang: 'ar' } }]; }
+const { lang } = Astro.params;
+---
+<CheckoutResult c={lang === 'ar' ? ar : en} kind="success" />

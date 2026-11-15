@@ -1,0 +1,167 @@
+---
+// Contact page (/<lang>/contact/), Stage 5-3. Copy: contact-page.ts · details: placeholders.ts (sample, tagged; the email
+// is still to be confirmed with Shifaa; no phone, WhatsApp number, address or map). Three routes: the form below (sends
+// nothing: contact.js validates and shows an inline preview confirmation), Ask Gate (existing widget) and Send a brief
+// (existing proposal sheet). Motion: shared page intro · the three routes open like a fan from one point (company.js,
+// this page's own idea) · FAQ hairlines (shared). The form and details only fade in softly.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Icon from './Icon.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SampleTag from './SampleTag.astro';
+import Faq from './Faq.astro';
+import { contactPage } from '../data/contact-page';
+import { pagesCopy } from '../data/service-pages';
+import { contact, tbc } from '../data/placeholders';
+import type { HomeCopy } from '../data/types';
+interface Props { c: HomeCopy }
+const { c } = Astro.props;
+const lang = c.lang;
+const x = contactPage(lang);
+const ui = pagesCopy(lang).ui;
+const f = x.form;
+const err = x.errors;
+const other = lang === 'en' ? '/ar/contact/' : '/en/contact/';
+const er = (id: string) => `${id}-error`;
+const hint = (id: string) => `${id}-hint`;
+const icons = ['send', 'gate', 'doc'];
+---
+<BaseLayout lang={lang} title={x.meta.title} description={x.meta.description} path="contact/">
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main">
+    <!-- HERO -->
+    <section class="page-hero ct-hero" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="ph-part"><Breadcrumbs label={ui.breadcrumb} items={[{ name: ui.home, href: `/${lang}/` }, { name: x.crumb }]} /></div>
+        <p class="overline ph-part ct-hero__over">{x.overline}</p>
+        <h1 class="page-hero__title ct-hero__title" id="page-title">{x.headline}</h1>
+        <p class="page-hero__intro ct-hero__intro ph-part">{x.intro}</p>
+      </div>
+    </section>
+
+    <!-- THREE ROUTES -->
+    <section class="ct-routes-sec" aria-label={x.routesLabel}>
+      <div class="container">
+        <ul class="ct-routes" data-routes>
+          {x.routes.map((r, i) => (
+            <li class={`ct-route ${i === 1 ? 'ct-route--dark on-dark' : ''}`}>
+              <div class="ct-route__top">
+                <span class="ct-route__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span class="ct-route__icon" aria-hidden="true"><Icon name={icons[i]} /></span>
+              </div>
+              <h2 class="ct-route__title">{r.title}</h2>
+              <p class="ct-route__line">{r.line}</p>
+              {i === 0 && <a class="ct-route__go" href="#contact-form">{r.action}<Icon name="arrow" /></a>}
+              {i === 1 && <button class="ct-route__go" type="button" data-open-panel aria-haspopup="dialog">{r.action}<Icon name="arrow" /></button>}
+              {i === 2 && <button class="ct-route__go" type="button" data-open-drawer aria-haspopup="dialog">{r.action}<Icon name="arrow" /></button>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- FORM + DETAILS -->
+    <section class="section ct-sec" id="contact-form" aria-labelledby="ct-form-title">
+      <div class="container ct-grid">
+        <!-- No action and no network: without JS the button stays type="button", so nothing is ever submitted. -->
+        <form class="ct-form" data-contact-form data-msg-one={err.summaryOne} data-msg-two={err.summaryTwo} data-msg-many={err.summaryMany} aria-labelledby="ct-form-title">
+          <div class="co-form__head">
+            <h2 class="co-form__title ct-form__title" id="ct-form-title">{f.title}</h2>
+            <p class="co-form__line">{f.line}</p>
+          </div>
+          <p class="co-errors" role="alert" data-ct-summary tabindex="-1" hidden></p>
+          <div class="co-fields">
+            <div class="co-field" data-field>
+              <label for="ct-name">{f.name}<span class="co-req" aria-hidden="true">*</span></label>
+              <input id="ct-name" name="name" type="text" autocomplete="name" required aria-describedby={er('ct-name')} data-err-missing={err.name} />
+              <p class="co-error" id={er('ct-name')} data-error></p>
+            </div>
+            <div class="co-field" data-field>
+              <label for="ct-email">{f.email}<span class="co-req" aria-hidden="true">*</span></label>
+              <input id="ct-email" name="email" type="email" autocomplete="email" dir="ltr" inputmode="email" required aria-describedby={er('ct-email')}
+                data-err-missing={err.email} data-err-format={err.emailFormat} data-check="email" />
+              <p class="co-error" id={er('ct-email')} data-error></p>
+            </div>
+            <div class="co-field" data-field>
+              <label for="ct-phone">{f.phone} <span class="co-opt">({f.optional})</span></label>
+              <input id="ct-phone" name="phone" type="tel" autocomplete="tel" dir="ltr" inputmode="tel" aria-describedby={`${hint('ct-phone')} ${er('ct-phone')}`}
+                data-err-format={err.phoneFormat} data-check="phone" />
+              <p class="co-hint" id={hint('ct-phone')}>{f.phoneHint}</p>
+              <p class="co-error" id={er('ct-phone')} data-error></p>
+            </div>
+            <div class="co-field" data-field>
+              <label for="ct-company">{f.company} <span class="co-opt">({f.optional})</span></label>
+              <input id="ct-company" name="company" type="text" autocomplete="organization" />
+            </div>
+            <div class="co-field co-field--wide" data-field>
+              <label for="ct-topic">{f.topic}<span class="co-req" aria-hidden="true">*</span></label>
+              <span class="co-select">
+                <select id="ct-topic" name="topic" required aria-describedby={er('ct-topic')} data-err-missing={err.topic}>
+                  <option value="">{f.topicPick}</option>
+                  {f.topics.map((o) => <option value={o.value}>{o.label}</option>)}
+                </select>
+                <Icon name="chevron" class="co-select__icon" />
+              </span>
+              <p class="co-error" id={er('ct-topic')} data-error></p>
+            </div>
+            <div class="co-field co-field--wide" data-field>
+              <label for="ct-message">{f.message}<span class="co-req" aria-hidden="true">*</span></label>
+              <textarea id="ct-message" name="message" rows="5" required aria-describedby={`${hint('ct-message')} ${er('ct-message')}`} data-err-missing={err.message}></textarea>
+              <p class="co-hint" id={hint('ct-message')}>{f.messageHint}</p>
+              <p class="co-error" id={er('ct-message')} data-error></p>
+            </div>
+            <div class="co-field co-field--wide co-consent" data-field>
+              <span class="co-check">
+                <input id="ct-consent" name="consent" type="checkbox" required aria-describedby={er('ct-consent')} data-err-missing={err.consent} />
+                <span class="co-check__box" aria-hidden="true"><Icon name="tick" /></span>
+              </span>
+              <label for="ct-consent">{f.consentA}<a href={`/${lang}/privacy/`}>{f.privacy}</a>{f.consentB}</label>
+              <p class="co-error" id={er('ct-consent')} data-error></p>
+            </div>
+          </div>
+          <div class="ct-send">
+            <button class="btn btn--primary ct-send__btn" type="button" data-ct-submit data-working={f.working}>{f.submit}<Icon name="send" /></button>
+            <p class="co-pay__status" role="status" data-ct-status></p>
+            <div class="ct-done" data-ct-done tabindex="-1" role="status" hidden>
+              <span class="ct-done__mark" aria-hidden="true"><Icon name="tick" /></span>
+              <div><p class="ct-done__title">{x.done.title}</p><p class="ct-done__line">{x.done.line}</p></div>
+            </div>
+            <noscript><p class="co-pay__noscript">{f.noscript}</p></noscript>
+          </div>
+        </form>
+
+        <!-- DETAILS (sample until Shifaa confirms; no phone number, no address, no map) -->
+        <aside class="ct-details" aria-labelledby="ct-details-title">
+          <div class="ct-details__head"><h2 class="ct-details__title" id="ct-details-title">{x.details.title}</h2><SampleTag lang={lang} /></div>
+          <dl class="ct-details__list">
+            <div><dt>{x.details.email}</dt><dd dir="ltr">{contact.email.value}</dd></div>
+            <div><dt>{x.details.city}</dt><dd>{contact.city.value[lang]}</dd></div>
+            <div><dt>{x.details.hours}</dt><dd>{contact.hours.value[lang]}</dd></div>
+            <div><dt>Instagram</dt><dd dir="ltr"><a href={contact.instagram.url} target="_blank" rel="noopener">{contact.instagram.handle}</a></dd></div>
+            <div><dt>{x.details.whatsapp}</dt><dd class="is-tbc">{tbc[lang]}</dd></div>
+          </dl>
+          <p class="ct-details__note">{x.details.note}</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-sec ct-faq" aria-labelledby="faq-title">
+      <div class="container faq-wrap">
+        <div class="faq-head">
+          <p class="overline" data-reveal="fade">{x.faqOver}</p>
+          <h2 class="h2 sec-head__title" id="faq-title" data-reveal="fade">{x.faqTitle}</h2>
+        </div>
+        <Faq items={x.faq} lang={lang} idBase="cfaq" />
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} />
+  <script>import '../scripts/contact.js';</script>
+</BaseLayout>

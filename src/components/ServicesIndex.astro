@@ -1,0 +1,142 @@
+---
+// Services index (/<lang>/services/). Copy: service-pages.<lang>.ts (index) + services.ts (names, promises, sub-services).
+// Sections and their one motion idea (src/scripts/motion/pages.js): hero = masked line rise · list = rows wipe in from the
+// reading edge, hover opens the row (ink fill + media reveal) · Ask Gate block = grows out of the launcher corner ·
+// packages teaser = prices count up · final CTA = masked lines + scale (shared with Home).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import Picture from './Picture.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SampleTag from './SampleTag.astro';
+import { services } from '../data/services';
+import { pagesCopy, serviceShared } from '../data/service-pages';
+import { packages as pkgSamples, SAMPLE } from '../data/placeholders';
+import type { HomeCopy } from '../data/types';
+import { tail, fitClass } from '../data/text';
+interface Props { c: HomeCopy }
+const { c } = Astro.props;
+const lang = c.lang;
+const P = pagesCopy(lang);
+const x = P.index;
+const other = lang === 'en' ? '/ar/services/' : '/en/services/';
+const n2 = (i: number) => String(i + 1).padStart(2, '0');
+---
+<BaseLayout lang={lang} title={x.meta.title} description={x.meta.description} path="services/">
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main">
+    <section class="page-hero page-hero--index" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="ph-part"><Breadcrumbs label={P.ui.breadcrumb} items={[{ name: P.ui.home, href: `/${lang}/` }, { name: P.ui.services }]} /></div>
+        <div class="page-hero__grid">
+          <div class="page-hero__text">
+            <p class="overline ph-part">{x.overline}</p>
+            <h1 class={`page-hero__title ${fitClass(x.headline)}`} id="page-title">{x.headline}</h1>
+          </div>
+        </div>
+        <div class="page-hero__row">
+          <p class="page-hero__intro ph-part">{x.intro}</p>
+          <div class="page-hero__side">
+            <p class="page-hero__count ph-part" aria-hidden="true"><span>07</span></p>
+            <div class="page-hero__actions ph-part">
+            <Button variant="primary" arrow data-open-drawer>{x.cta}</Button>
+            <button class="btn btn--secondary" type="button" data-open-panel data-ask-intent="services" aria-haspopup="dialog"><Icon name="gate" />{x.ctaHelp}</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES LIST: editorial rows (number · name · promise · sub-services · arrow); hover opens the row -->
+    <section class="srows-sec" aria-labelledby="srows-title">
+      <div class="container">
+        <h2 class="visually-hidden" id="srows-title">{x.listLabel}</h2>
+        <ol class="srows" data-srows>
+          {services.map((s, i) => (
+            <li class="srow">
+              <a class="srow__link" href={`/${lang}/services/${s.slug}/`}>
+                <span class="srow__fill" aria-hidden="true"></span>
+                <span class="srow__num" aria-hidden="true">{n2(i)}</span>
+                <span class="srow__main">
+                  <span class="srow__name">{tail(s.name[lang])}</span>
+                  <span class="srow__promise">{s.promise[lang]}</span>
+                </span>
+                <span class="srow__subs">{s.subs.map((sub) => <span>{sub[lang]}</span>)}</span>
+                <span class={`srow__media ${serviceShared[s.slug].visual.flip ? 'is-flip' : ''}`} aria-hidden="true"><Picture img={serviceShared[s.slug].visual.img} lang={lang} sizes="280px" /></span>
+                <span class="srow__go"><span class="visually-hidden">{x.explore}</span><Icon name="arrow" /></span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- ASK GATE block: opens the assistant with the services starter question -->
+    <section class="section ask-sec" aria-labelledby="ask-title">
+      <div class="container">
+        <div class="ask-block" data-ask-block>
+          <div class="ask-block__text">
+            <p class="overline">{x.askOver}</p>
+            <h2 class="h2 ask-block__title" id="ask-title">{x.askTitle}</h2>
+            <p class="ask-block__line">{x.askLine}</p>
+          </div>
+          <button class="btn btn--primary" type="button" data-open-panel data-ask-intent="services" aria-haspopup="dialog"><Icon name="gate" />{x.askCta}</button>
+          <span class="ask-block__mark" aria-hidden="true"><img src="/images/logo/gate33-icon-purple.svg" alt="" width="120" height="124" /></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACKAGES TEASER: four packages with sample starting prices -->
+    <section class="section pteaser-sec" aria-labelledby="pteaser-title">
+      <div class="container">
+        <div class="sec-head">
+          <div>
+            <p class="overline" data-reveal="fade">{x.pkgOver}</p>
+            <h2 class="h2 sec-head__title" id="pteaser-title" data-reveal="fade">{x.pkgTitle}</h2>
+          </div>
+          <p class="sec-head__line" data-reveal="fade" data-reveal-delay="200">{x.pkgBody}</p>
+        </div>
+        <ul class="pteaser" data-count-group>
+          {c.packages.items.map((p, i) => (
+            <li class="pteaser__item">
+              <a href={`/${lang}/packages/#${p.slug}`}>
+                <span class="pteaser__name">{p.name}</span>
+                <span class="pteaser__line">{p.line}</span>
+                <span class="pteaser__price"><span class="pteaser__from">{c.packages.from}</span> <span class="pteaser__amount" data-count={SAMPLE ? pkgSamples[i].value.price : ''}>{SAMPLE ? pkgSamples[i].value.price : '—'}</span>{lang === 'ar' && ' درهم'}</span>
+                {SAMPLE && <span class="pteaser__meta">{pkgSamples[i].value.timeline[lang]}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="pteaser__foot">
+          <SampleTag lang={lang} />
+          <span class="pteaser__vat">{c.packages.vat}</span>
+          <Button variant="link" href={`/${lang}/packages/`} arrow>{x.pkgCta}</Button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA (dark, flows into the footer) -->
+    <section class="cta-sec on-dark" id="contact" aria-labelledby="cta-title">
+      <div class="container">
+        <p class="overline" data-reveal="fade">{x.ctaOver}</p>
+        <h2 class="cta__title" id="cta-title" data-reveal="lines" data-cta-scale>{x.ctaTitle}</h2>
+        <div class="cta__row">
+          <p class="cta__line">{x.ctaBody}</p>
+          <div class="cta__actions">
+            <Button variant="light" arrow data-open-drawer>{x.ctaBrief}</Button>
+            <button class="btn btn--ghost" type="button" data-open-panel aria-haspopup="dialog"><Icon name="gate" />{x.ctaAsk}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} />
+</BaseLayout>

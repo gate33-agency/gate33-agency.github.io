@@ -1,0 +1,20 @@
+---
+// Sample testimonial (policy rule 4): generic attribution only, never a real client, no logos.
+import SampleTag from './SampleTag.astro';
+import { testimonials, attribution } from '../data/placeholders';
+import { bind } from '../data/text';
+interface Props { lang: 'en' | 'ar'; id: string; over?: string; dark?: boolean }
+const { lang, id, over, dark = false } = Astro.props;
+const q = testimonials[id];
+---
+{q && (
+  <figure class={`quote ${dark ? 'quote--dark' : ''}`} data-quote>
+    <div class="quote__top">
+      {over && <p class="overline">{over}</p>}
+      <SampleTag lang={lang} />
+    </div>
+    <span class="quote__mark" aria-hidden="true">{lang === 'ar' ? '”' : '“'}</span>
+    <blockquote class="quote__text"><p data-reveal="words">{bind(q.value[lang], lang)}</p></blockquote>
+    <figcaption class="quote__by">{attribution[lang]}</figcaption>
+  </figure>
+)}

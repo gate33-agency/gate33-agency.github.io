@@ -1,0 +1,127 @@
+/* ---------- Stage 4B-2: case-study template (/<lang>/work/<slug>/) ----------
+   Reuses the page hero, breadcrumbs, quote and CTA (services.css / global.css) and the work video card (global.css).
+   Logical properties only, so /ar/ mirrors from dir="rtl". Radius: frames 16 (12 on mobile, from --radius).
+   Motion: src/scripts/motion/case.js (gallery) + icon.js (cover). Nothing here hides content without JS. */
+
+/* HERO */
+.case-hero { padding-bottom: 0; }
+.case-hero__over { margin-top: clamp(40px, 6vw, 88px); }
+.page-hero__title--case { max-width: 18ch; font-size: clamp(40px, 5.6vw, 84px); line-height: 1.02; }
+[lang='ar'] .page-hero__title--case { max-width: 18ch; font-size: clamp(36px, 4.8vw, 72px); line-height: 1.4; }
+.case-hero__row { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 440px); justify-content: space-between; align-items: start; gap: 40px; margin-top: clamp(32px, 4vw, 56px); }
+.case-facts { display: grid; border-top: 1px solid var(--ink); }
+.case-facts__row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding-block: 12px; border-bottom: 1px solid var(--line-soft); font-size: 14px; line-height: 1.5; }
+[lang='ar'] .case-facts__row { line-height: 1.8; }
+.case-facts dt { color: var(--muted); }
+.case-facts dd { margin: 0; font-weight: 500; }
+.case-cover-wrap { margin-top: clamp(48px, 6vw, 88px); }
+.case-cover { margin: 0; }
+.case-cover__frame { position: relative; overflow: hidden; border-radius: var(--radius); aspect-ratio: 16 / 9; background: var(--ink); --slice-bg: var(--lavender); }
+.case-cover__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 899px) {
+  .case-hero__row { grid-template-columns: 1fr; gap: 28px; }
+  .case-facts__row { grid-template-columns: 96px minmax(0, 1fr); }
+}
+@media (max-width: 599px) {
+  .page-hero__title--case { font-size: 9.2vw; line-height: 1.06; } /* Final 2: was 10vw; "from a horseshoe," now fits a 360px phone */
+  [lang='ar'] .page-hero__title--case { font-size: 8.4vw; line-height: 1.45; }
+}
+
+/* BODY rhythm: blocks follow each other with one spacing; text blocks breathe a little more */
+.case-body { padding-block: clamp(72px, 8vw, 128px) 0; display: grid; row-gap: clamp(56px, 7vw, 112px); }
+.case-fig { margin-block: 0; }
+.case-row { display: grid; gap: clamp(12px, 1.6vw, 24px); }
+.case-fig--pair .case-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.case-fig--trio .case-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.case-frame { position: relative; overflow: hidden; overflow: clip; border-radius: var(--radius); background: var(--ink); aspect-ratio: 16 / 9; }
+.case-fig--light .case-frame { background: #e0e0e0; }
+.case-fig--pair .case-frame { aspect-ratio: 16 / 9; } /* deck pages are 16:9: never crop a slide with text on it */
+.case-fig--trio .case-frame { aspect-ratio: 4 / 5; }
+.case-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.case-cap { margin-top: 14px; max-width: 720px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+[lang='ar'] .case-cap { font-size: 14px; line-height: 1.9; }
+.case-video .work__frame { aspect-ratio: 16 / 9; }
+@media (max-width: 767px) {
+  .case-fig--pair .case-row, .case-fig--trio .case-row { grid-template-columns: 1fr; }
+  .case-fig--trio .case-frame { aspect-ratio: 4 / 3; }
+}
+/* Frame ratio set in the case data (ratio: '7/5' | '5/4' | '16/9'): wins over the defaults above at every width */
+.case-fig.case-fig--r7x5 .case-frame, .case-fig.case-fig--r7x5 .work__frame { aspect-ratio: 7 / 5; }
+.case-fig.case-fig--r5x4 .case-frame, .case-fig.case-fig--r5x4 .work__frame { aspect-ratio: 5 / 4; }
+.case-fig.case-fig--r16x9 .case-frame, .case-fig.case-fig--r16x9 .work__frame { aspect-ratio: 16 / 9; }
+.case-fig.case-fig--r47x20 .case-frame, .case-fig.case-fig--r47x20 .work__frame { aspect-ratio: 47 / 20; } /* 1280x544 film */
+/* Short-film page: the cover is the film (poster + play), framed at the film's own ratio */
+.case-cover.case-fig--r47x20 .case-cover__frame { aspect-ratio: 47 / 20; }
+.case-video--cover .case-cover__frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* TEXT block: heading on the reading side, paragraphs on the other */
+.case-text__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 6vw, 112px); align-items: start; }
+.case-text__head { display: grid; gap: 16px; }
+.case-text__title { max-width: 14ch; text-wrap: balance; }
+[lang='ar'] .case-text__title { max-width: 15ch; line-height: 1.45; letter-spacing: 0; }
+.case-text__body { display: grid; gap: 20px; padding-top: 34px; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.65; }
+[lang='ar'] .case-text__body { line-height: 2; }
+@media (max-width: 899px) {
+  .case-text__grid { grid-template-columns: 1fr; gap: 20px; }
+  .case-text__body { padding-top: 0; }
+}
+
+/* SYSTEM block: numbered rows on a hairline, swatches drawn as SVG */
+.case-system__head { max-width: 760px; }
+.case-system__list { margin-top: clamp(32px, 4vw, 56px); border-top: 1px solid var(--ink); }
+.case-system__row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 24px; padding-block: 22px; border-bottom: 1px solid var(--line-soft); }
+.case-system dt { display: flex; align-items: baseline; gap: 16px; font-weight: 600; font-size: 17px; line-height: 1.4; }
+.case-system__num { font-family: var(--font-en); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--muted); }
+.case-system dd { margin: 0; display: grid; gap: 14px; font-size: 16px; line-height: 1.65; color: var(--muted); }
+[lang='ar'] .case-system dd { line-height: 1.95; }
+.case-swatches { display: block; width: min(100%, 360px); height: auto; border-radius: var(--radius-sm); }
+@media (max-width: 767px) {
+  .case-system__row { grid-template-columns: 1fr; gap: 10px; }
+}
+
+/* OUTCOME: the outcome line as a statement, then the counts from the deck */
+.case-outcome { margin-top: clamp(32px, 4vw, 64px); border-top: 1px solid var(--line-soft); }
+.case-outcome__line { margin-top: 20px; max-width: 22ch; font-weight: 700; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.12; letter-spacing: -0.03em; text-wrap: balance; }
+[lang='ar'] .case-outcome__line { max-width: 24ch; line-height: 1.55; letter-spacing: 0; }
+.case-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(40px, 5vw, 72px); border-top: 1px solid var(--ink); }
+.case-stats li { display: grid; align-content: start; gap: 6px; padding: 22px 20px 0; border-inline-end: 1px solid var(--line-soft); }
+.case-stats li:first-child { padding-inline-start: 0; }
+.case-stats li:last-child { border-inline-end: 0; }
+.case-stats__v { font-family: var(--font-en); font-weight: 700; font-size: clamp(44px, 5vw, 72px); line-height: 1; letter-spacing: -0.04em; }
+.case-stats__l { font-size: 14px; line-height: 1.5; color: var(--muted); }
+[lang='ar'] .case-stats__l { line-height: 1.8; }
+.case-results { margin-top: clamp(48px, 6vw, 80px); }
+.case-results__title { display: flex; align-items: center; gap: 12px; }
+@media (max-width: 767px) {
+  .case-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case-stats li { padding: 18px 16px; border-bottom: 1px solid var(--line-soft); }
+  .case-stats li:nth-child(2n) { border-inline-end: 0; }
+  .case-stats li:nth-child(2n + 1) { padding-inline-start: 0; }
+}
+
+/* NEXT PROJECT: one large link (text + thumbnail), with a quiet "All work" link */
+.case-next { padding-block: clamp(56px, 7vw, 104px); border-top: 1px solid var(--line-soft); }
+.case-next__link { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 480px); align-items: center; gap: clamp(24px, 4vw, 64px); color: inherit; text-decoration: none; }
+.case-next__text { display: grid; gap: 12px; justify-items: start; }
+.case-next__name { font-weight: 700; font-size: clamp(36px, 5vw, 72px); line-height: 1.02; letter-spacing: -0.035em; }
+[lang='ar'] .case-next__name { line-height: 1.4; letter-spacing: 0; }
+.case-next__line { max-width: 34ch; font-size: 17px; line-height: 1.6; color: var(--muted); }
+[lang='ar'] .case-next__line { line-height: 1.9; }
+.case-next__go { display: inline-grid; place-items: center; width: 52px; height: 52px; margin-top: 8px; border-radius: var(--radius-sm); background: var(--ink); color: var(--lavender); transition: transform var(--t-hover) ease; }
+[dir='rtl'] .case-next__go .icon { transform: scaleX(-1); }
+.case-next__link:hover .case-next__go { transform: translateX(4px); }
+[dir='rtl'] .case-next__link:hover .case-next__go { transform: translateX(-4px); }
+.case-next__thumb { position: relative; display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 3; background: var(--ink); }
+.case-next__thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 700ms var(--ease-gate); }
+.case-next__link:hover .case-next__thumb img { transform: scale(1.03); }
+.case-next__link:hover .case-next__name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 8px; }
+.case-next__all { display: inline-flex; align-items: center; min-height: var(--tap); margin-top: 24px; font-size: 14px; font-weight: 500; color: var(--ink); text-underline-offset: 4px; }
+@media (max-width: 767px) {
+  .case-next__link { grid-template-columns: 1fr; }
+  .case-next__thumb { order: -1; }
+}
+
+/* Motion helpers (case.js sets transforms; frames clip their own image) */
+.motion-on .case-body { overflow-x: clip; }
+/* Final 2: same for case section titles with a long unbreakable group ("with financial credibility.") */
+@media (max-width: 599px) { .case-text__title { max-width: none; } [lang='en'] .case-text__title.is-long { font-size: 7.2vw; } }

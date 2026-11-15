@@ -1,0 +1,249 @@
+---
+// About page (/<lang>/about/), Stage 5-3. Copy: about-page.ts (from content/pages/about.md) · steps: home.<lang>.ts how.steps
+// (the approved Home steps, shown here as a dark numbered sequence instead of the Home four-column row) · services: services.ts ·
+// clients: clients.ts. Nothing about the company is invented: unknown facts read "To be confirmed", the founder block shows only
+// her name and title from about.md with a calm photo slot, and the proposed values carry the Sample marker.
+// Motion (src/scripts/motion/company.js + shared): hero = masked line rise (shared page intro) · point of view = the four
+// separate roles drift in from apart and lock into one bar under one creative direction (this page's own idea) · clients =
+// the shared grid wave · FAQ-free · final CTA = masked lines + scale (shared). Other sections: soft fades only.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import AskGate from './AskGate.astro';
+import Drawer from './Drawer.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SampleTag from './SampleTag.astro';
+import { aboutPage } from '../data/about-page';
+import { pagesCopy } from '../data/service-pages';
+import { services } from '../data/services';
+import { clients, isTodo } from '../data/clients';
+import type { HomeCopy } from '../data/types';
+interface Props { c: HomeCopy }
+const { c } = Astro.props;
+const lang = c.lang;
+const x = aboutPage(lang);
+const ui = pagesCopy(lang).ui;
+const other = lang === 'en' ? '/ar/about/' : '/en/about/';
+const n2 = (i: number) => String(i + 1).padStart(2, '0');
+// Logos sized by optical area (same rule as Home).
+const AREA = 6200, MAXW = 150, MAXH = 78;
+const logoSize = (w: number, h: number) => {
+  const r = w / h; let dw = Math.sqrt(AREA * r), dh = dw / r;
+  if (dw > MAXW) { dw = MAXW; dh = dw / r; }
+  if (dh > MAXH) { dh = MAXH; dw = dh * r; }
+  return { w: Math.round(dw), h: Math.round(dh) };
+};
+---
+<BaseLayout lang={lang} title={x.meta.title} description={x.meta.description} path="about/">
+  <a class="skip" href="#main">{c.ui.skip}</a>
+  <Header c={c} other={other} ink />
+  <main id="main">
+    <!-- HERO -->
+    <section class="page-hero page-hero--index ab-hero" aria-labelledby="page-title" data-page-hero>
+      <div class="container">
+        <div class="ph-part"><Breadcrumbs label={ui.breadcrumb} items={[{ name: ui.home, href: `/${lang}/` }, { name: x.crumb }]} /></div>
+        <div class="page-hero__grid">
+          <div class="page-hero__text">
+            <p class="overline ph-part">{x.overline}</p>
+            <h1 class="page-hero__title ab-hero__title" id="page-title">{x.headline}</h1>
+          </div>
+          <span class="ab-hero__mark ph-part" aria-hidden="true"><img src="/images/logo/gate33-icon-purple.svg" alt="" width="120" height="124" /></span>
+        </div>
+        <div class="page-hero__row">
+          <p class="page-hero__intro ph-part">{x.intro}</p>
+          <div class="page-hero__actions ph-part">
+            <Button variant="primary" arrow data-open-drawer>{x.cta}</Button>
+            <Button variant="link" href={`/${lang}/work/`} arrow>{x.workLink}</Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POINT OF VIEW: positioning + the four roles locking into one bar + facts -->
+    <section class="section ab-pov" aria-labelledby="pov-title">
+      <div class="container">
+        <div class="ab-pov__grid">
+          <div class="ab-pov__text">
+            <p class="overline" data-reveal="fade">{x.povOver}</p>
+            <h2 class="h2 ab-pov__title" id="pov-title" data-reveal="fade">{x.povTitle}</h2>
+            <p class="ab-pov__body" data-reveal="fade" data-reveal-delay="120">{x.pov}</p>
+          </div>
+          <figure class="ab-merge" data-merge>
+            <figcaption class="visually-hidden">{x.rolesLabel}</figcaption>
+            <ul class="ab-merge__roles">
+              {x.roles.map((r, i) => <li class="ab-merge__role"><span class="ab-merge__n" aria-hidden="true">{n2(i)}</span><span>{r}</span></li>)}
+            </ul>
+            <p class="ab-merge__one"><img src="/images/logo/gate33-icon-purple.svg" alt="" width="22" height="23" /><span>{x.merged}</span></p>
+          </figure>
+        </div>
+        <dl class="ab-facts">
+          {x.facts.map((f) => (
+            <div class="ab-facts__row">
+              <dt>{f.label}</dt>
+              <dd class={f.tbc ? 'is-tbc' : ''}>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- APPROACH (about.md "Method") -->
+    <section class="section ab-approach" aria-labelledby="approach-title">
+      <div class="container">
+        <div class="sec-head">
+          <div>
+            <p class="overline" data-reveal="fade">{x.approachOver}</p>
+            <h2 class="h2 sec-head__title" id="approach-title" data-reveal="fade">{x.approachTitle}</h2>
+          </div>
+        </div>
+        <ul class="ab-approach__list">
+          {x.approach.map((a, i) => (
+            <li class="ab-approach__item reveal">
+              <span class="ab-approach__n" aria-hidden="true">{n2(i)}</span>
+              <h3 class="ab-approach__title">{a.title}</h3>
+              <p class="ab-approach__line">{a.line}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- HOW WE WORK (Home steps, as a dark numbered sequence) -->
+    <section class="section ab-how on-dark" aria-labelledby="how-title">
+      <div class="container ab-how__grid">
+        <div class="ab-how__head">
+          <p class="overline" data-reveal="fade">{x.howOver}</p>
+          <h2 class="h2 ab-how__title" id="how-title" data-reveal="fade">{x.howTitle}</h2>
+          <p class="ab-how__line" data-reveal="fade" data-reveal-delay="120">{x.howLine}</p>
+          <Button variant="light" arrow data-open-drawer class="ab-how__cta">{x.howCta}</Button>
+        </div>
+        <ol class="ab-how__steps">
+          {c.how.steps.map((s, i) => (
+            <li class="ab-how__step reveal">
+              <span class="ab-how__n" aria-hidden="true">{n2(i)}</span>
+              <div>
+                <h3 class="ab-how__step-title">{s.title}</h3>
+                <p class="ab-how__step-line">{s.line}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- WHAT WE DO: the seven services, each linking to its page -->
+    <section class="section ab-svc" aria-labelledby="svc-title">
+      <div class="container">
+        <div class="sec-head">
+          <div>
+            <p class="overline" data-reveal="fade">{x.servicesOver}</p>
+            <h2 class="h2 sec-head__title" id="svc-title" data-reveal="fade">{x.servicesTitle}</h2>
+          </div>
+          <p class="sec-head__line" data-reveal="fade" data-reveal-delay="150">{x.servicesLine}</p>
+        </div>
+        <ul class="ab-svc__list">
+          {services.map((s, i) => (
+            <li class="reveal">
+              <a class="ab-svc__link" href={`/${lang}/services/${s.slug}/`}>
+                <span class="ab-svc__n" aria-hidden="true">{n2(i)}</span>
+                <span class="ab-svc__main"><span class="ab-svc__name">{s.name[lang]}</span><span class="ab-svc__promise">{s.promise[lang]}</span></span>
+                <span class="ab-svc__go" aria-hidden="true"><Icon name="arrow" /></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="ab-svc__all"><Button variant="link" href={`/${lang}/services/`} arrow>{x.servicesAll}</Button></p>
+      </div>
+    </section>
+
+    <!-- CLIENTS (logo grid from clients.ts, same rules as Home) -->
+    <section class="section ab-clients" aria-labelledby="clients-title">
+      <div class="container">
+        <div class="clients__head ab-clients__head">
+          <p class="overline" data-reveal="fade">{x.clientsOver}</p>
+          <h2 class="h2" id="clients-title" data-reveal="fade">{x.clientsTitle}</h2>
+        </div>
+        <ul class="clients" data-clients>
+          {clients.map((k) => {
+            const logo = lang === 'ar' && k.logoAr ? k.logoAr : k.logo;
+            const s = logoSize(lang === 'ar' && k.wAr ? k.wAr : k.w, lang === 'ar' && k.hAr ? k.hAr : k.h);
+            const inner = (
+              <>
+                <span class="client__logo">
+                  <img class="client__ink" src={`/images/clients/${logo}-ink.webp`} width={s.w} height={s.h} alt={k.name[lang]} loading="lazy" decoding="async" />
+                  <img class="client__color" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src={`/images/clients/${logo}-color.webp`} width={s.w} height={s.h} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                </span>
+                <span class="client__cap" aria-hidden="true">
+                  <span class="client__name">{k.name[lang]}</span>
+                  {!isTodo(k.sector[lang]) && <span class="client__sector">{k.sector[lang]}</span>}
+                </span>
+              </>
+            );
+            return (
+              <li class="client">
+                {k.caseSlug ? <a class="client__in" href={`/${lang}/work/${k.caseSlug}/`} aria-label={`${k.name[lang]} · ${x.viewCase}`}>{inner}</a> : <div class="client__in">{inner}</div>}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+
+    <!-- FOUNDER: only what about.md states (name + title). Photo and bio are open with Shifaa. -->
+    <section class="section ab-founder" aria-labelledby="founder-title">
+      <div class="container ab-founder__grid">
+        <div class="ab-founder__photo reveal" role="img" aria-label={`${x.founderName} · ${x.photo}`}>
+          <img class="ab-founder__icon" src="/images/logo/gate33-icon-purple.svg" alt="" width="120" height="124" />
+          <span class="ab-founder__photo-note" aria-hidden="true">{x.photo}</span>
+        </div>
+        <div class="ab-founder__text">
+          <p class="overline" data-reveal="fade">{x.founderOver}</p>
+          <h2 class="ab-founder__name" id="founder-title" data-reveal="fade">{x.founderName}</h2>
+          <p class="ab-founder__role" data-reveal="fade" data-reveal-delay="100">{x.founderRole}</p>
+          <p class="ab-founder__bio" data-reveal="fade" data-reveal-delay="160">{x.founderBio}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES (proposed in about.md: Sample marker until Shifaa confirms them) -->
+    <section class="section ab-values" aria-labelledby="values-title">
+      <div class="container">
+        <div class="sec-head">
+          <div>
+            <p class="overline" data-reveal="fade">{x.valuesOver}</p>
+            <h2 class="h2 sec-head__title" id="values-title" data-reveal="fade">{x.valuesTitle}</h2>
+          </div>
+        </div>
+        <ul class="ab-values__list">
+          {x.values.map((v, i) => (
+            <li class="ab-values__item reveal">
+              <h3 class="ab-values__title">{v.title}</h3>
+              <p class="ab-values__line">{v.line}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="ab-values__note"><SampleTag lang={lang} /><span>{x.valuesNote}</span></p>
+      </div>
+    </section>
+
+    <!-- FINAL CTA (dark, flows into the footer) -->
+    <section class="cta-sec on-dark" id="contact" aria-labelledby="cta-title">
+      <div class="container">
+        <p class="overline" data-reveal="fade">{x.ctaOver}</p>
+        <h2 class="cta__title" id="cta-title" data-reveal="lines" data-cta-scale>{x.ctaTitle}</h2>
+        <div class="cta__row reveal" data-delay="90">
+          <p class="cta__line">{x.ctaLine}</p>
+          <div class="cta__actions">
+            <Button variant="light" arrow data-open-drawer>{x.ctaBrief}</Button>
+            <a class="btn btn--ghost" href={`/${lang}/work/`}>{x.ctaWork}<Icon name="arrow" /></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer c={c} other={other} />
+  <AskGate c={c} />
+  <Drawer c={c} />
+</BaseLayout>

@@ -1,0 +1,82 @@
+---
+import { sheetConsent } from '../data/legal-pages';
+// Proposal form shell: inert this phase (no endpoint). Turnstile + Worker go where marked.
+// Stage 4A: a "Service" select (pre-selected on service pages, or by a trigger's data-service) and, on a service page,
+// that service's own proposal questions (content/services/<slug>.md). Sample options carry the Sample marker.
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import Tag from './Tag.astro';
+import type { HomeCopy } from '../data/types';
+import type { Field } from '../data/service-pages';
+import { pagesCopy } from '../data/service-pages';
+import { services } from '../data/services';
+import { SAMPLE, sampleLabel } from '../data/placeholders';
+interface Props { c: HomeCopy; service?: string; questions?: Field[] }
+const { c, service, questions = [] } = Astro.props;
+const d = c.drawer;
+const lang = c.lang;
+const ui = pagesCopy(lang).ui;
+const id = (i: number) => `pq-${i + 1}`;
+---
+<div class="scrim" data-scrim></div>
+<aside class="sheet" id="proposal-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" data-sheet="drawer" tabindex="-1">
+  <div class="sheet__head">
+    <div><h2 class="sheet__title" id="drawer-title">{d.title}</h2><p class="sheet__sub">{d.line}</p></div>
+    <button class="sheet__close" type="button" data-close aria-label={d.close}><Icon name="close" /></button>
+  </div>
+  <form class="drawer-form" data-proposal-form novalidate data-lenis-prevent>
+    <!-- Package triggers (data-package) fill this in (ui.js); hidden otherwise -->
+    <input type="hidden" name="package" value="" data-package-input />
+    <p class="drawer-pkg" data-package-note hidden><span>{lang === 'en' ? 'Package' : 'الباقة'}</span><strong data-package-name></strong></p>
+    <label class="field">{ui.formService}
+      <select name="service" data-service-select>
+        <option value="" selected={!service}>{ui.formServiceAny}</option>
+        {services.map((s) => <option value={s.slug} selected={s.slug === service}>{s.name[lang].replace(/ /g, ' ')}</option>)}
+      </select>
+    </label>
+    <label class="field">{d.name}<input name="name" type="text" autocomplete="name" required /></label>
+    <label class="field">{d.email}<input name="email" type="email" autocomplete="email" dir="ltr" required /></label>
+    <label class="field">{d.company}<input name="company" type="text" autocomplete="organization" /></label>
+    {questions.length === 0 && <label class="field">{d.need}<textarea name="need"></textarea></label>}
+    {questions.map((q, i) => {
+      if (q.type === 'multi' || q.type === 'choice') return (
+        <fieldset class="field field--chips">
+          <legend>{q.label}</legend>
+          <div class="chips">
+            {(q.options || []).map((o, j) => (
+              <label class="chip"><input type={q.type === 'multi' ? 'checkbox' : 'radio'} name={id(i)} value={o} /><span>{o}</span></label>
+            ))}
+          </div>
+        </fieldset>
+      );
+      if (q.type === 'select') return (
+        <label class="field"><span class="field__row">{q.label}{q.sample && SAMPLE && <Tag>{sampleLabel[lang]}</Tag>}</span>
+          <select name={id(i)}><option value="">—</option>{(q.options || []).map((o) => <option>{o}</option>)}</select>
+        </label>
+      );
+      if (q.type === 'long') return <label class="field">{q.label}<textarea name={id(i)}></textarea></label>;
+      const type = q.type === 'url' ? 'url' : q.type === 'number' ? 'number' : q.type === 'date' ? 'date' : 'text';
+      return <label class="field">{q.label}<input name={id(i)} type={type} inputmode={type === 'number' ? 'numeric' : undefined} dir={type === 'url' ? 'ltr' : undefined} /></label>;
+    })}
+    <!-- TODO(security): Cloudflare Turnstile widget + POST to a Cloudflare Worker. No endpoint in Phase 1. -->
+    <p class="sheet-consent">{sheetConsent[c.lang].a}<a href={`/${c.lang}/privacy/`}>{sheetConsent[c.lang].link}</a>{sheetConsent[c.lang].b}</p>
+    <p class="todo-note">{d.todo}</p>
+    <Button variant="primary" type="submit" arrow>{d.submit}</Button>
+    <p class="form-status" role="status" data-form-status></p>
+  </form>
+</aside>
+<aside class="sheet" id="nav-drawer" role="dialog" aria-modal="true" aria-label={c.lang === 'en' ? 'Menu' : 'القائمة'} data-sheet="nav" tabindex="-1">
+  <div class="sheet__head">
+    <a href={`/${c.lang}/`} aria-label="Gate33"><img src="/images/logo/gate33-logo-primary.svg" width="108" height="14" alt="Gate33" /></a>
+    <button class="sheet__close" type="button" data-close aria-label={c.ui.closeMenu}><Icon name="close" /></button>
+  </div>
+  <nav class="nav-sheet" aria-label={c.lang === 'en' ? 'Mobile' : 'تنقّل الجوال'}>
+    {c.nav.map((n, i) => i === 0 ? (
+      <>
+        <a href={n.href} data-close>{n.label}</a>
+        <ul class="nav-sheet__sub">{services.map((s) => <li><a href={`/${c.lang}/services/${s.slug}/`}>{s.name[c.lang]}</a></li>)}</ul>
+      </>
+    ) : <a href={n.href} data-close>{n.label}</a>)}
+    <Button variant="accent" arrow data-open-panel>{c.askGate}</Button>
+  </nav>
+</aside>

@@ -1,0 +1,61 @@
+---
+// Ask Gate (Stage 3.6): icon launcher bottom-right (both languages) that emerges on scroll, a chat window that grows
+// out of it like a bubble, mock replies from the site's own data. Behaviour: src/scripts/askgate.js. Copy: src/data/askgate.ts.
+import Icon from './Icon.astro';
+import { askGateData } from '../data/askgate';
+import type { HomeCopy } from '../data/types';
+interface Props { c: HomeCopy }
+const { c } = Astro.props;
+const data = askGateData(c.lang);
+const t = data.t;
+const icon = '/images/logo/gate33-icon-purple.svg';
+---
+<div class="ag" data-ag>
+  <script type="application/json" id="ag-data" set:html={JSON.stringify(data)} />
+  <button class="ag-teaser" type="button" data-ag-teaser hidden tabindex="-1">{t.teaser}</button>
+  <button class="ag-launcher" type="button" data-ag-launcher aria-haspopup="dialog" aria-expanded="false" aria-controls="ag-panel" aria-label={t.launcher} data-label-open={t.launcher} data-label-close={t.closeLauncher}>
+    <span class="ag-launcher__icon"><img src={icon} alt="" width="28" height="29" /></span>
+    <span class="ag-launcher__x"><Icon name="close" /></span>
+  </button>
+
+  <div class="ag-panel" id="ag-panel" role="dialog" aria-modal="true" aria-label={t.title} data-ag-panel hidden>
+    <div class="ag-shape" data-ag-shape>
+      <div class="ag-win">
+        <header class="ag-head" data-ag-part>
+          <span class="ag-avatar" aria-hidden="true"><span class="ag-avatar__ring"></span><img src={icon} alt="" width="22" height="23" /></span>
+          <div class="ag-head__id">
+            <h2 class="ag-head__name" tabindex="-1" data-ag-title>{t.name}</h2>
+            <p class="ag-head__sub">{t.sub} <span class="ag-online"><span class="ag-online__dot" aria-hidden="true"></span>{t.online}</span></p>
+          </div>
+          <button class="ag-close" type="button" data-ag-close aria-label={t.close}><Icon name="close" /></button>
+        </header>
+
+        <div class="ag-body" data-ag-body data-lenis-prevent>
+          <div class="ag-log" data-ag-log role="log" aria-live="polite" aria-relevant="additions" aria-label={t.title}></div>
+          <div class="ag-chips" data-ag-chips>
+            {t.chips.map((ch) => (
+              <button class="ag-chip" type="button" data-intent={ch.intent}><span>{ch.text}</span><Icon name="arrow" /></button>
+            ))}
+          </div>
+        </div>
+
+        <footer class="ag-foot" data-ag-part>
+          <form class="ag-composer" data-ag-form>
+            <label class="visually-hidden" for="ag-q">{t.placeholder}</label>
+            <textarea id="ag-q" name="q" rows="1" placeholder={t.placeholder} autocomplete="off" enterkeyhint="send" maxlength="500"></textarea>
+            <button class="ag-send" type="submit" aria-label={t.send} disabled><Icon name="send" class="ag-send__icon" /></button>
+          </form>
+          <div class="ag-routes" data-ag-routes>
+            <a href={`/${c.lang}/contact/#contact-form`} data-open-drawer data-route="brief"><Icon name="doc" /><span>{t.routes.brief}</span></a>
+            <!-- TODO: booking link (calendar) from Shifaa; opens the brief drawer until then -->
+            <a href={`/${c.lang}/contact/#contact-form`} data-open-drawer data-route="call"><Icon name="calendar" /><span>{t.routes.call}</span></a>
+            <!-- TODO: WhatsApp business number from Shifaa; link stays inert until then -->
+            <a href="#whatsapp-todo" data-todo="whatsapp" data-route="whatsapp"><Icon name="chat" /><span>{t.routes.whatsapp}</span></a>
+          </div>
+          <p class="ag-privacy">{t.privacy}</p>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+<script>import '../scripts/askgate.js';</script>

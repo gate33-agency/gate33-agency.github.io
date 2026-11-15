@@ -1,0 +1,8 @@
+---
+// Visible marker for sample data (placeholder policy rule 3). Renders nothing once SAMPLE is false.
+import Tag from './Tag.astro';
+import { SAMPLE, sampleLabel } from '../data/placeholders';
+interface Props { lang: 'en' | 'ar'; class?: string }
+const { lang, class: cls = '' } = Astro.props;
+---
+{SAMPLE && <span class={`sample-mark ${cls}`}><Tag>{sampleLabel[lang]}</Tag></span>}

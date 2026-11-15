@@ -1,0 +1,11 @@
+---
+interface Props { variant?: 'primary' | 'accent' | 'secondary' | 'link' | 'light'; href?: string; arrow?: boolean; block?: boolean; class?: string; type?: 'button' | 'submit'; [k: string]: unknown }
+const { variant = 'primary', href, arrow = false, block = false, class: cls = '', type = 'button', ...rest } = Astro.props;
+import Icon from './Icon.astro';
+const classes = `btn btn--${variant} ${block ? 'btn--block' : ''} ${cls}`;
+---
+{href ? (
+  <a class={classes} href={href} {...rest}><slot />{arrow && <Icon name="arrow" />}</a>
+) : (
+  <button class={classes} type={type} {...rest}><slot />{arrow && <Icon name="arrow" />}</button>
+)}

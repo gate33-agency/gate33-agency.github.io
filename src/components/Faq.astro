@@ -1,0 +1,23 @@
+---
+// Accessible accordion: each question is a <button aria-expanded> controlling a labelled region. One open at a time.
+// Without JS every answer is visible (the .faq--js class that collapses them is added by ui.js).
+import SampleTag from './SampleTag.astro';
+import type { Faq } from '../data/service-pages';
+interface Props { items: Faq[]; lang: 'en' | 'ar'; idBase: string }
+const { items, lang, idBase } = Astro.props;
+---
+<div class="faq" data-faq>
+  {items.map((f, i) => (
+    <div class="faq__item" data-faq-item>
+      <span class="faq__rule" aria-hidden="true"></span>
+      <h3 class="faq__h">
+        <button class="faq__q" type="button" id={`${idBase}-q${i}`} aria-expanded="false" aria-controls={`${idBase}-a${i}`} data-faq-btn>
+          <span class="faq__qt">{f.q}</span><span class="faq__icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="faq__a" id={`${idBase}-a${i}`} role="region" aria-labelledby={`${idBase}-q${i}`} data-faq-panel>
+        <div class="faq__in"><p>{f.a}</p>{f.sample && <SampleTag lang={lang} />}</div>
+      </div>
+    </div>
+  ))}
+</div>

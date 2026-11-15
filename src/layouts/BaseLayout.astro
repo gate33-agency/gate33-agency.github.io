@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+import '../styles/services.css';
+import '../styles/icon-motion.css';
+import '../styles/work.css';
+import '../styles/case.css';
+import '../styles/packages.css';
+import '../styles/checkout.css';
+import '../styles/about.css';
+import '../styles/contact.css';
+import '../styles/legal.css';
+import GateEntry from '../components/GateEntry.astro';
+import type { Lang } from '../data/types';
+// path: the page path after /<lang>/ (e.g. 'services/' or 'services/creative-production/'); same path in both languages.
+// noindex: pages that stay out of search for good (checkout, success, failed), also after launch.
+interface Props { lang: Lang; title: string; description: string; path?: string; error?: boolean; noindex?: boolean; ogImage?: { src: string; w: number; h: number; alt?: string } } // error: 404 page (no canonical / hreflang / share tags)
+const { lang, title, description, path = '', error = false, noindex = false, ogImage: og } = Astro.props;
+const PHASE1 = true; // not published yet: every page is noindex. At launch set false; noindex pages keep their tag.
+const dir = lang === 'ar' ? 'rtl' : 'ltr';
+const site = 'https://gate-33.com';
+const ogImage = og?.src ?? '/video/hero/hero-reel-poster.jpg'; // TODO(launch): a designed 1200x630 share image (case pages pass their cover)
+const preload = lang === 'ar' ? ['readexpro-regular', 'readexpro-bold'] : ['montserrat-regular', 'montserrat-bold'];
+---
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#F0EDF4" />
+    {(PHASE1 || noindex) && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/svg+xml" href="/images/logo/gate33-icon-purple.svg" />
+    {!error && (<>
+    <link rel="canonical" href={`${site}/${lang}/${path}`} />
+    <link rel="alternate" hreflang="en" href={`${site}/en/${path}`} />
+    <link rel="alternate" hreflang="ar" href={`${site}/ar/${path}`} />
+    <link rel="alternate" hreflang="x-default" href={`${site}/en/${path}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Gate33" />
+    <meta property="og:locale" content={lang === 'ar' ? 'ar_AE' : 'en_AE'} />
+    <meta property="og:locale:alternate" content={lang === 'ar' ? 'en_AE' : 'ar_AE'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={`${site}/${lang}/${path}`} />
+    <meta property="og:image" content={`${site}${ogImage}`} />
+    <meta property="og:image:width" content={String(og?.w ?? 1280)} />
+    <meta property="og:image:height" content={String(og?.h ?? 720)} />
+    {og?.alt && <meta property="og:image:alt" content={og.alt} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    </>)}
+    {preload.map((f) => <link rel="preload" href={`/fonts/${f}.woff2`} as="font" type="font/woff2" crossorigin />)}
+    <script is:inline src="/boot.js"></script>
+    <slot name="head" />
+  </head>
+  <body id="top">
+    <slot />
+    <GateEntry />
+    <script>import '../scripts/ui.js';</script>
+    <script>import '../scripts/motion/index.js';</script>
+  </body>
+</html>

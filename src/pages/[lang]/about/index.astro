@@ -1,0 +1,9 @@
+---
+// /en/about/ and /ar/about/ (Stage 5-3)
+import AboutPage from '../../../components/AboutPage.astro';
+import en from '../../../data/home.en';
+import ar from '../../../data/home.ar';
+export function getStaticPaths() { return [{ params: { lang: 'en' } }, { params: { lang: 'ar' } }]; }
+const { lang } = Astro.params;
+---
+<AboutPage c={lang === 'ar' ? ar : en} />
