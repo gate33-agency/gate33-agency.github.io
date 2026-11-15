@@ -123,7 +123,7 @@ const isT = (v: Cell): v is { en: string; ar: string } => typeof v === 'object';
                 <th scope="col" class="cmp__corner"><span class="cmp__corner-in">{x.feature}{SAMPLE && <SampleTag lang={lang} />}</span></th>
                 {packageDefs.map((p) => (
                   <th scope="col" class={`cmp__pkg ${p.popular ? 'is-popular' : ''}`}>
-                    <span class="cmp__pkg-name">{tail(p.name[lang])}</span>
+                    <span class="cmp__pkg-name">{p.name[lang].replace(/\u00A0/g, ' ').replace(/-(?=\p{L})/gu, '-\u2060')}</span>
                     {p.popular && <span class="cmp__pop">{c.packages.popular}</span>}
                   </th>
                 ))}

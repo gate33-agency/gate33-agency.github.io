@@ -71,3 +71,12 @@
 .ct-details__note { margin-top: 8px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 13px; line-height: 1.6; color: var(--muted); }
 @media (max-width: 767px) { .ct-details { padding: 22px; } }
 @media (max-width: 599px) { .ct-hero__title, [lang='ar'] .ct-hero__title { max-width: none; } } /* Final 2: same, Arabic headline on a phone */
+
+/* QA 15 Nov: the three routes share rows (subgrid): titles start on one line, buttons stay on one line at the bottom. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 900px) {
+    .ct-routes { grid-auto-rows: auto auto 1fr auto; }
+    .ct-route { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+    .ct-route__title { margin-top: 0; }
+  }
+}

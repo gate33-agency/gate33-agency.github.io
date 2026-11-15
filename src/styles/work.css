@@ -73,3 +73,10 @@ a.arch__in:hover .arch__case .icon { transform: translateX(3px); }
   .arch__case { inset-inline-end: 14px; top: 14px; }
   .wfilter__count { margin-inline-start: 0; flex-basis: 100%; }
 }
+
+/* QA 15 Nov: archive cells share rows (subgrid), so every name starts on one line, also where a sector is missing. */
+@supports (grid-template-rows: subgrid) {
+  .archive { grid-auto-rows: auto 1fr auto; }
+  .arch { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; }
+  .arch__in { grid-row: span 3; grid-template-rows: subgrid; }
+}

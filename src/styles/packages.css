@@ -128,3 +128,5 @@
   .cmp__pkg-name { font-size: 14px; letter-spacing: -0.01em; }
   .cmp__price { font-size: 18px; }
 }
+/* QA 15 Nov: with two actions the side column was too wide for tablets and squeezed the text into a narrow strip. */
+@media (max-width: 1023px) { .ask-block--pk { grid-template-columns: 1fr; } }

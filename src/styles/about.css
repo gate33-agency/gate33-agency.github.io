@@ -53,7 +53,7 @@
 [lang='ar'] .ab-approach__title { line-height: 1.6; letter-spacing: 0; }
 .ab-approach__line { margin-top: 10px; font-size: 15px; line-height: 1.6; color: var(--muted); }
 [lang='ar'] .ab-approach__line { line-height: 1.85; }
-@media (max-width: 1099px) { .ab-approach__list { grid-template-columns: 1fr 1fr; } .ab-approach__item { min-height: 220px; } }
+@media (max-width: 1279px) { .ab-approach__list { grid-template-columns: 1fr 1fr; } .ab-approach__item { min-height: 220px; } }
 @media (max-width: 599px) { .ab-approach__list { grid-template-columns: 1fr; margin-top: 32px; } .ab-approach__item { min-height: 0; padding: 24px; } .ab-approach__title { padding-top: 28px; } }
 
 /* ── How we work (dark) ──────────────────────────────────────────── */
@@ -134,3 +134,15 @@
   .ab-facts dd { font-size: 16px; }
 }
 @media (max-width: 599px) { .ab-how__title { max-width: none; } } /* Final 2: the 13ch cap pushed the Arabic title past a phone's width */
+
+/* QA 15 Nov: the cards of one row share their rows (subgrid), so numbers, titles and lines start on the same line. */
+@supports (grid-template-rows: subgrid) {
+  .ab-approach__list { grid-auto-rows: auto auto 1fr; }
+  .ab-approach__item { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; }
+  .ab-approach__title { margin-top: 0; }
+}
+/* QA 15 Nov: values share rows too, so a title that wraps ("Local understanding") does not push its line down alone. */
+@supports (grid-template-rows: subgrid) {
+  .ab-values__list { grid-auto-rows: auto 1fr; }
+  .ab-values__item { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
+}

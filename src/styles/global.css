@@ -697,3 +697,13 @@ html.g33-placing body { visibility: hidden; }
 /* Ask Gate launcher steps aside while scrolling (askgate.js adds .is-scrolling), slides back when scrolling stops. 13 Nov. */
 .ag-launcher.is-in.is-scrolling { opacity: 0; transform: translateY(18px) scale(0.85); pointer-events: none; transition: transform 260ms ease-in, opacity 200ms ease; }
 @media (prefers-reduced-motion: reduce) { .ag-launcher.is-in.is-scrolling { transform: none; } }
+
+/* QA 15 Nov: service cards share their rows (subgrid): names, promises, lists and "Explore" line up across a row. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 600px) {
+    .svcs { grid-auto-rows: auto auto 1fr auto; }
+    .svcs > li { grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+    .svcs > li > .svc { grid-row: span 4; }
+    .svcs > li > .svc:not(.svc--ask) { display: grid; grid-template-rows: subgrid; row-gap: 0; }
+  }
+}
