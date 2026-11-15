@@ -415,6 +415,22 @@ button { cursor: pointer; }
   .footer__col a, .footer__bottom a { min-width: var(--tap); } /* Final 2: short links (Work, About, Terms) were 37–43px wide */
 }
 
+/* QA 15 Nov (Ahmed: the footer is very long on the phone, ~1300px): services in two columns, company links in one
+   wrapping row, plain contact lines (not links) without the 44px tap height; links keep their tap size. */
+@media (max-width: 599px) {
+  .footer > .container { padding-top: 44px; }
+  .footer__top { gap: 32px; }
+  .footer__brand p { margin-top: 14px; }
+  .footer__cols { gap: 28px; }
+  .footer__col--wide ul { display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; }
+  .footer__col--wide a { min-height: 44px; font-size: 13px; line-height: 1.35; padding-block: 6px; }
+  .footer__col:not(.footer__col--wide) { flex-basis: 100%; }
+  .footer__col:nth-child(2) ul { display: flex; flex-wrap: wrap; column-gap: 24px; }
+  .footer__col span { min-height: 0; padding-block: 4px; }
+  .footer__sample { margin-block: 4px; }
+  .footer__bottom { margin-top: 24px; }
+}
+
 /* Mobile nav: services listed under "Services" */
 .nav-sheet__sub { padding: 4px 0 12px; border-bottom: 1px solid var(--ink); }
 .nav-sheet .nav-sheet__sub a { min-height: var(--tap); border: 0; font-size: 15px; font-weight: 500; padding-inline-start: 12px; color: var(--muted); }

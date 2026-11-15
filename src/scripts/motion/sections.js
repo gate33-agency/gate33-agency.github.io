@@ -50,9 +50,8 @@ export function clientsWave(gsap) {
 // 4 SELECTED WORK: desktop = pinned stage. Frames travel through it (scrubbed), each opening from the centre (clip inset -> 0)
 // with a slight inner parallax; the coffee film holds and grows to near full width; the heading lets go as the work arrives.
 // Mobile / tablet: no pin, each frame opens from the centre as it enters.
-const OPEN_FROM = 'inset(14% 14% 14% 14% round 16px)', OPEN_TO = 'inset(0% 0% 0% 0% round 16px)';
 // Performance (10 Nov): while pinned and scrubbed, frames grow in with transform + opacity only (compositor), not clip-path —
-// animating clip-path on large images every scroll frame made scrolling stutter, worst on Mac. Mobile keeps the one-off clip reveal.
+// animating clip-path on large images every scroll frame made scrolling stutter, worst on Mac. Phones use the same compositor-only grow.
 const GROW_FROM = { scale: 0.86, transformOrigin: '50% 50%' }, GROW_TO = { scale: 1 };
 // 12 Nov (Ahmed: the first frames looked like a white glitch): each project frame now opens like the hero gate. Two lavender
 // leaves inside the frame start ajar (a centre strip of the picture already shows) and slide out to the frame's edges.
@@ -71,8 +70,10 @@ export function workSequence(gsap, ScrollTrigger, mm) {
   const head = sec.querySelector('.sec-head');
 
   mm.add('(max-width: 1023.98px)', () => {
-    frames.forEach((f) => gsap.fromTo(f, { clipPath: OPEN_FROM }, { clipPath: OPEN_TO, duration: 0.8, ease: 'gateHero', clearProps: 'clipPath',
-      scrollTrigger: { trigger: f, start: 'top 90%', once: true } }));
+    // QA 15 Nov (Ahmed on iPhone: scrolling up and down felt heavy here): the frames used to open with an animated clip-path,
+    // which repaints the whole picture on every frame. Same idea, compositor only: the frame grows from 92% and fades in.
+    frames.forEach((f) => gsap.fromTo(f, { scale: 0.92, opacity: 0, transformOrigin: '50% 50%' }, { scale: 1, opacity: 1, duration: 0.8, ease: 'gateHero', clearProps: 'transform,opacity',
+      scrollTrigger: { trigger: f, start: 'top 92%', once: true } }));
   });
 
   mm.add('(min-width: 1024px)', () => {
