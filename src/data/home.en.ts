@@ -6,8 +6,8 @@ import { packageItems } from './packages';
 const en: HomeCopy = {
   lang: 'en',
   meta: {
-    title: 'Gate33 Agency | Branding, Production &\u00A0Growth in\u00A0Dubai',
-    description: 'A Dubai creative and marketing agency for brands across the UAE and the Gulf: branding, production, websites, marketing and events, in Arabic and English.',
+    title: 'Gate33 Agency | Branding, Production &\u00A0Growth',
+    description: 'A creative and marketing agency for brands in Israel, the UAE and the GCC: branding, production, websites, marketing and events, in Arabic and English.',
   },
   nav: [
     { label: 'Services', href: '/en/services/' },
@@ -19,9 +19,9 @@ const en: HomeCopy = {
   switchLabel: 'العربية',
   askGate: 'Ask Gate',
   hero: {
-    eyebrow: 'Creative &\u00A0marketing agency, Dubai',
+    eyebrow: 'Creative &\u00A0marketing agency',
     headline: ['Build the\u00A0brand.', 'Create the\u00A0experience.', 'Grow the\u00A0business.'],
-    lede: 'Identities, films, websites and\u00A0campaigns for\u00A0companies across the\u00A0UAE and\u00A0the\u00A0Gulf, made in\u00A0Arabic and\u00A0English by\u00A0one team in\u00A0Dubai.',
+    lede: 'Identities, films, websites and\u00A0campaigns for\u00A0companies in\u00A0Israel, the\u00A0UAE and\u00A0the\u00A0GCC, made in\u00A0Arabic and\u00A0English by\u00A0one team.',
     cta: 'Request a\u00A0proposal',
     servicesLabel: 'Our\u00A0services',
     pause: 'Pause background video',
@@ -77,14 +77,15 @@ const en: HomeCopy = {
   },
   results: {
     eyebrow: 'In\u00A0numbers',
-    title: '{{TODO: keep or\u00A0remove — only with\u00A0verified figures}}',
+    title: 'In\u00A0numbers',
+    // 19 Nov, Shifaa (Q8/Q14): experience since 2014, agency founded 2016, hundreds of projects, three markets.
     stats: [
-      { value: '{{TODO: verified number}}', label: 'Brands built' },
-      { value: '{{TODO: verified number}}', label: 'Projects delivered' },
-      { value: '{{TODO: verified number}}', label: 'Years of\u00A0experience' },
-      { value: '{{TODO: e.g. UAE · KSA — confirm}}', label: 'Markets served' },
+      { value: '10+', label: 'Years of\u00A0experience' },
+      { value: '100s', label: 'Projects delivered' },
+      { value: '2016', label: 'Agency founded' },
+      { value: '3', label: 'Markets: Israel, the\u00A0UAE and\u00A0the\u00A0GCC' },
     ],
-    note: 'Figures are being verified and\u00A0will appear here once confirmed.',
+    note: 'In\u00A0the field since 2014; Gate33 Agency since 2016.',
   },
   cta: {
     eyebrow: 'Let’s talk',
@@ -94,11 +95,10 @@ const en: HomeCopy = {
     ask: 'Ask Gate',
   },
   footer: {
-    tagline: 'Creative &\u00A0marketing agency in\u00A0Dubai, for\u00A0brands across the\u00A0UAE and\u00A0the\u00A0Gulf.',
+    tagline: 'Creative &\u00A0marketing agency for\u00A0brands in\u00A0Israel, the\u00A0UAE and\u00A0the\u00A0GCC.',
     services: 'Services', company: 'Company', contact: 'Contact',
     companyLinks: ['Work', 'Packages', 'About', 'Contact'],
-    email: 'hello@gate-33.com', // TODO: confirm email with Shifaa
-    city: 'Dubai, UAE', // TODO: confirm office location
+    email: 'hello@gate-33.com',
     brief: 'Send my brief',
     rights: '© 2026 Gate33 Agency. All rights reserved.',
     privacy: 'Privacy', terms: 'Terms',

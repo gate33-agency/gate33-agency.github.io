@@ -1,6 +1,6 @@
 ---
-// Contact page (/<lang>/contact/), Stage 5-3. Copy: contact-page.ts · details: placeholders.ts (sample, tagged; the email
-// is still to be confirmed with Shifaa; no phone, WhatsApp number, address or map). Three routes: the form below (sends
+// Contact page (/<lang>/contact/), Stage 5-3. Copy: contact-page.ts · details: placeholders.ts (confirmed by Shifaa 19 Nov:
+// email, phone/WhatsApp, Instagram, markets; no address or map, meetings by appointment). Three routes: the form below (sends
 // nothing: contact.js validates and shows an inline preview confirmation), Ask Gate (existing widget) and Send a brief
 // (existing proposal sheet). Motion: shared page intro · the three routes open like a fan from one point (company.js,
 // this page's own idea) · FAQ hairlines (shared). The form and details only fade in softly.
@@ -11,11 +11,10 @@ import Icon from './Icon.astro';
 import AskGate from './AskGate.astro';
 import Drawer from './Drawer.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
-import SampleTag from './SampleTag.astro';
 import Faq from './Faq.astro';
 import { contactPage } from '../data/contact-page';
 import { pagesCopy } from '../data/service-pages';
-import { contact, tbc } from '../data/placeholders';
+import { contact } from '../data/placeholders';
 import type { HomeCopy } from '../data/types';
 interface Props { c: HomeCopy }
 const { c } = Astro.props;
@@ -134,15 +133,16 @@ const icons = ['send', 'gate', 'doc'];
           </div>
         </form>
 
-        <!-- DETAILS (sample until Shifaa confirms; no phone number, no address, no map) -->
+        <!-- DETAILS (confirmed by Shifaa 19 Nov; no address, no map) -->
         <aside class="ct-details" aria-labelledby="ct-details-title">
-          <div class="ct-details__head"><h2 class="ct-details__title" id="ct-details-title">{x.details.title}</h2><SampleTag lang={lang} /></div>
+          <div class="ct-details__head"><h2 class="ct-details__title" id="ct-details-title">{x.details.title}</h2></div>
           <dl class="ct-details__list">
-            <div><dt>{x.details.email}</dt><dd dir="ltr">{contact.email.value}</dd></div>
-            <div><dt>{x.details.city}</dt><dd>{contact.city.value[lang]}</dd></div>
+            <div><dt>{x.details.email}</dt><dd dir="ltr"><a href={`mailto:${contact.email.value}`}>{contact.email.value}</a></dd></div>
+            <div><dt>{x.details.phone}</dt><dd dir="ltr"><a href={`tel:${contact.phone.tel}`}>{contact.phone.display}</a></dd></div>
+            <div><dt>{x.details.whatsapp}</dt><dd><a href={contact.whatsapp.url} target="_blank" rel="noopener">{x.details.whatsappCta}</a></dd></div>
+            <div><dt>{x.details.markets}</dt><dd>{contact.markets.value[lang]}</dd></div>
             <div><dt>{x.details.hours}</dt><dd>{contact.hours.value[lang]}</dd></div>
             <div><dt>Instagram</dt><dd dir="ltr"><a href={contact.instagram.url} target="_blank" rel="noopener">{contact.instagram.handle}</a></dd></div>
-            <div><dt>{x.details.whatsapp}</dt><dd class="is-tbc">{tbc[lang]}</dd></div>
           </dl>
           <p class="ct-details__note">{x.details.note}</p>
         </aside>

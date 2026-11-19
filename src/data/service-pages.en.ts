@@ -27,7 +27,7 @@ const en: PagesCopy = {
   index: {
     meta: {
       title: 'Services: Branding, Production, Web & Growth | Gate33',
-      description: 'Seven connected services for brands in the UAE and the Gulf: branding, production, web and systems, marketing, product sourcing, events and AI search.',
+      description: 'Seven connected services for brands in Israel, the UAE and the GCC: branding, production, web and systems, marketing, product sourcing, events and AI search.',
     },
     overline: 'Services',
     headline: 'What we do for brands, from the name to the next campaign.',
@@ -46,7 +46,7 @@ const en: PagesCopy = {
   services: {
     'ai-search-visibility': {
       meta: {
-        title: 'AI Search Visibility (GEO & AEO) in the UAE | Gate33',
+        title: 'AI Search Visibility (GEO & AEO) | Gate33',
         description: 'Help ChatGPT, Gemini and other AI assistants describe your brand accurately, in Arabic and English. Audits, answer-ready content and structured data.',
       },
       overline: 'AI Search Visibility',
@@ -59,7 +59,7 @@ const en: PagesCopy = {
         { name: 'Answer-Ready Content (AEO)', desc: 'Service pages, FAQs and guides written to answer real buyer questions directly, so assistants and search engines can quote them with confidence.', best: 'Clinics, consultancies, real estate and B2B services.' },
         { name: 'Structured Data & Technical Setup', desc: 'Schema markup, clean page structure and crawler access, so machines understand who you are, what you offer and where you operate.', best: 'New and existing websites on any platform.' },
         { name: 'Brand Facts & Consistency', desc: 'We align your name, description, services and locations across your website, Google Business Profile, directories and social profiles, so every source gives the same facts.', best: 'Multi-branch businesses and brands after a rebrand.' },
-        { name: 'Arabic-First Visibility', desc: 'Arabic content written the way Gulf users phrase their questions, rather than translated from English.', best: 'Brands serving customers in the UAE and Saudi Arabia.' },
+        { name: 'Arabic-First Visibility', desc: 'Arabic content written the way Gulf users phrase their questions, rather than translated from English.', best: 'Brands serving Arabic-speaking customers in the UAE and the GCC.' },
         { name: 'Monitoring & Reporting', desc: 'A fixed set of buyer questions, checked on a regular schedule, with a short report on how your brand is described and what changed.', best: 'Brands on an ongoing marketing plan.' },
       ],
       process: [
@@ -72,12 +72,12 @@ const en: PagesCopy = {
         { q: 'Can you guarantee we appear in ChatGPT or Google’s AI answers?', a: 'No. These tools decide their own answers and change often. We improve what you control: accurate facts, clear content and a site machines can read. We report on what we see, honestly.' },
         { q: 'How is this different from SEO?', a: 'SEO focuses on ranking pages in search results. AI visibility focuses on whether assistants understand and describe your brand correctly. The two overlap, and we plan them together.' },
         { q: 'What do you need from us?', a: 'Access to your website, your main services, the questions customers usually ask, and a list of competitors.' },
-        { q: 'How long does it take?', a: `The audit takes ${w('audit')}. Implementation depends on the size of your site.`, sample: true },
-        { q: 'How is it priced?', a: `Ongoing visibility work starts from ${from('ai-search-visibility')} a month, with a 3-month minimum. The audit scope is confirmed first; implementation and monitoring are quoted after the audit.`, sample: true },
+        { q: 'How long does it take?', a: `The audit takes around ${w('audit')}. Implementation depends on the size of your site.` },
+        { q: 'How is it priced?', a: `The audit and ongoing work are priced on your business, goals and scope, with no fixed minimum term. As a guide, ongoing work starts from ${from('ai-search-visibility')} a month.`, sample: true },
       ],
       form: [
         { label: 'Your website address', type: 'url' },
-        { label: 'Which markets do you serve?', type: 'multi', options: ['UAE', 'KSA', 'Other GCC', 'Other'] },
+        { label: 'Which markets do you serve?', type: 'multi', options: ['Israel', 'UAE', 'KSA', 'Other GCC', 'Other'] },
         { label: 'Which languages should we cover?', type: 'choice', options: lang3 },
         { label: 'Your top 3 products or services', type: 'text' },
         { label: 'Questions your customers usually ask before buying', type: 'long' },
@@ -90,8 +90,8 @@ const en: PagesCopy = {
 
     'branding-creative-design': {
       meta: {
-        title: 'Branding & Visual Identity Agency in Dubai | Gate33',
-        description: 'Naming, positioning, logo design and complete visual identity systems for brands in the UAE and the Gulf, built to work in Arabic and English.',
+        title: 'Branding & Visual Identity Agency | Gate33',
+        description: 'Naming, positioning, logo design and complete visual identity systems for brands in Israel, the UAE and the GCC, built to work in Arabic and English.',
       },
       overline: 'Branding + Creative Design',
       headline: 'An identity built as a system, so every touchpoint looks like you.',
@@ -112,7 +112,7 @@ const en: PagesCopy = {
         { title: 'Deliver', line: 'Guidelines, final files and rollout support.' },
       ],
       faq: [
-        { q: 'How long does a brand identity take?', a: `A logo project takes around ${w('logo')}; a full identity system around ${w('identity')}. We share a dated plan before we start.`, sample: true },
+        { q: 'How long does a brand identity take?', a: `A logo project takes around ${w('logo')}; a full identity system around ${w('identity')}. We confirm the timeline once we understand the brief, and share a dated plan before we start.` },
         { q: 'What do I need to provide?', a: 'Your business details, goals, audience, competitors and any references you like or dislike. We guide you through a short brief.' },
         { q: 'Will my logo work in Arabic and English?', a: 'Yes. We design the Arabic and English versions together, so neither feels like a translation of the other.' },
         { q: 'How many revisions are included?', a: '2 rounds of revisions at concept stage and 2 at refinement.', sample: true },
@@ -133,12 +133,12 @@ const en: PagesCopy = {
 
     'creative-production': {
       meta: {
-        title: 'Video Production & Photography in Dubai | Gate33',
-        description: 'Corporate films, commercials, fashion campaigns, product photography and reels, planned, shot and edited for the Gulf market in Arabic and English.',
+        title: 'Video Production & Photography | Gate33',
+        description: 'Corporate films, commercials, fashion campaigns, product photography and reels, planned, shot and edited in Arabic and English.',
       },
       overline: 'Creative Production',
       headline: 'Films and photography that show customers what you actually do.',
-      intro: 'From corporate films to product shoots and reels, we plan, shoot and edit content built for the Gulf market, in Arabic, English or both.',
+      intro: 'From corporate films to product shoots and reels, we plan, shoot and edit content built for your market, in Arabic, English or both.',
       cta: 'Request a proposal',
       groups: ['Film', 'Photo, edit + social'],
       scope: [
@@ -158,11 +158,11 @@ const en: PagesCopy = {
         { title: 'Post-production', line: 'Edit, colour, sound, subtitles and final formats.' },
       ],
       faq: [
-        { q: 'How long does a corporate film take?', a: `Typically ${w('film')} from brief to final delivery, depending on locations and shoot days.`, sample: true },
-        { q: 'Do you write the script and provide voiceover?', a: 'Yes. We can write the concept and script, cast talent and arrange Arabic and English voiceover, or work from a script you already have.', sample: true },
-        { q: 'Can we get vertical versions for social media?', a: 'Yes. Vertical 9:16 cut-downs are planned with the shoot, so they are framed for social from the start rather than cropped later.', sample: true },
+        { q: 'How long does a corporate film take?', a: `Typically ${w('film')} from brief to final delivery, depending on locations and shoot days.` },
+        { q: 'Do you write the script and provide voiceover?', a: 'Yes. Production can include the concept, the script, casting and Arabic or English voiceover, or we work from a script you already have. We agree what each project needs at the start.' },
+        { q: 'Can we get vertical versions for social media?', a: 'Yes. Vertical 9:16 cuts and subtitles can be part of the project. They are planned with the shoot, so they are framed for social from the start rather than cropped later.' },
         { q: 'How many revisions are included?', a: `${w('revisions')} rounds of edit revisions.`, sample: true },
-        { q: 'How is production priced?', a: `By shoot days, crew, locations and deliverables. Films start from ${from('creative-production')}, and content packages from AED 12,000.`, sample: true },
+        { q: 'How is production priced?', a: `As a one-off project or an ongoing monthly collaboration. Deliverables, timing and price are set for each project; as a guide, production starts from ${from('creative-production')}.`, sample: true },
       ],
       form: [
         { label: 'What do you need?', type: 'multi', options: ['Corporate film', 'Commercial', 'Fashion campaign', 'In-store promo', 'Podcast', 'Photography', 'Editing/motion', 'Reels'] },
@@ -179,8 +179,8 @@ const en: PagesCopy = {
 
     'web-apps-business-systems': {
       meta: {
-        title: 'Website, E-commerce & App Development in Dubai | Gate33',
-        description: 'Bilingual websites, online stores, apps and business systems such as CRM, booking and inventory, designed and built for brands in the UAE and the Gulf.',
+        title: 'Website, E-commerce & App Development | Gate33',
+        description: 'Bilingual websites, online stores, apps and business systems such as CRM, booking and inventory, designed and built for brands in Israel, the UAE and the GCC.',
       },
       overline: 'Web, Apps + Business Systems',
       headline: 'Websites and systems that do the work behind your brand.',
@@ -202,11 +202,11 @@ const en: PagesCopy = {
         { title: 'Launch & support', line: 'Go live, train your team and keep it running.' },
       ],
       faq: [
-        { q: 'How long does a website take?', a: `A corporate website takes around ${w('website')}; an online store around ${w('store')}. Apps and systems are planned case by case.`, sample: true },
-        { q: 'Which platforms do you work with?', a: 'Shopify for most online stores, WordPress or custom code for websites, and the right stack for each app or system, chosen with you at the planning stage.', sample: true },
+        { q: 'How long does a website take?', a: `A corporate website takes around ${w('website')}; an online store around ${w('store')}. Apps and systems are planned case by case.` },
+        { q: 'Which platforms do you work with?', a: 'Shopify, WordPress and other platforms that suit the project, as well as custom builds and AI integration where it helps. The Gate33 team does the development, and the number of products and AI features is set for each project.' },
         { q: 'Will the Arabic version be fully right-to-left?', a: 'Yes. Layouts, navigation and forms are mirrored properly, and Arabic content is written, not machine-translated.' },
         { q: 'What do I need to provide?', a: 'Your logo and brand files, content or a content brief, product data for stores, and access to your domain and any existing tools.' },
-        { q: 'How is it priced, and is there ongoing support?', a: `Projects are quoted on scope. Websites start from ${from('web-apps-business-systems')} and online stores from AED 24,000. Monthly support plans are available after launch.`, sample: true },
+        { q: 'How is it priced, and is there ongoing support?', a: `Projects are quoted on scope; as a guide, websites start from ${from('web-apps-business-systems')}. Monthly support after launch can be arranged as a separate service.`, sample: true },
       ],
       form: [
         { label: 'What do you need?', type: 'multi', options: ['Website', 'Online store', 'App', 'UX/UI', 'CRM/booking', 'Inventory', 'Automation'] },
@@ -223,7 +223,7 @@ const en: PagesCopy = {
 
     'digital-marketing-growth': {
       meta: {
-        title: 'Digital Marketing, Social Media & Paid Ads in Dubai | Gate33',
+        title: 'Digital Marketing, Social Media & Paid Ads | Gate33',
         description: 'Marketing strategy, social media, content, paid ads on Meta, Google, TikTok and Snapchat, SEO and campaign copywriting in Arabic and English.',
       },
       overline: 'Digital Marketing + Growth',
@@ -231,7 +231,7 @@ const en: PagesCopy = {
       intro: 'Strategy, content and paid media run by one team, in Arabic and English, with clear reporting on what is working and what is not.',
       cta: 'Request a proposal',
       scope: [
-        { name: 'Marketing Strategy & Launch Plans', desc: 'A practical plan that sets your audience, channels, budget split and calendar, including the Gulf’s key seasons.', best: 'New launches, market entry into the UAE or KSA, brands without a plan.' },
+        { name: 'Marketing Strategy & Launch Plans', desc: 'A practical plan that sets your audience, channels, budget split and calendar, including the Gulf’s key seasons.', best: 'New launches, market entry into Israel, the UAE or KSA, brands without a plan.' },
         { name: 'Social Media Management', desc: 'Monthly content calendars, design, captions and community management, kept consistent with your identity.', best: 'Restaurants and cafés, retail, beauty, real estate, personal brands.' },
         { name: 'Paid Media', desc: 'Campaigns on Meta, Google, TikTok and Snapchat, planned, built, tested and optimised against the goal you set.', best: 'E-commerce, lead generation, launches and seasonal offers.' },
         { name: 'Campaign Concepts & Copywriting', desc: 'The big idea, the headline and every line after it, written natively in Arabic and English.', best: 'Ramadan, Eid, National Day and White Friday campaigns, product launches.' },
@@ -245,16 +245,16 @@ const en: PagesCopy = {
         { title: 'Measure & improve', line: 'Report monthly and adjust.' },
       ],
       faq: [
-        { q: 'How soon will we see results?', a: `It depends on the channel. Paid campaigns give data within weeks, and most launch within ${w('campaign')}; SEO and organic social build over months. We agree the measures with you at the start.`, sample: true },
-        { q: 'Is the ad budget included in your fee?', a: 'No. Your ad spend is paid to the platforms separately; our fee covers planning, creative and management.', sample: true },
+        { q: 'How soon will we see results?', a: `It depends on the channel. Paid campaigns give data within weeks, and most launch within ${w('campaign')}; SEO and organic social build over months. We agree the measures with you at the start.` },
+        { q: 'Is the ad budget included in your fee?', a: 'No. You pay the ad budget directly to the platforms; our fee covers planning, creative and management.' },
         { q: 'Do you work in Arabic and English?', a: 'Yes. Content and ads are written natively in both, never machine-translated.' },
         { q: 'What do you need from us?', a: 'Access to your social and ad accounts, your brand files, product information and a contact who can approve content quickly.' },
-        { q: 'How is it priced? Is there a minimum term?', a: `Monthly retainers from ${from('digital-marketing-growth')}, with the media budget separate. Minimum term: 3 months.`, sample: true },
+        { q: 'How is it priced? Is there a minimum term?', a: `Monthly management from ${from('digital-marketing-growth')}, with the media budget separate. The term and any minimum are set by the campaign and its scope.`, sample: true },
       ],
       form: [
         { label: 'What do you need?', type: 'multi', options: ['Strategy', 'Social media', 'Paid ads', 'Copywriting', 'SEO', 'Reporting'] },
         { label: 'Main goal', type: 'choice', options: ['Sales', 'Leads', 'Awareness', 'Launch'] },
-        { label: 'Markets', type: 'multi', options: ['UAE', 'KSA', 'Other GCC'] },
+        { label: 'Markets', type: 'multi', options: ['Israel', 'UAE', 'KSA', 'Other GCC'] },
         { label: 'Your website and social accounts', type: 'text' },
         { label: 'Are you running ads now? Which platforms?', type: 'text' },
         { label: 'Monthly ad budget (approx.)', type: 'select', options: adBudgetRanges.value.en, sample: true },
@@ -267,7 +267,7 @@ const en: PagesCopy = {
     'product-development-sourcing': {
       meta: {
         title: 'Product Development, Sourcing & Packaging | Gate33',
-        description: 'From product concept to suppliers, samples, manufacturing, packaging and launch. One team managing your private-label or new product in the Gulf.',
+        description: 'From product concept to suppliers, samples, manufacturing, packaging and launch. One team managing your private-label or new product from start to launch.',
       },
       overline: 'Product Development + Sourcing',
       headline: 'From the first sketch to a finished product, ready to sell.',
@@ -279,7 +279,7 @@ const en: PagesCopy = {
         { name: 'Samples & Prototyping', desc: 'We request, review and refine samples with you until the product is right, before any bulk order is placed.', best: 'First production runs and new materials.' },
         { name: 'Manufacturing Follow-up', desc: 'We track the production timeline and quality checks, and keep you updated at every stage.', best: 'Brands without an in-house production team.' },
         { name: 'Packaging Development', desc: 'Packaging designed and engineered together, from the structure and materials to the printed finish.', best: 'Beauty, fragrance, food, gifting and e-commerce products.' },
-        { name: 'Import & Launch Coordination', desc: 'We coordinate shipping to the UAE and plan the launch, from product photography to the online store and first campaign.', best: 'Brands that want one partner from factory to first sale.' },
+        { name: 'Import & Launch Coordination', desc: 'We coordinate shipping through specialist forwarders and plan the launch, from product photography to the online store and first campaign.', best: 'Brands that want one partner from factory to first sale.' },
       ],
       process: [
         { title: 'Define', line: 'Specification, quantities and target cost.' },
@@ -288,9 +288,9 @@ const en: PagesCopy = {
         { title: 'Produce & launch', line: 'Manufacture, ship, package and launch.' },
       ],
       faq: [
-        { q: 'How long does it take from idea to stock?', a: `It depends on the product and the supplier. Typical range: ${w('product')}. We give you a timeline after sourcing.`, sample: true },
+        { q: 'How long does it take from idea to stock?', a: 'It depends on the product and the supplier. We give you a timeline once suppliers are confirmed.' },
         { q: 'Is there a minimum order quantity?', a: 'Minimums are set by each manufacturer. We look for suppliers that match the quantity you need.' },
-        { q: 'Which countries do you source from?', a: 'It depends on the product. We look for the manufacturer that fits your quality, quantity and budget, and agree the country with you before any sample is made.', sample: true },
+        { q: 'Which countries do you source from?', a: 'We source from China and Turkey. Shipping and customs clearance are handled through specialist forwarders, and who covers what is agreed for each project.' },
         { q: 'What do I need to start?', a: 'Your idea, any sketches or reference products, the quantity you have in mind and a target price per unit.' },
         { q: 'How is it priced?', a: `A service fee for development and management, from ${from('product-development-sourcing')} per project, plus production costs paid to the manufacturer.`, sample: true },
       ],
@@ -308,8 +308,8 @@ const en: PagesCopy = {
 
     'events-brand-experiences': {
       meta: {
-        title: 'Store Openings, Activations & Brand Events in Dubai | Gate33',
-        description: 'Store openings, sales days, mall activations and brand events in the UAE, planned and managed end to end, from concept and vendors to styling on the day.',
+        title: 'Store Openings, Activations & Brand Events | Gate33',
+        description: 'Store openings, sales days, mall activations and brand events, planned and managed end to end, from concept and vendors to styling on the day.',
       },
       overline: 'Events + Brand Experiences',
       headline: 'Store openings and activations, run from the first idea to the last guest.',
@@ -330,8 +330,8 @@ const en: PagesCopy = {
         { title: 'Event day & wrap-up', line: 'On-site management, coverage and a short recap.' },
       ],
       faq: [
-        { q: 'How far in advance should we book?', a: `Ideally ${w('eventBooking')} before the event; earlier for Ramadan, Eid and National Day, when venues and vendors book up.`, sample: true },
-        { q: 'Do you work outside Dubai?', a: 'Yes, across the UAE. Events elsewhere in the GCC are planned case by case.', sample: true },
+        { q: 'How far in advance should we book?', a: 'It depends on the event, the venue and the suppliers. Book early for Ramadan, Eid and national holidays, when venues and vendors fill up.' },
+        { q: 'Where can you run an event?', a: 'Wherever the project needs, depending on its scope and local requirements. Permits and local production arrangements are set by the location. Same-day reels are available for an extra fee.' },
         { q: 'What do you need from us?', a: 'Your goal, date, expected guests, venue (if booked), brand files and budget range.' },
         { q: 'Can you design the event materials too?', a: 'Yes. Invitations, signage, displays and giveaways are designed by our branding team to match your identity.' },
         { q: 'How is an event priced?', a: `By scope, guest numbers, venue and vendors. Events start from ${from('events-brand-experiences')}, and we send an itemised quote after the brief.`, sample: true },

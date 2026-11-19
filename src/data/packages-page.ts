@@ -20,8 +20,8 @@ export interface PackagesPageCopy {
 const P = pkgSamples.map((p) => p.value);
 const en: PackagesPageCopy = {
   meta: {
-    title: 'Packages: Branding, E-commerce and Content | Gate33 Dubai',
-    description: 'Four fixed-scope packages from Gate33 in Dubai: Brand Starter, Brand System, E-commerce Launch and Content Production. Compare what each one includes.',
+    title: 'Packages: Branding, E-commerce and Content | Gate33',
+    description: 'Four fixed-scope packages from Gate33: Brand Starter, Brand System, E-commerce Launch and Content Production. Compare what each one includes.',
   },
   crumb: 'Packages',
   overline: 'Packages',
@@ -72,8 +72,8 @@ const en: PackagesPageCopy = {
 
 const ar: PackagesPageCopy = {
   meta: {
-    title: 'الباقات: الهوية والمتاجر الإلكترونية والمحتوى | Gate33 دبي',
-    description: 'أربع باقات بنطاق عمل محدّد من Gate33 في دبي: انطلاقة العلامة، ونظام العلامة، وإطلاق المتجر الإلكتروني، وإنتاج المحتوى. قارن ما تتضمّنه كل باقة.',
+    title: 'الباقات: الهوية والمتاجر الإلكترونية والمحتوى | Gate33',
+    description: 'أربع باقات بنطاق عمل محدّد من Gate33: انطلاقة العلامة، ونظام العلامة، وإطلاق المتجر الإلكتروني، وإنتاج المحتوى. قارن ما تتضمّنه كل باقة.',
   },
   crumb: 'الباقات',
   overline: 'الباقات',

@@ -19,8 +19,8 @@ export const clients: Client[] = [
   { slug: 'marah-saadi', logo: 'marah-saadi', w: 338, h: 280, name: { en: 'Marah Saadi Photography', ar: 'مرح سعدي للتصوير' }, sector: { en: 'Photography', ar: 'التصوير الفوتوغرافي' } },
   { slug: 'fairuz', logo: 'fairuz', w: 245, h: 280, name: { en: 'Fairuz Biatra Glam Beauty', ar: 'فيروز بياترا للتجميل' }, sector: { en: 'Beauty', ar: 'التجميل' }, todo: '{{TODO: confirm AR spelling}}' },
   { slug: 'lina-board', logo: 'lina-board', w: 235, h: 280, name: { en: 'Lina Board Chess School', ar: 'مدرسة لينا بورد للشطرنج' }, sector: { en: 'Education · Chess', ar: 'التعليم · الشطرنج' } },
-  { slug: 'yara-amara', logo: 'yara-amara', w: 489, h: 280, name: { en: 'Yara Amara', ar: 'يارا عمارة' }, sector: { en: '{{TODO: sector}}', ar: '{{TODO: القطاع}}' }, todo: '{{TODO: confirm AR spelling}}' },
+  { slug: 'yara-amara', logo: 'yara-amara', w: 489, h: 280, name: { en: 'Yara Amara', ar: 'يارا عمارة' }, sector: { en: 'Make-up artist', ar: 'خبيرة مكياج' } },
   { slug: 'olla', logo: 'olla', w: 640, h: 106, name: { en: 'Olla Esmeir, Accountant', ar: 'علا اسمير، محاسبة' }, sector: { en: 'Accounting', ar: 'المحاسبة' }, todo: '{{TODO: confirm AR spelling}}' },
-  { slug: 'coordinate', logo: 'coordinate', w: 512, h: 280, name: { en: 'Coordinate Engineering', ar: 'كوردينيت للهندسة' }, sector: { en: 'Engineering &\u00A0surveying', ar: 'الهندسة والمساحة' }, todo: '{{TODO: confirm sector + AR name}}' },
+  { slug: 'coordinate', logo: 'coordinate', w: 512, h: 280, name: { en: 'Coordinate Engineering', ar: 'كوردينيت للهندسة' }, sector: { en: 'Engineering &\u00A0surveying', ar: 'الهندسة والمساحة' }, todo: '{{TODO: confirm AR name}}' },
 ];
 export const isTodo = (s?: string) => !s || s.startsWith('{{TODO');

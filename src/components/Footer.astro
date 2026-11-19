@@ -6,8 +6,7 @@ const { c, other } = Astro.props;
 const f = c.footer;
 const lang = c.lang;
 const comp = [`/${lang}/work/`, `/${lang}/packages/`, `/${lang}/about/`, `/${lang}/contact/`];
-import { contact, SAMPLE, sampleLabel, tbc } from '../data/placeholders';
-import SampleTag from './SampleTag.astro';
+import { contact } from '../data/placeholders';
 ---
 <footer class="footer on-dark">
   <div class="container">
@@ -20,12 +19,12 @@ import SampleTag from './SampleTag.astro';
         <div class="footer__col footer__col--wide"><h2>{f.services}</h2><ul>{services.map((s) => <li><a href={`/${lang}/services/${s.slug}/`}>{s.name[lang]}</a></li>)}</ul></div>
         <div class="footer__col"><h2>{f.company}</h2><ul>{f.companyLinks.map((l, i) => <li><a href={comp[i]}>{l}</a></li>)}</ul></div>
         <div class="footer__col"><h2>{f.contact}</h2><ul>
-          <!-- Sample contact details (placeholders.ts) until Shifaa confirms them. Phone / WhatsApp are never invented. -->
-          <li><span dir="ltr">{contact.email.value}</span></li><li><span>{contact.city.value[lang]}</span></li>
-          <li><span>{contact.hours.value[lang]}</span></li>
+          <!-- Contact details confirmed by Shifaa (19 Nov): no address; contact and meetings by appointment. -->
+          <li><a href={`mailto:${contact.email.value}`} dir="ltr">{contact.email.value}</a></li>
+          <li><a href={`tel:${contact.phone.tel}`} dir="ltr">{contact.phone.display}</a></li>
+          <li><a href={contact.whatsapp.url} target="_blank" rel="noopener">{lang === 'en' ? 'WhatsApp' : 'واتساب'}</a></li>
           <li><a href={contact.instagram.url} target="_blank" rel="noopener" dir="ltr">Instagram {contact.instagram.handle}</a></li>
-          <li><span class="footer__tbc">{lang === 'en' ? 'Phone / WhatsApp' : 'الهاتف / واتساب'}: {tbc[lang]}</span></li>
-          {SAMPLE && <li class="footer__sample"><SampleTag lang={lang} /></li>}
+          <li><span>{lang === 'en' ? 'Meetings by appointment' : 'الاجتماعات بموعد مسبق'}</span></li>
           <li><a href={`/${lang}/contact/#contact-form`} data-open-drawer>{f.brief}</a></li></ul></div>
       </div>
     </div>

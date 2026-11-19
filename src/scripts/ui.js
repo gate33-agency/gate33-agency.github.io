@@ -134,9 +134,8 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Ask Gate opening closes any open sheet; WhatsApp routes stay inert until the number is confirmed
+// Ask Gate opening closes any open sheet
 document.addEventListener('g33:ag-open', () => close(false));
-document.addEventListener('click', (e) => { if (e.target.closest('[data-todo=whatsapp]')) e.preventDefault(); });
 
 // Proposal form is an inert shell in Phase 1
 $('[data-proposal-form]').addEventListener('submit', (e) => {

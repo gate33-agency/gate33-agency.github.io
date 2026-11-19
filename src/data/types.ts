@@ -17,7 +17,7 @@ export interface HomeCopy {
   how: { eyebrow: string; title: string; steps: Step[] };
   results: { eyebrow: string; title: string; stats: Stat[]; note: string };
   cta: { eyebrow: string; title: string; line: string; button: string; ask: string };
-  footer: { tagline: string; services: string; company: string; contact: string; companyLinks: string[]; email: string; city: string; brief: string; rights: string; privacy: string; terms: string };
+  footer: { tagline: string; services: string; company: string; contact: string; companyLinks: string[]; email: string; brief: string; rights: string; privacy: string; terms: string };
   ui: { openMenu: string; closeMenu: string; play: string; skip: string };
   drawer: { title: string; line: string; name: string; email: string; company: string; need: string; submit: string; todo: string; close: string; notConnected: string };
 }

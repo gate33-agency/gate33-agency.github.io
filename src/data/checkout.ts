@@ -32,12 +32,12 @@ export interface CheckoutCopy {
 
 const en: CheckoutCopy = {
   meta: {
-    title: 'Checkout: {pkg} | Gate33 Dubai',
+    title: 'Checkout: {pkg} | Gate33',
     description: 'Confirm your Gate33 package and your details. Payment is completed on a secure page after confirmation.',
   },
   resultMeta: {
-    success: { title: 'Thank you | Gate33 Dubai', description: 'Your Gate33 package is confirmed. Here is what happens next.' },
-    failed: { title: 'Payment not completed | Gate33 Dubai', description: 'Your payment was not completed. Try again, or request a proposal and talk to us first.' },
+    success: { title: 'Thank you | Gate33', description: 'Your Gate33 package is confirmed. Here is what happens next.' },
+    failed: { title: 'Payment not completed | Gate33', description: 'Your payment was not completed. Try again, or request a proposal and talk to us first.' },
   },
   crumbPackages: 'Packages',
   crumb: 'Checkout',
@@ -68,7 +68,7 @@ const en: CheckoutCopy = {
       { value: 'SA', label: 'Saudi Arabia' }, { value: 'QA', label: 'Qatar' }, { value: 'KW', label: 'Kuwait' },
       { value: 'BH', label: 'Bahrain' }, { value: 'OM', label: 'Oman' },
     ],
-    other: [{ value: 'OTHER', label: 'Another country' }],
+    other: [{ value: 'IL', label: 'Israel' }, { value: 'OTHER', label: 'Another country' }],
   },
   errors: {
     name: 'Enter your full name.', email: 'Enter your email address.', emailFormat: 'Enter an email address like name@company.com.',
@@ -112,12 +112,12 @@ const en: CheckoutCopy = {
 
 const ar: CheckoutCopy = {
   meta: {
-    title: 'إتمام الطلب: {pkg} | Gate33 دبي',
+    title: 'إتمام الطلب: {pkg} | Gate33',
     description: 'أكّد باقتك من Gate33 وبياناتك، ثم أتمّ الدفع عبر صفحة آمنة بعد التأكيد.',
   },
   resultMeta: {
-    success: { title: 'شكراً لك | Gate33 دبي', description: 'تأكّدت باقتك من Gate33، وإليك الخطوات التالية.' },
-    failed: { title: 'لم يكتمل الدفع | Gate33 دبي', description: 'لم تكتمل عملية الدفع. حاول مجدداً، أو اطلب عرض سعر وتحدّث إلينا أولاً.' },
+    success: { title: 'شكراً لك | Gate33', description: 'تأكّدت باقتك من Gate33، وإليك الخطوات التالية.' },
+    failed: { title: 'لم يكتمل الدفع | Gate33', description: 'لم تكتمل عملية الدفع. حاول مجدداً، أو اطلب عرض سعر وتحدّث إلينا أولاً.' },
   },
   crumbPackages: 'الباقات',
   crumb: 'إتمام الطلب',
@@ -148,7 +148,7 @@ const ar: CheckoutCopy = {
       { value: 'SA', label: 'المملكة العربية السعودية' }, { value: 'QA', label: 'قطر' }, { value: 'KW', label: 'الكويت' },
       { value: 'BH', label: 'البحرين' }, { value: 'OM', label: 'عُمان' },
     ],
-    other: [{ value: 'OTHER', label: 'دولة أخرى' }],
+    other: [{ value: 'IL', label: 'إسرائيل' }, { value: 'OTHER', label: 'دولة أخرى' }],
   },
   errors: {
     name: 'أدخل اسمك الكامل.', email: 'أدخل بريدك الإلكتروني.', emailFormat: 'أدخل بريداً إلكترونياً صحيحاً، مثل name@company.com.',

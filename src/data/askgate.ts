@@ -29,7 +29,7 @@ const copy = {
     ],
     placeholder: 'Type your question…',
     send: 'Send',
-    routes: { brief: 'Request a proposal', call: 'Book a call', whatsapp: 'WhatsApp' },
+    routes: { brief: 'Request a proposal', call: 'Arrange a call', whatsapp: 'WhatsApp' },
     privacy: "Gate may make mistakes. Don't share sensitive information.",
     replies: {
       services: 'Gate33 offers seven services, all run by one team. Pick the one closest to what you need:',
@@ -70,7 +70,7 @@ const copy = {
     ],
     placeholder: 'اكتب سؤالك هنا…',
     send: 'إرسال',
-    routes: { brief: 'اطلب عرض سعر', call: 'احجز مكالمة', whatsapp: 'واتساب' },
+    routes: { brief: 'اطلب عرض سعر', call: 'رتّب مكالمة', whatsapp: 'واتساب' },
     privacy: 'قد يخطئ Gate أحياناً، فلا تشارك أي معلومات حساسة.',
     replies: {
       services: 'تقدّم Gate33 سبع خدمات يتولّاها فريق واحد. اختر أقربها إلى ما تحتاجه:',

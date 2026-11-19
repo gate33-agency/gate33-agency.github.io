@@ -26,8 +26,8 @@ export const cases: Case[] = [
   { slug: 'plutrex', types: ['branding', 'logo'], market: t('{{TODO: market}}', '{{TODO: market}}'), cycle: ['plutrex/p53', 'plutrex/p27'], layout: 'tall', img: images.plutrexTote,
     client: t('Plutrex', 'بلوتركس'), sector: t('Fintech', 'التقنية المالية'), tag: t('Branding', 'الهوية'),
     line: t('A\u00A0calm, confident identity for\u00A0a\u00A0fintech platform.', 'هوية هادئة وواثقة لمنصة تقنية مالية.'),
-    // "young" dropped from the outcome line until confirmed ({{TODO: confirm, or keep dropped}})
-    outcome: t('A\u00A055-page brand guide for\u00A0a\u00A0fintech platform: logo, colour, type, icons, pattern and\u00A0applications.', 'دليل هوية من\u00A055 صفحة لمنصة تقنية مالية: الشعار والألوان والخط والأيقونات والنمط والتطبيقات.') },
+    // "young" fintech confirmed by Shifaa (19 Nov, Q33)
+    outcome: t('A\u00A055-page brand guide for\u00A0a\u00A0young fintech platform: logo, colour, type, icons, pattern and\u00A0applications.', 'دليل هوية من\u00A055 صفحة لمنصة تقنية مالية ناشئة: الشعار والألوان والخط والأيقونات والنمط والتطبيقات.') },
   { slug: 'coffee-film', types: ['video'], market: t('{{TODO: market}}', '{{TODO: market}}'), layout: 'cinema', img: images.coffee, video: { en: videos.coffee.src, ar: videos.coffee.src },
     client: t('Specialty coffee roaster', 'محمصة قهوة مختصة'), sector: t('Food &\u00A0beverage', 'الأغذية والمشروبات'), tag: t('Video Production', 'إنتاج الفيديو'),
     line: t('One\u00A0minute with\u00A0a\u00A0coffee roaster and\u00A0his craft.', 'دقيقة واحدة مع\u00A0صانع قهوة وحرفته.'),

@@ -3,6 +3,7 @@
 // out of it like a bubble, mock replies from the site's own data. Behaviour: src/scripts/askgate.js. Copy: src/data/askgate.ts.
 import Icon from './Icon.astro';
 import { askGateData } from '../data/askgate';
+import { contact } from '../data/placeholders';
 import type { HomeCopy } from '../data/types';
 interface Props { c: HomeCopy }
 const { c } = Astro.props;
@@ -47,10 +48,10 @@ const icon = '/images/logo/gate33-icon-purple.svg';
           </form>
           <div class="ag-routes" data-ag-routes>
             <a href={`/${c.lang}/contact/#contact-form`} data-open-drawer data-route="brief"><Icon name="doc" /><span>{t.routes.brief}</span></a>
-            <!-- TODO: booking link (calendar) from Shifaa; opens the brief drawer until then -->
+            <!-- No public booking link (Shifaa, Q6): calls are arranged after the first message, so this opens the brief sheet -->
             <a href={`/${c.lang}/contact/#contact-form`} data-open-drawer data-route="call"><Icon name="calendar" /><span>{t.routes.call}</span></a>
-            <!-- TODO: WhatsApp business number from Shifaa; link stays inert until then -->
-            <a href="#whatsapp-todo" data-todo="whatsapp" data-route="whatsapp"><Icon name="chat" /><span>{t.routes.whatsapp}</span></a>
+            <!-- WhatsApp confirmed by Shifaa (19 Nov) -->
+            <a href={contact.whatsapp.url} target="_blank" rel="noopener" data-route="whatsapp"><Icon name="chat" /><span>{t.routes.whatsapp}</span></a>
           </div>
           <p class="ag-privacy">{t.privacy}</p>
         </footer>

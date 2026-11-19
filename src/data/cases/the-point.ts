@@ -52,8 +52,8 @@ export const thePoint: CaseStudy = {
       caption: t('The English lock-up in motion: The Point · Travel & Tourism.', 'الصيغة العربية في حركة: نقطة · السياحة والسفر.') },
     { type: 'text', key: 'idea', over: t('The idea', 'الفكرة'), title: t('A single, heavy P with direction.', 'حرف P واحد عريض يحمل اتجاهاً.'),
       body: [
-        t('The mark is a single, heavy P whose folded stroke gives it direction and movement, a fitting gesture for a brand about going places.',
-          'الشعار حرف P واحد عريض، تمنحه ثنية خطّه اتجاهاً وحركة، في إيماءة تناسب علامة قائمة على السفر والتنقّل.'),
+        t('The mark is a single, heavy P that brings together three signs of travel: a route, a location point and the fold of a ticket. Together they tie the symbol to what The Point does.',
+          'الشعار حرف P واحد عريض يجمع ثلاث إشارات من عالم السفر: المسار، ونقطة الموقع، وطيّة التذكرة، لتربط الرمز مباشرةً بخدمة نقطة للسفر.'),
         t('The same symbol anchors both lock-ups: “نقطة · السياحة والسفر” in Arabic and “The Point · Travel & Tourism” in English.',
           'ويتصدّر الرمز نفسه الصيغتين: "نقطة · السياحة والسفر" بالعربية، و"The Point · Travel & Tourism" بالإنجليزية.'),
       ] },
@@ -85,7 +85,6 @@ export const thePoint: CaseStudy = {
   },
   todo: [
     'Real brief: the challenge wording is an inference from the files; confirm with Shifaa',
-    'Intended concept of the P (ticket fold, route, location point, the winged stroke in the animation?): confirm before publishing; the copy describes only what is visible',
     'Market and year',
     'Clean applications without contact details (the case stays compact: logo + motion)',
     'Verified results (no Results block on the page)',

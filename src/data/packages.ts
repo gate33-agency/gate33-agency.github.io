@@ -40,7 +40,7 @@ export const packageDefs: PackageDef[] = [
     name: t('E-commerce Launch', 'إطلاق المتجر الإلكتروني'),
     line: t(`A${nb}store ready to${nb}sell.`, 'متجر جاهز للبيع.'),
     items: [t('Custom Shopify store', 'متجر Shopify بتصميم مخصص'), t(`Product pages and${nb}copy`, 'صفحات منتجات وكتابة محتوى'), t(`Payments and${nb}shipping set-up`, 'إعداد الدفع والشحن')],
-    forWho: t('Brands ready to sell online in the UAE and the Gulf.', 'العلامات المستعدة للبيع عبر الإنترنت في الإمارات والخليج.'),
+    forWho: t('Brands ready to sell online in Israel, the UAE and the GCC.', 'العلامات المستعدة للبيع عبر الإنترنت في إسرائيل والإمارات ودول الخليج.'),
     gets: [t('Custom Shopify store, designed and built', 'متجر Shopify مخصص، تصميماً وتطويراً'), t(`Up to ${sc.value.products} product pages with copy`, `حتى ${sc.value.products} صفحة منتج مع المحتوى`), t('Arabic and English checkout', 'إتمام الشراء بالعربية والإنجليزية'), t('Payments and shipping set-up', 'إعداد الدفع والشحن')],
   },
   {

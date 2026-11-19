@@ -97,7 +97,7 @@ export const plutrex: CaseStudy = {
   ],
   outcome: {
     over: t('The outcome', 'النتيجة'),
-    line: t('A 55-page system that lets a fintech platform speak with the calm authority of an established financial brand.', 'نظام هوية من 55 صفحة يمنح منصة تقنية مالية حضوراً هادئاً وواثقاً يليق بالعلامات المالية الراسخة.'),
+    line: t('A 55-page system that lets a young fintech platform speak with the calm authority of an established financial brand.', 'نظام هوية من 55 صفحة يمنح منصة تقنية مالية حضوراً هادئاً وواثقاً يليق بالعلامات المالية الراسخة.'),
     // Counts taken from the guidelines (not measured results).
     facts: [
       { value: '55', label: t('pages of brand guidelines', 'صفحة في دليل الهوية') },
@@ -108,9 +108,7 @@ export const plutrex: CaseStudy = {
   },
   todo: [
     'Market and project year (guidelines are dated 2026)',
-    '"Young" fintech: dropped until confirmed',
     'Tone-of-voice page (p.29) speaks of space infrastructure: confirm or correct before it is ever quoted',
-    'Tote bag and cups mockups print www.plutrex.com as design: confirm the client is fine with it (cups not used)',
     'Verified results (no Results block on the page)',
     'Client testimonial with name/title and written consent (no quote on the page)',
   ],

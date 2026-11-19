@@ -1,5 +1,5 @@
-// /<lang>/contact/ copy (Stage 5-3). Contact details come from placeholders.ts (sample, tagged); the email there is still
-// {{TODO: confirm with Shifaa}}. Never invented: phone or WhatsApp numbers, office address, map. The form sends nothing:
+// /<lang>/contact/ copy (Stage 5-3). Contact details come from placeholders.ts (confirmed by Shifaa, 19 Nov). No office
+// address or map (Shifaa, Q3). Careers and press removed from the topics (Q7). The form sends nothing:
 // contact.js validates in the browser and shows the "Preview: messages are not sent yet" confirmation inline.
 import type { Lang } from './types';
 import { bindAll } from './text';
@@ -18,15 +18,15 @@ export interface ContactCopy {
   };
   errors: { name: string; email: string; emailFormat: string; phoneFormat: string; topic: string; message: string; consent: string; summaryOne: string; summaryTwo: string; summaryMany: string };
   done: { title: string; line: string };
-  details: { title: string; email: string; city: string; hours: string; whatsapp: string; note: string };
+  details: { title: string; email: string; phone: string; whatsapp: string; whatsappCta: string; markets: string; hours: string; note: string };
   faqOver: string; faqTitle: string; faq: Faq[];
 }
 
 const R = timelines.reply.value;
 const en: ContactCopy = {
   meta: {
-    title: 'Contact Gate33 | Creative & Marketing Agency, Dubai',
-    description: 'Talk to Gate33 in Dubai about branding, production, websites, marketing or events. Write to us, ask Gate or send a short brief.',
+    title: 'Contact Gate33 | Creative & Marketing Agency',
+    description: 'Talk to Gate33 about branding, production, websites, marketing or events. Write to us, ask Gate or send a short brief.',
   },
   crumb: 'Contact',
   overline: 'Contact',
@@ -43,8 +43,7 @@ const en: ContactCopy = {
     name: 'Name', email: 'Email', phone: 'Phone', phoneHint: 'Include the country code.', company: 'Company',
     topic: 'Topic', topicPick: 'Choose a topic',
     topics: [
-      { value: 'new-project', label: 'New project' }, { value: 'packages', label: 'Packages' }, { value: 'careers', label: 'Careers' },
-      { value: 'press', label: 'Press' }, { value: 'other', label: 'Other' },
+      { value: 'new-project', label: 'New project' }, { value: 'packages', label: 'Packages' }, { value: 'other', label: 'Other' },
     ],
     message: 'Message', messageHint: 'A few lines are enough: what you need, and roughly when.',
     consentA: 'I agree that Gate33 may use these details to reply to me, as set out in the ', privacy: 'Privacy Policy', consentB: '.',
@@ -61,13 +60,13 @@ const en: ContactCopy = {
     title: 'Preview: messages are not sent yet',
     line: 'Your message is complete, but this preview does not send or store anything. Once the form is connected, it will reach the team directly.',
   },
-  details: { title: 'Details', email: 'Email', city: 'City', hours: 'Hours', whatsapp: 'WhatsApp', note: 'Sample details for the private preview. Confirmed before launch.' },
+  details: { title: 'Details', email: 'Email', phone: 'Phone', whatsapp: 'WhatsApp', whatsappCta: 'Chat on WhatsApp', markets: 'Markets', hours: 'Meetings', note: 'We work with clients remotely. Calls and meetings are arranged after your first message, by email or WhatsApp.' },
   faqOver: 'Questions',
   faqTitle: 'Before you write',
   faq: [
     { q: 'How soon will you reply?', a: `We aim to reply within ${R.en}, with a clear next step.`, sample: true },
     { q: 'What should I include in my message?', a: 'What you need, roughly when, and any links that help. A few lines are enough; we ask the right questions when we reply.' },
-    { q: 'Do you work with businesses outside Dubai?', a: 'Yes. We work with businesses across the UAE and the Gulf.' },
+    { q: 'Which markets do you work in?', a: 'Our main markets are Israel, the UAE and the GCC, and we work with clients remotely. Projects in other markets are considered depending on their scope.' },
     { q: 'Can I write in Arabic?', a: 'Yes. Write in Arabic or English, and we reply in the same language.' },
     { q: 'What happens after the first message?', a: 'We agree the goal with you, then set out the scope, timeline and price in writing before any work starts.' },
   ],
@@ -75,8 +74,8 @@ const en: ContactCopy = {
 
 const ar: ContactCopy = {
   meta: {
-    title: 'تواصل معنا | Gate33 وكالة إبداعية وتسويقية في دبي',
-    description: 'تحدّث إلى Gate33 في دبي عن الهوية والإنتاج والمواقع والتسويق والفعاليات. راسلنا، أو اسأل Gate، أو أرسل موجز مشروعك.',
+    title: 'تواصل معنا | Gate33 وكالة إبداعية وتسويقية',
+    description: 'تحدّث إلى Gate33 عن الهوية والإنتاج والمواقع والتسويق والفعاليات. راسلنا، أو اسأل Gate، أو أرسل موجز مشروعك.',
   },
   crumb: 'تواصل معنا',
   overline: 'تواصل معنا',
@@ -93,8 +92,7 @@ const ar: ContactCopy = {
     name: 'الاسم', email: 'البريد الإلكتروني', phone: 'رقم الهاتف', phoneHint: 'أضف رمز الدولة.', company: 'الجهة',
     topic: 'الموضوع', topicPick: 'اختر الموضوع',
     topics: [
-      { value: 'new-project', label: 'مشروع جديد' }, { value: 'packages', label: 'الباقات' }, { value: 'careers', label: 'الوظائف' },
-      { value: 'press', label: 'الإعلام والصحافة' }, { value: 'other', label: 'موضوع آخر' },
+      { value: 'new-project', label: 'مشروع جديد' }, { value: 'packages', label: 'الباقات' }, { value: 'other', label: 'موضوع آخر' },
     ],
     message: 'الرسالة', messageHint: 'تكفي أسطر قليلة: ما الذي تحتاجه، وموعده التقريبي.',
     consentA: 'أوافق على أن تستخدم Gate33 هذه البيانات للرد عليّ، وفق ', privacy: 'سياسة الخصوصية', consentB: '.',
@@ -111,13 +109,13 @@ const ar: ContactCopy = {
     title: 'معاينة: لا تُرسل الرسائل بعد',
     line: 'اكتملت رسالتك، لكن نسخة المعاينة لا ترسل أي بيانات ولا تحفظها. وبعد تفعيل النموذج، ستصل رسائلك إلى الفريق مباشرة.',
   },
-  details: { title: 'بيانات التواصل', email: 'البريد الإلكتروني', city: 'المدينة', hours: 'ساعات العمل', whatsapp: 'واتساب', note: 'بيانات تجريبية لأغراض المعاينة الخاصة، وتُعتمد قبل الإطلاق.' },
+  details: { title: 'بيانات التواصل', email: 'البريد الإلكتروني', phone: 'الهاتف', whatsapp: 'واتساب', whatsappCta: 'راسلنا عبر واتساب', markets: 'الأسواق', hours: 'الاجتماعات', note: 'نعمل مع عملائنا عن بُعد، ونرتّب المكالمات والاجتماعات بعد وصول رسالتك الأولى عبر البريد أو واتساب.' },
   faqOver: 'الأسئلة الشائعة',
   faqTitle: 'قبل أن تراسلنا',
   faq: [
     { q: 'متى تردّون على الرسائل؟', a: `نحرص على الرد خلال ${R.ar}، مع خطوة تالية واضحة.`, sample: true },
     { q: 'ماذا أكتب في رسالتي؟', a: 'ما تحتاجه، وموعده التقريبي، وأي روابط تساعدنا على الفهم. تكفي أسطر قليلة، ونطرح الأسئلة الصحيحة عند الرد.' },
-    { q: 'هل تعملون مع أعمال خارج دبي؟', a: 'نعم، نعمل مع أعمال في الإمارات ودول الخليج.' },
+    { q: 'في أي أسواق تعملون؟', a: 'أسواقنا الأساسية إسرائيل والإمارات ودول مجلس التعاون الخليجي، ونعمل مع عملائنا عن بُعد. ويمكن دراسة المشاريع في أسواق أخرى بحسب نطاقها.' },
     { q: 'هل يمكنني المراسلة بالعربية؟', a: 'نعم، راسلنا بالعربية أو الإنجليزية، ونردّ عليك باللغة نفسها.' },
     { q: 'ماذا يحدث بعد الرسالة الأولى؟', a: 'نتّفق معك على الهدف، ثم نحدّد نطاق العمل والجدول الزمني والسعر كتابياً قبل بدء أي عمل.' },
   ],

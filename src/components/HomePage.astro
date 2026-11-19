@@ -16,7 +16,7 @@ import { cases } from '../data/work';
 import type { HomeCopy } from '../data/types';
 import SampleTag from './SampleTag.astro';
 import Testimonial from './Testimonial.astro';
-import { packages as pkgSamples, results as resultSamples, SAMPLE } from '../data/placeholders';
+import { packages as pkgSamples, SAMPLE } from '../data/placeholders';
 interface Props { c: HomeCopy }
 const { c } = Astro.props;
 const lang = c.lang;
@@ -201,13 +201,12 @@ const logoSize = (w: number, h: number) => {
           ))}
         </ol>
         </div>
-        <!-- RESULTS: sample figures (placeholders.ts, visibly marked) until Shifaa's verified numbers arrive. Years of experience
-             stays "to be confirmed" (founding-year territory, never invented). -->
+        <!-- RESULTS: real figures confirmed by Shifaa (19 Nov), from home.<lang>.ts. No Sample marker. -->
         <div class="numbers reveal" role="group" aria-labelledby="numbers-title">
-          <div class="numbers__head"><h2 class="numbers__title" id="numbers-title">{c.results.eyebrow}</h2>{SAMPLE && <SampleTag lang={lang} />}</div>
+          <div class="numbers__head"><h2 class="numbers__title" id="numbers-title">{c.results.eyebrow}</h2></div>
           <ul class="numbers__list">
             {c.results.stats.map((s, i) => {
-              const v = SAMPLE && resultSamples[i] ? resultSamples[i]!.value : s.value;
+              const v = s.value;
               return (
                 <li class="num">
                   {isTodo(v) ? <span class="num__value num__value--todo" aria-hidden="true">—</span> : <span class="num__value">{v}</span>}
@@ -216,7 +215,7 @@ const logoSize = (w: number, h: number) => {
               );
             })}
           </ul>
-          <p class="numbers__note">{SAMPLE ? (lang === 'en' ? 'Sample figures for the private preview. Verified numbers replace them before launch.' : 'أرقام تجريبية لأغراض المعاينة الخاصة، وتحلّ محلها الأرقام الموثّقة قبل الإطلاق.') : c.results.note}</p>
+          <p class="numbers__note">{c.results.note}</p>
         </div>
         <Testimonial lang={lang} id="home" over={lang === 'en' ? 'What clients say' : 'ماذا يقول عملاؤنا'} />
       </div>

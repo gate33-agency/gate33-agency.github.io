@@ -2,7 +2,7 @@
 // ONE switch: while SAMPLE is true, every value below renders with a visible "Sample" / «نموذج تجريبي» marker.
 // `npm run build` prints every sample item; `npm run build:production` FAILS while SAMPLE is true (scripts/check-samples.mjs).
 // Nothing here is real data. All of it is replaced by Shifaa's figures before launch.
-// Never put here: client names, awards, founding year, team bios, legal/VAT numbers, phone numbers (those stay "To be confirmed").
+// Never put here: client names, awards, team bios, legal/VAT numbers. Facts Shifaa confirmed (19 Nov) are plain values, not samples.
 // Standalone on purpose (no imports), so the build guard can load it directly with Node.
 
 export const SAMPLE = true;
@@ -18,9 +18,11 @@ export const tbc: T = t('To be confirmed', 'قيد التأكيد');
 // Packages (CEO, Dubai mid-tier ranges, 9 Nov). All "From", excl. VAT. Order = home.<lang>.ts packages.items.
 export interface PkgSample { price: string; timeline: T; revisions?: T }
 export const packages: Sample<PkgSample>[] = [
-  s('package.brand-starter', { price: '9,500', timeline: t('3 weeks', '3 أسابيع'), revisions: t('2 revision rounds', 'جولتا تعديل') }),
-  s('package.brand-system', { price: '28,000', timeline: t('6 weeks', '6 أسابيع'), revisions: t('3 revision rounds', '3 جولات تعديل') }),
-  s('package.ecommerce-launch', { price: '24,000', timeline: t('6–8 weeks', '6–8 أسابيع') }),
+  // 19 Nov: Shifaa's own sample figures (Q15). Still samples: replaced and approved before launch.
+  s('package.brand-starter', { price: '4,500', timeline: t('2–3 weeks', '2–3 أسابيع'), revisions: t('2 revision rounds', 'جولتا تعديل') }),
+  s('package.brand-system', { price: '12,000', timeline: t('4–6 weeks', '4–6 أسابيع'), revisions: t('2 revision rounds', 'جولتا تعديل') }),
+  s('package.ecommerce-launch', { price: '9,500', timeline: t('5–8 weeks', '5–8 أسابيع'), revisions: t('2 revision rounds', 'جولتا تعديل') }),
+  // Content Production is quoted per project (Q15/Q16): old sample kept until an "on quote" display is approved.
   s('package.content-production', { price: '12,000', timeline: t('2–3 weeks', '2–3 أسابيع') }),
 ];
 
@@ -29,27 +31,30 @@ export const packageScope = s('package.scope', { products: '40', shootDays: '1',
 
 // Service starting points, shown as "Projects from AED …" on each service hero.
 export const serviceFrom: Record<string, Sample<{ amount: string; unit?: T; note?: T }>> = {
-  'ai-search-visibility': s('from.ai-search-visibility', { amount: '6,000', unit: t('/ month', 'شهرياً'), note: t('3-month minimum', 'بحد أدنى 3 أشهر') }),
-  'branding-creative-design': s('from.branding-creative-design', { amount: '9,500' }),
-  'creative-production': s('from.creative-production', { amount: '8,000', unit: t('per film', 'للفيلم') }),
-  'web-apps-business-systems': s('from.web-apps-business-systems', { amount: '18,000' }),
-  'digital-marketing-growth': s('from.digital-marketing-growth', { amount: '7,500', unit: t('/ month', 'شهرياً'), note: t('Media budget separate', 'ميزانية الإعلانات منفصلة') }),
+  // 19 Nov: Shifaa's UAE sample figures (Q18). AI search, product and events are quoted per project: old samples kept until an "on quote" display is approved.
+  'ai-search-visibility': s('from.ai-search-visibility', { amount: '6,000', unit: t('/ month', 'شهرياً') }),
+  'branding-creative-design': s('from.branding-creative-design', { amount: '4,500' }),
+  'creative-production': s('from.creative-production', { amount: '3,000' }),
+  'web-apps-business-systems': s('from.web-apps-business-systems', { amount: '9,500' }),
+  'digital-marketing-growth': s('from.digital-marketing-growth', { amount: '2,000', unit: t('/ month', 'شهرياً'), note: t('Media budget separate', 'ميزانية الإعلانات منفصلة') }),
   'product-development-sourcing': s('from.product-development-sourcing', { amount: '15,000' }),
   'events-brand-experiences': s('from.events-brand-experiences', { amount: '20,000' }),
 };
 
-// Timelines and revisions used inside FAQ answers (policy "Typical timelines for FAQs").
+// Timelines used inside FAQ answers. 19 Nov: indicative ranges from Shifaa (Q19), confirmed per brief, so they are real
+// (no Sample marker). Product sourcing and event lead time vary by project (written as such in the FAQs).
+export interface Real<V = T> { id: string; value: V }
+const r = <V = T>(id: string, value: V): Real<V> => ({ id, value });
 export const timelines = {
-  logo: s('timeline.logo', t('2–3 weeks', '2–3 أسابيع')),
-  identity: s('timeline.identity', t('4–6 weeks', '4–6 أسابيع')),
-  film: s('timeline.film', t('3–4 weeks', '3–4 أسابيع')),
-  website: s('timeline.website', t('6–8 weeks', '6–8 أسابيع')),
-  store: s('timeline.store', t('6–8 weeks', '6–8 أسابيع')),
-  campaign: s('timeline.campaign', t('2–3 weeks', '2–3 أسابيع')),
-  audit: s('timeline.audit', t('2–3 weeks', '2–3 أسابيع')),
-  product: s('timeline.product', t('3–6 months', '3–6 أشهر')),
-  eventBooking: s('timeline.event-booking', t('6–8 weeks', '6–8 أسابيع')),
-  reply: s('timeline.reply', t('1 business day', 'يوم عمل واحد')),
+  logo: r('timeline.logo', t('1–2 weeks', '1–2 أسبوع')),
+  identity: r('timeline.identity', t('3–6 weeks', '3–6 أسابيع')),
+  film: r('timeline.film', t('2–4 weeks', '2–4 أسابيع')),
+  website: r('timeline.website', t('3–6 weeks', '3–6 أسابيع')),
+  store: r('timeline.store', t('5–8 weeks', '5–8 أسابيع')),
+  campaign: r('timeline.campaign', t('2–4 weeks', '2–4 أسابيع')),
+  audit: r('timeline.audit', t('1–2 weeks', '1–2 أسبوع')),
+  // Suggested by us; Shifaa asked to confirm it before publishing (Q5), so it stays a sample.
+  reply: s('timeline.reply', t('1 business day', 'يوم عمل واحد')),
   revisions: s('timeline.revisions', t('2–3', '2–3')),
 };
 
@@ -63,13 +68,8 @@ export const adBudgetRanges = s('form.ad-budget-ranges', {
   ar: ['أقل من 10,000 درهم', '10,000–30,000 درهم', '30,000–75,000 درهم', 'أكثر من 75,000 درهم', 'لم أحدّد بعد'],
 });
 
-// Home "In numbers". Plausible, modest, clearly sample. Years of experience = founding-year territory (policy rule 7): stays "To be confirmed".
-export const results: (Sample<string> | null)[] = [
-  s('results.brands-built', '40+'),
-  s('results.projects-delivered', '120+'),
-  null,
-  s('results.markets-served', '3'),
-];
+// Home "In numbers": 19 Nov real figures from Shifaa (Q8/Q14), rendered from home.<lang>.ts. No samples left here.
+export const results: (Sample<string> | null)[] = [null, null, null, null];
 
 // Case-study "Results (sample)" blocks, keyed by case slug (src/data/case-studies.ts sampleResults). Policy rule 5: only
 // with the block titled "Results (sample)", never as if measured. Empty until Ahmed approves one for a given case.
@@ -104,13 +104,16 @@ export const testimonials: Record<string, Sample> = {
     'سار الافتتاح وفق الخطة تماماً، وحملت كل زاوية ملامح علامتنا، حتى إن الضيوف بدؤوا تصوير المكان قبل أن تُفتح الأبواب.')),
 };
 
-// Contact samples (policy). Phone / WhatsApp are never invented: they stay "To be confirmed".
+// Contact (19 Nov, Shifaa's answers Q1–Q7b; Ahmed confirmed the +972 code): all real, no Sample marker.
+// No street address or office (Q3). Hours set later: contact and meetings by appointment (Q4).
+// WhatsApp: Shifaa asked for the Instagram bio link, which opens a chat with this number; wa.me/<number> opens the same chat.
 export const contact = {
-  email: s('contact.email', 'hello@gate-33.com'),
-  // Real (13 Nov): the agency's own public Instagram account, linked from Shifaa's profile ("Owner of @gate_33agency").
+  email: { value: 'hello@gate-33.com' },
+  phone: { display: '+972 52 741 9819', tel: '+972527419819' },
+  whatsapp: { url: 'https://wa.me/972527419819' },
   instagram: { handle: '@gate_33agency', url: 'https://www.instagram.com/gate_33agency/' },
-  city: s('contact.city', t('Dubai, United Arab Emirates', 'دبي، الإمارات العربية المتحدة')),
-  hours: s('contact.hours', t('Sun–Thu 9:00–18:00 GST', 'الأحد–الخميس 9:00–18:00 بتوقيت الخليج')),
+  markets: { value: t('Israel, the UAE and the GCC', 'إسرائيل والإمارات ودول مجلس التعاون الخليجي') },
+  hours: { value: t('By appointment', 'بموعد مسبق') },
 };
 
 /** Every sample item (id + short value), for the build guard. */
@@ -126,6 +129,6 @@ export function sampleItems(): string[] {
     }
     Object.values(v as object).forEach(walk);
   };
-  walk({ packages, packageScope, serviceFrom, timelines, budgetRanges, adBudgetRanges, results, caseResults, testimonials, contact });
+  walk({ packages, packageScope, serviceFrom, timelines, budgetRanges, adBudgetRanges, results, caseResults, testimonials });
   return out;
 }

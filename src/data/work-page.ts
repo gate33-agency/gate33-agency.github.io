@@ -17,7 +17,7 @@ export interface WorkPageCopy {
 const en: WorkPageCopy = {
   meta: {
     title: 'Work: Branding, Logo Design & Film | Gate33',
-    description: 'Selected brand identities, logos and films by Gate33, the Dubai creative agency, with the full archive of client logos.',
+    description: 'Selected brand identities, logos and films by Gate33 Agency, with the full archive of client logos.',
   },
   ui: { home: 'Home', work: 'Work', breadcrumb: 'Breadcrumb' },
   overline: 'Work',
@@ -52,7 +52,7 @@ const arLogos = (n: number) => (n === 1 ? 'شعار واحد' : n === 2 ? 'شع�
 const ar: WorkPageCopy = {
   meta: {
     title: 'أعمالنا: الهوية وتصميم الشعارات والأفلام | Gate33',
-    description: 'مختارات من أعمال Gate33، الوكالة الإبداعية في دبي، في الهوية التجارية وتصميم الشعارات وإنتاج الأفلام، مع أرشيف كامل لشعارات عملائنا.',
+    description: 'مختارات من أعمال وكالة Gate33 في الهوية التجارية وتصميم الشعارات وإنتاج الأفلام، مع أرشيف كامل لشعارات عملائنا.',
   },
   ui: { home: 'الرئيسية', work: 'أعمالنا', breadcrumb: 'مسار التنقل' },
   overline: 'أعمالنا',

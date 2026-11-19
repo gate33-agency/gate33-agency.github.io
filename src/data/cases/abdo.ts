@@ -1,7 +1,7 @@
 // Abdo Butchery · ملحمة عبدو — short case (Stage 4B-3). Copy source: /home/claude/content/work/abdo.md only.
 // Images: deck pages already rendered by scripts/build-assets.mjs (public/images/abdo/pNN-*.webp, 1280x1024 = 5:4 frames).
 // Safe pages only: 1, 2, 3, 8, 9, 10, 11. Never used: 4-7 (second-language line and/or phone numbers).
-// "Since 1978" is the client's own line inside the artwork: it is NOT stated in our copy or alt text until confirmed.
+// "Since 1978" confirmed by Shifaa (19 Nov, Q35) and stated in the intro.
 // Palette names are read from the visuals (no spec page): no hex values, no swatches.
 import type { CaseStudy, T } from '../case-studies';
 import type { Img } from '../media';
@@ -33,8 +33,8 @@ export const abdo: CaseStudy = {
   overline: t('Case study · Branding', 'دراسة حالة · الهوية'),
   headline: t('A family name, written by hand.', 'اسم عائلي بخط يدوي.'),
   intro: t(
-    'A logo and its applications for Abdo, a butchery and supermarket: a hand-drawn Arabic wordmark that feels rooted and personal.',
-    'شعار وتطبيقاته لعبدو، الملحمة والسوبر ماركت: كلمة عربية مكتوبة بخط يدوي تمنح العلامة أصالة وقرباً.',
+    'A logo and its applications for Abdo, a butchery and supermarket since 1978: a hand-drawn Arabic wordmark that feels rooted and personal.',
+    'شعار وتطبيقاته لعبدو، الملحمة والسوبر ماركت منذ 1978: كلمة عربية مكتوبة بخط يدوي تمنح العلامة أصالة وقرباً.',
   ),
   facts: {
     client: t('Abdo Butchery', 'ملحمة عبدو'),
@@ -80,7 +80,7 @@ export const abdo: CaseStudy = {
     ],
   },
   todo: [
-    '"Since 1978": appears in the client artwork only; confirm with Shifaa before it is ever stated in copy',
+    'Current Abdo picture is not approved by Shifaa (Q35): replace it once she sends an approved image (which one: ask)',
     'Palette: confirm (names read from the visuals; no hex values on the page)',
     'Market and year',
     'Verified results (no Results block on the page)',
