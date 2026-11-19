@@ -11,7 +11,7 @@ import AskGate from './AskGate.astro';
 import Drawer from './Drawer.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import Tag from './Tag.astro';
-import { legalDoc, legalUi, LEGAL_UPDATED } from '../data/legal-pages';
+import { legalDoc, legalUi, LEGAL_UPDATED, LEGAL_SAMPLE } from '../data/legal-pages';
 import type { HomeCopy } from '../data/types';
 interface Props { c: HomeCopy; kind: 'privacy' | 'terms' }
 const { c, kind } = Astro.props;
@@ -33,7 +33,7 @@ const updated = LEGAL_UPDATED ? LEGAL_UPDATED[lang] : null;
         <h1 class="page-hero__title lg-hero__title" id="page-title">{d.title}</h1>
         <p class="page-hero__intro lg-hero__intro ph-part">{d.intro}</p>
         {updated && <p class="lg-updated ph-part">{u.updated}: <time>{updated}</time></p>}
-        <p class="lg-notice ph-part" role="note"><Tag>{u.noticeTag}</Tag><span>{u.notice}</span></p>
+        {LEGAL_SAMPLE && <p class="lg-notice ph-part" role="note"><Tag>{u.noticeTag}</Tag><span>{u.notice}</span></p>}
       </div>
     </section>
 
