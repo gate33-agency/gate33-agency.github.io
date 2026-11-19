@@ -146,3 +146,12 @@
   .ab-values__list { grid-auto-rows: auto 1fr; }
   .ab-values__item { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
 }
+
+/* 19 Nov (Shifaa Q9 + Q11): "Why Gate33" replaces the founder photo block; the founder is credited under the story. */
+.ab-name .ab-founder__grid { align-items: start; }
+.ab-name__title { margin-top: 16px; font-size: clamp(36px, 4.6vw, 64px); line-height: 1.05; font-weight: 700; letter-spacing: -0.035em; }
+[lang='ar'] .ab-name__title { line-height: 1.4; letter-spacing: 0; }
+.ab-name__story { font-size: clamp(18px, 1.5vw, 22px); line-height: 1.6; max-width: 40em; }
+[lang='ar'] .ab-name__story { line-height: 1.9; }
+.ab-name__sign { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line, rgba(15, 15, 15, 0.12)); font-size: 15px; line-height: 1.5; }
+.ab-name__sign span { color: var(--muted); }

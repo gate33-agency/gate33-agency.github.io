@@ -16,6 +16,7 @@ export interface AboutCopy {
   servicesOver: string; servicesTitle: string; servicesLine: string; servicesAll: string;
   clientsOver: string; clientsTitle: string; viewCase: string;
   founderOver: string; founderName: string; founderRole: string; founderBio: string; photo: string;
+  nameOver: string; nameTitle: string; nameStory: string;
   valuesOver: string; valuesTitle: string; values: { title: string; line: string }[]; valuesNote: string;
   ctaOver: string; ctaTitle: string; ctaLine: string; ctaBrief: string; ctaWork: string;
 }
@@ -66,6 +67,10 @@ const en: AboutCopy = {
   founderName: 'Shifaa Mokari',
   founderRole: 'Founder & Creative Director',
   founderBio: 'Shifaa founded Gate33 in 2016 and leads its creative direction.',
+  // 19 Nov (Shifaa Q9 + Q11): the name story, credited to the founder; no portrait, no founder-centred block.
+  nameOver: 'Why Gate33',
+  nameTitle: 'A gate, and a lucky number.',
+  nameStory: 'The name brings together “Gate”, a door that opens the way to new opportunities, and 33, Shifaa’s lucky number. She kept noticing it at important moments, and it became a personal sign of direction and possibility. Together, the name stands for opening the right door and helping each project move towards its next opportunity.',
   photo: 'Photo to come',
   valuesOver: 'Values',
   valuesTitle: 'What we hold ourselves to',
@@ -129,6 +134,9 @@ const ar: AboutCopy = {
   founderName: 'شفاء موكاري',
   founderRole: 'المؤسِّسة والمديرة الإبداعية',
   founderBio: 'أسّست شفاء Gate33 عام 2016، وتقود إدارتها الإبداعية.',
+  nameOver: 'لماذا Gate33',
+  nameTitle: 'بوابة، ورقم حظ.',
+  nameStory: 'يجمع الاسم بين «Gate»، أي البوابة التي تفتح الطريق لفرص جديدة، والرقم 33، رقم الحظ المميّز لشفاء؛ إذ لاحظت تكرار ظهوره في محطات مهمة، فصار بالنسبة إليها إشارة شخصية إلى الاتجاه والإمكانات. ومعاً، يعبّر الاسم عن فتح الباب المناسب، ومساعدة كل مشروع على التقدّم نحو فرصته التالية.',
   photo: 'الصورة لاحقاً',
   valuesOver: 'قيمنا',
   valuesTitle: 'ما نلتزم به',
@@ -147,6 +155,6 @@ const ar: AboutCopy = {
 };
 
 // Headings, labels and titles are bound (no short word at a line end); running body copy wraps naturally.
-const skip = ['meta', 'intro', 'pov', 'line', 'howLine', 'servicesLine', 'valuesNote', 'ctaLine', 'rolesLabel', 'roles', 'value'];
+const skip = ['meta', 'intro', 'pov', 'nameStory', 'founderBio', 'line', 'howLine', 'servicesLine', 'valuesNote', 'ctaLine', 'rolesLabel', 'roles', 'value'];
 const bound = { en: bindAll(en, 'en', skip), ar: bindAll(ar, 'ar', skip) };
 export const aboutPage = (lang: Lang): AboutCopy => bound[lang];

@@ -311,7 +311,7 @@ function init() {
       const c = el('div', 'ag-card ag-pkg');
       c.innerHTML = `${p.popular ? `<span class="ag-pkg__badge">${esc(D.popular)}</span>` : ''}<h3 class="ag-pkg__name">${esc(p.name)}</h3><p class="ag-pkg__line">${esc(p.line)}</p>
         <ul class="ag-pkg__items">${p.items.map((x) => `<li>${TICK}<span>${esc(x)}</span></li>`).join('')}</ul>
-        <p class="ag-pkg__price">${D.prices && D.prices[a.i] ? `<strong>${esc(D.fromPrice.replace('{p}', D.prices[a.i]))} <em class="ag-sample">${esc(D.sampleLabel)}</em></strong><span>${esc(D.vat)}</span>` : `<strong>${esc(t.from)}</strong><span>${esc(D.priceNote)} · ${esc(D.vat)}</span>`}</p>
+        <p class="ag-pkg__price">${D.prices && D.prices[a.i] === 'quote' ? `<strong>${esc(D.quote)}</strong><span>${esc(D.quoteNote)}</span>` : D.prices && D.prices[a.i] ? `<strong>${esc(D.fromPrice.replace('{p}', D.prices[a.i]))} <em class="ag-sample">${esc(D.sampleLabel)}</em></strong><span>${esc(D.vat)}</span>` : `<strong>${esc(t.from)}</strong><span>${esc(D.priceNote)} · ${esc(D.vat)}</span>`}</p>
         <a class="ag-btn" href="/${lang}/packages/#${p.slug}" data-ag-nav>${esc(t.viewPackage)}${ARROW}</a>`;
       w.append(c);
       if (a.others) {

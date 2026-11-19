@@ -191,18 +191,16 @@ const logoSize = (w: number, h: number) => {
       </div>
     </section>
 
-    <!-- FOUNDER: only what about.md states (name + title). Photo and bio are open with Shifaa. -->
-    <section class="section ab-founder" aria-labelledby="founder-title">
+    <!-- WHY GATE33 (19 Nov, Shifaa Q9 + Q11): the name story, credited to the founder. No portrait, not founder-centred. -->
+    <section class="section ab-founder ab-name" aria-labelledby="founder-title">
       <div class="container ab-founder__grid">
-        <div class="ab-founder__photo reveal" role="img" aria-label={`${x.founderName} · ${x.photo}`}>
-          <img class="ab-founder__icon" src="/images/logo/gate33-icon-purple.svg" alt="" width="120" height="124" />
-          <span class="ab-founder__photo-note" aria-hidden="true">{x.photo}</span>
+        <div class="ab-name__head">
+          <p class="overline" data-reveal="fade">{x.nameOver}</p>
+          <h2 class="ab-name__title" id="founder-title" data-reveal="fade">{x.nameTitle}</h2>
         </div>
         <div class="ab-founder__text">
-          <p class="overline" data-reveal="fade">{x.founderOver}</p>
-          <h2 class="ab-founder__name" id="founder-title" data-reveal="fade">{x.founderName}</h2>
-          <p class="ab-founder__role" data-reveal="fade" data-reveal-delay="100">{x.founderRole}</p>
-          <p class="ab-founder__bio" data-reveal="fade" data-reveal-delay="160">{x.founderBio}</p>
+          <p class="ab-name__story" data-reveal="fade" data-reveal-delay="100">{x.nameStory}</p>
+          <p class="ab-name__sign" data-reveal="fade" data-reveal-delay="160"><strong>{x.founderName}</strong><span>{x.founderRole}</span></p>
         </div>
       </div>
     </section>

@@ -6,12 +6,13 @@ import SampleTag from './SampleTag.astro';
 import type { Pkg } from '../data/types';
 import { isTodo } from '../data/clients';
 import { tail } from '../data/text';
-import { SAMPLE, type PkgSample } from '../data/placeholders';
+import { SAMPLE, isQuote, quoteLabel, quoteNote, type PkgSample } from '../data/placeholders';
 // sample: indicative price / timeline / revisions from placeholders.ts (shown with the Sample marker while SAMPLE is true)
 interface Props { pkg: Pkg; popular: string; from: string; price: string; priceNote: string; vat: string; buy: string; delay?: number; sample?: PkgSample; lang?: 'en' | 'ar'; service?: string }
 const { pkg, popular, from, price, priceNote, vat, buy, delay = 0, sample, lang = 'en', service } = Astro.props;
 const amount = SAMPLE && sample ? sample.price : price;
-const meta = SAMPLE && sample ? [sample.timeline[lang], sample.revisions?.[lang]].filter(Boolean) : [];
+const quoted = isQuote(sample?.price); // Content Production: quoted per project (Shifaa, 19 Nov)
+const meta = SAMPLE && sample && !quoted ? [sample.timeline[lang], sample.revisions?.[lang]].filter(Boolean) : [];
 ---
 <article class={`pkg ${pkg.popular ? 'pkg--popular' : ''}`}>
   <div class="pkg__top"><h3 class="pkg__name">{tail(pkg.name)}</h3>{pkg.popular && <Tag>{popular}</Tag>}</div>
@@ -20,15 +21,25 @@ const meta = SAMPLE && sample ? [sample.timeline[lang], sample.revisions?.[lang]
     {pkg.items.map((i) => <li><span class="tick"><Icon name="tick" /></span><span>{i}</span></li>)}
   </ul>
   <div class="pkg__price">
-    <p class="pkg__from">{from}{SAMPLE && sample && <SampleTag lang={lang} />}</p>
-    <!-- {{TODO: price}} from Shifaa — sample value (marked) or a quiet placeholder, never presented as final -->
-    {isTodo(amount) ? <p class="pkg__amount pkg__amount--todo"><span aria-hidden="true">—</span><span class="visually-hidden">{priceNote}</span></p> : <p class="pkg__amount"><span data-count={amount}>{amount}</span>{lang === 'ar' && <span class="pkg__cur">درهم</span>}</p>}
-    <p class="pkg__vat">{isTodo(amount) ? priceNote : vat}</p>
+    {quoted ? (
+      <>
+        <p class="pkg__amount pkg__amount--quote">{quoteLabel[lang]}</p>
+        <p class="pkg__vat">{quoteNote[lang]}</p>
+      </>
+    ) : (
+      <>
+        <p class="pkg__from">{from}{SAMPLE && sample && <SampleTag lang={lang} />}</p>
+        {isTodo(amount) ? <p class="pkg__amount pkg__amount--todo"><span aria-hidden="true">—</span><span class="visually-hidden">{priceNote}</span></p> : <p class="pkg__amount"><span data-count={amount}>{amount}</span>{lang === 'ar' && <span class="pkg__cur">درهم</span>}</p>}
+        <p class="pkg__vat">{isTodo(amount) ? priceNote : vat}</p>
+      </>
+    )}
     {meta.length > 0 && <p class="pkg__meta">{meta.map((m) => <span>{m}</span>)}</p>}
   </div>
   <!-- TODO: checkout is out of scope; opens the proposal drawer for now -->
   {/* 13 Nov (Ahmed "go" on the CEO's recommendation): Buy now goes to the package's checkout everywhere (Home, service pages, packages page). */}
-  {pkg.slug
+  {quoted
+    ? <Button variant={pkg.popular ? 'light' : 'secondary'} block arrow data-open-drawer data-service={service ?? pkg.service} data-package={pkg.name}>{lang === 'en' ? 'Get a quote' : 'اطلب عرض سعر'}</Button>
+    : pkg.slug
     ? <Button variant={pkg.popular ? 'light' : 'secondary'} block arrow href={`/${lang}/checkout/${pkg.slug}/`}>{buy}<span class="visually-hidden">: {pkg.name}</span></Button>
     : <Button variant={pkg.popular ? 'light' : 'secondary'} block arrow data-open-drawer data-service={service ?? pkg.service} data-package={pkg.name}>{buy}</Button>}
 </article>

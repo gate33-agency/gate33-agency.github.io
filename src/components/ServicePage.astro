@@ -21,7 +21,7 @@ import PackageCard from './PackageCard.astro';
 import { services } from '../data/services';
 import { cases } from '../data/work';
 import { pagesCopy, serviceShared } from '../data/service-pages';
-import { packages as pkgSamples, serviceFrom, SAMPLE } from '../data/placeholders';
+import { packages as pkgSamples, serviceFrom, SAMPLE, isQuote, quoteLabel, quoteNote } from '../data/placeholders';
 import type { HomeCopy } from '../data/types';
 import { tail, fitClass } from '../data/text';
 interface Props { c: HomeCopy; slug: string }
@@ -39,6 +39,7 @@ const path = `services/${slug}/`;
 const other = `/${lang === 'en' ? 'ar' : 'en'}/${path}`;
 const work = sh.work.map((w) => cases.find((k) => k.slug === w)).filter(Boolean) as typeof cases;
 const fromS = serviceFrom[slug].value;
+const quoted = isQuote(fromS.amount); // Shifaa (19 Nov): quoted per project, a real answer (no Sample marker)
 const n2 = (i: number) => String(i + 1).padStart(2, '0');
 // Creative Production: two scope groups (Film 01-05 / Photo, edit + social 06-08)
 const groups = s.groups ? [{ title: s.groups[0], items: s.scope.slice(0, 5), start: 0 }, { title: s.groups[1], items: s.scope.slice(5), start: 5 }] : [{ title: '', items: s.scope, start: 0 }];
@@ -61,12 +62,19 @@ const visual = sh.visual;
               <Button variant="primary" arrow data-open-drawer data-service={slug}>{s.cta}</Button>
               <button class="btn btn--secondary" type="button" data-open-panel data-ask-intent="services" aria-haspopup="dialog"><Icon name="gate" />{ui.askAbout}</button>
             </div>
-            <p class="price-chip ph-part">
-              <span class="price-chip__label">{ui.from}</span>
-              <strong class="price-chip__amount">{lang === 'en' ? 'AED ' : ''}{fromS.amount}{lang === 'ar' ? ' درهم' : ''}{fromS.unit && <span class="price-chip__unit"> {fromS.unit[lang]}</span>}</strong>
-              <span class="price-chip__note">{[fromS.note?.[lang], ui.vat].filter(Boolean).join(' · ')}</span>
-              <SampleTag lang={lang} />
-            </p>
+            {quoted ? (
+              <p class="price-chip ph-part">
+                <strong class="price-chip__amount">{quoteLabel[lang]}</strong>
+                <span class="price-chip__note">{quoteNote[lang]}</span>
+              </p>
+            ) : (
+              <p class="price-chip ph-part">
+                <span class="price-chip__label">{ui.from}</span>
+                <strong class="price-chip__amount">{lang === 'en' ? 'AED ' : ''}{fromS.amount}{lang === 'ar' ? ' درهم' : ''}{fromS.unit && <span class="price-chip__unit"> {fromS.unit[lang]}</span>}</strong>
+                <span class="price-chip__note">{[fromS.note?.[lang], ui.vat].filter(Boolean).join(' · ')}</span>
+                <SampleTag lang={lang} />
+              </p>
+            )}
             {s.honesty && <p class="honesty ph-part">{s.honesty}</p>}
           </div>
           <figure class={`svc-visual ${visual.flip ? 'is-flip' : ''}`} data-hex>
@@ -183,9 +191,18 @@ const visual = sh.visual;
               <p class="custom__line">{s.custom}</p>
             </div>
             <div class="custom__price">
-              <p class="custom__from">{ui.from}<SampleTag lang={lang} /></p>
-              <p class="custom__amount">{lang === 'en' && <span class="custom__cur">AED</span>}<span data-count={fromS.amount}>{fromS.amount}</span>{lang === 'ar' && <span class="custom__cur">درهم</span>}</p>
-              <p class="custom__note">{[fromS.unit?.[lang], fromS.note?.[lang], ui.vat].filter(Boolean).join(' · ')}</p>
+              {quoted ? (
+                <>
+                  <p class="custom__amount custom__amount--quote">{quoteLabel[lang]}</p>
+                  <p class="custom__note">{quoteNote[lang]}</p>
+                </>
+              ) : (
+                <>
+                  <p class="custom__from">{ui.from}<SampleTag lang={lang} /></p>
+                  <p class="custom__amount">{lang === 'en' && <span class="custom__cur">AED</span>}<span data-count={fromS.amount}>{fromS.amount}</span>{lang === 'ar' && <span class="custom__cur">درهم</span>}</p>
+                  <p class="custom__note">{[fromS.unit?.[lang], fromS.note?.[lang], ui.vat].filter(Boolean).join(' · ')}</p>
+                </>
+              )}
               <Button variant="light" arrow data-open-drawer data-service={slug}>{ui.customCta}</Button>
             </div>
           </div>

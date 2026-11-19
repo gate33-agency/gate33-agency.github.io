@@ -6,7 +6,7 @@ import { cases } from './work';
 import en from './home.en';
 import ar from './home.ar';
 import type { Lang } from './types';
-import { SAMPLE, sampleLabel, packages as pkgSamples } from './placeholders';
+import { SAMPLE, sampleLabel, packages as pkgSamples, quoteLabel, quoteNote } from './placeholders';
 
 const copy = {
   en: {
@@ -34,7 +34,7 @@ const copy = {
     replies: {
       services: 'Gate33 offers seven services, all run by one team. Pick the one closest to what you need:',
       service: 'That sits within {name}. {promise} It covers:',
-      packages: 'We offer four fixed-scope packages you can buy online. Prices are being finalised. This is our most popular one:',
+      packages: 'We offer four packages: three with a fixed scope that you can buy online, and Content Production, quoted per project. Prices are being finalised. This is our most popular one:',
       package: 'Here is {name}, {line}',
       otherPackages: 'Compare the others:',
       work: 'Here are two projects from our portfolio:',
@@ -75,7 +75,7 @@ const copy = {
     replies: {
       services: 'تقدّم Gate33 سبع خدمات يتولّاها فريق واحد. اختر أقربها إلى ما تحتاجه:',
       service: 'يندرج ذلك ضمن خدمة {name}. {promise} وتشمل:',
-      packages: 'نقدّم أربع باقات بنطاق عمل محدّد تُشترى عبر الإنترنت، وأسعارها قيد الاعتماد حالياً. وهذه أكثرها طلباً:',
+      packages: 'نقدّم أربع باقات: ثلاث بنطاق عمل محدّد تُشترى عبر الإنترنت، وإنتاج المحتوى الذي يُسعَّر حسب نطاق كل مشروع. والأسعار قيد الاعتماد حالياً، وهذه أكثرها طلباً:',
       package: 'إليك باقة {name}: {line}',
       otherPackages: 'قارن ببقية الباقات:',
       work: 'إليك مشروعين من أعمالنا:',
@@ -125,6 +125,7 @@ export function askGateData(lang: Lang) {
     // Stage R: the same sample prices as the package cards (marked "Sample"), so Ask Gate and the page never disagree
     prices: SAMPLE ? pkgSamples.map((p) => p.value.price) : null,
     fromPrice: lang === 'en' ? 'From AED {p}' : 'تبدأ من {p} درهم',
+    quote: quoteLabel[lang], quoteNote: quoteNote[lang],
     sampleLabel: sampleLabel[lang],
     vat: home.packages.vat,
     cases: cases.map((c) => ({ slug: c.slug, client: c.client[lang], tag: c.tag[lang], img: `/images/${c.img.base}-480.webp`, alt: c.img.alt[lang], film: !!c.video })),

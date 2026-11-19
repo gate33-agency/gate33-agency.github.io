@@ -2,10 +2,12 @@
 // /<lang>/checkout/<package-slug>/ (Stage 5-2): one static page per package in packages.ts. noindex, not in the sitemap.
 import CheckoutPage from '../../../components/CheckoutPage.astro';
 import { packageDefs } from '../../../data/packages';
+import { packages as pkgSamples, isQuote } from '../../../data/placeholders';
 import en from '../../../data/home.en';
 import ar from '../../../data/home.ar';
 export function getStaticPaths() {
-  return ['en', 'ar'].flatMap((lang) => packageDefs.map((p) => ({ params: { lang, slug: p.slug } })));
+  return ['en', 'ar'].flatMap((lang) => packageDefs.filter((_, i) => !isQuote(pkgSamples[i].value.price)).map((p) => ({ params: { lang, slug: p.slug } })));
+  // Quoted packages (Content Production, Shifaa 19 Nov) have no checkout: their buttons open the proposal sheet.
 }
 const { lang, slug } = Astro.params;
 ---

@@ -53,7 +53,7 @@ const en: HomeCopy = {
   packages: {
     eyebrow: 'Packages',
     title: 'Ready to\u00A0start? Pick a\u00A0package.',
-    line: 'Four packages with\u00A0a\u00A0fixed scope and\u00A0a\u00A0starting price, paid online.',
+    line: 'Four packages with\u00A0a\u00A0clear scope. Three can be\u00A0bought online.',
     popular: 'Most popular',
     from: 'From\u00A0AED',
     price: '{{TODO: price}}', // prices, scopes and timelines per package from Shifaa

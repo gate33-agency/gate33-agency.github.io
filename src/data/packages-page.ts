@@ -21,11 +21,11 @@ const P = pkgSamples.map((p) => p.value);
 const en: PackagesPageCopy = {
   meta: {
     title: 'Packages: Branding, E-commerce and Content | Gate33',
-    description: 'Four fixed-scope packages from Gate33: Brand Starter, Brand System, E-commerce Launch and Content Production. Compare what each one includes.',
+    description: 'Four packages from Gate33: Brand Starter, Brand System, E-commerce Launch and Content Production. Compare what each one includes.',
   },
   crumb: 'Packages',
   overline: 'Packages',
-  headline: 'Packages with a fixed scope and a starting price.',
+  headline: 'Packages with a clear scope and a starting point.',
   intro: 'Four packages for the most common starting points: a new brand, a complete identity, an online store and content to post. Compare what each one includes, then request it in a few lines.',
   cta: 'Request a proposal',
   compareLink: 'Compare packages',
@@ -73,11 +73,11 @@ const en: PackagesPageCopy = {
 const ar: PackagesPageCopy = {
   meta: {
     title: 'الباقات: الهوية والمتاجر الإلكترونية والمحتوى | Gate33',
-    description: 'أربع باقات بنطاق عمل محدّد من Gate33: انطلاقة العلامة، ونظام العلامة، وإطلاق المتجر الإلكتروني، وإنتاج المحتوى. قارن ما تتضمّنه كل باقة.',
+    description: 'أربع باقات من Gate33: انطلاقة العلامة، ونظام العلامة، وإطلاق المتجر الإلكتروني، وإنتاج المحتوى. قارن ما تتضمّنه كل باقة.',
   },
   crumb: 'الباقات',
   overline: 'الباقات',
-  headline: 'باقات بنطاق محدّد وسعر يبدأ من رقم معلن.',
+  headline: 'باقات بنطاق واضح ونقطة انطلاق محدّدة.',
   intro: 'أربع باقات لأكثر نقاط الانطلاق شيوعاً: علامة جديدة، وهوية متكاملة، ومتجر إلكتروني، ومحتوى جاهز للنشر. قارن ما تتضمّنه كل باقة، ثم اطلبها في بضعة أسطر.',
   cta: 'اطلب عرض سعر',
   compareLink: 'قارن الباقات',

@@ -49,16 +49,16 @@ const hex = (n: string, en: string, ar: string): Img => ({ base: `brand/hex-${n}
 const hexAlt = { en: 'Gate33 brand render: green hexagonal gate forms on black', ar: 'تصميم ثلاثي الأبعاد من هوية Gate33: أشكال سداسية خضراء على خلفية سوداء' };
 
 // Per service: hero visual, related work (real cases from work.ts only), related packages (index in the packages list).
-// workMode 'related' = the content file lists a fit; 'selected' = no case for this service yet, so the closest real projects
-// are shown under "Selected work" (never invented projects).
+// workMode 'related' = the content file lists a fit. 19 Nov (Shifaa Q27): services without their own documented case show
+// no work section until approved examples arrive ('selected' kept for when they do).
 export const serviceShared: Record<string, { visual: Visual; work: string[]; workMode: 'related' | 'selected'; packages: number[]; logoStrip?: boolean }> = {
-  'ai-search-visibility': { visual: { img: hex('03', hexAlt.en, hexAlt.ar) }, work: ['plutrex', 'the-point'], workMode: 'selected', packages: [] },
+  'ai-search-visibility': { visual: { img: hex('03', hexAlt.en, hexAlt.ar) }, work: [], workMode: 'selected', packages: [] },
   'branding-creative-design': { visual: { img: images.zakharefMural }, work: ['cyrin', 'plutrex', 'zakharef', 'the-point', 'abdo'], workMode: 'related', packages: [0, 1], logoStrip: true },
   'creative-production': { visual: { img: images.coffee, video: videos.coffee.loop }, work: ['coffee-film', 'the-point'], workMode: 'related', packages: [3] },
-  'web-apps-business-systems': { visual: { img: hex('01', hexAlt.en, hexAlt.ar) }, work: ['plutrex', 'cyrin'], workMode: 'selected', packages: [2] },
-  'digital-marketing-growth': { visual: { img: hex('05', hexAlt.en, hexAlt.ar) }, work: ['coffee-film', 'the-point'], workMode: 'selected', packages: [] },
-  'product-development-sourcing': { visual: { img: hex('01', hexAlt.en, hexAlt.ar), flip: true }, work: ['abdo', 'zakharef'], workMode: 'selected', packages: [] },
-  'events-brand-experiences': { visual: { img: hex('05', hexAlt.en, hexAlt.ar), flip: true }, work: ['zakharef', 'cyrin'], workMode: 'selected', packages: [] },
+  'web-apps-business-systems': { visual: { img: hex('01', hexAlt.en, hexAlt.ar) }, work: [], workMode: 'selected', packages: [2] },
+  'digital-marketing-growth': { visual: { img: hex('05', hexAlt.en, hexAlt.ar) }, work: [], workMode: 'selected', packages: [] },
+  'product-development-sourcing': { visual: { img: hex('01', hexAlt.en, hexAlt.ar), flip: true }, work: [], workMode: 'selected', packages: [] },
+  'events-brand-experiences': { visual: { img: hex('05', hexAlt.en, hexAlt.ar), flip: true }, work: [], workMode: 'selected', packages: [] },
 };
 
 export const pagesCopy = (lang: Lang): PagesCopy => (lang === 'ar' ? ar : en);

@@ -9,36 +9,42 @@ export const SAMPLE = true;
 
 type T = { en: string; ar: string };
 export interface Sample<V = T> { id: string; value: V; sample: true }
+/** A sample slot that now holds a confirmed value (no Sample marker). */
+export type Slot<V = T> = Sample<V> | { id: string; value: V; sample?: undefined };
 const s = <V = T>(id: string, value: V): Sample<V> => ({ id, value, sample: true });
 const t = (en: string, ar: string): T => ({ en, ar });
 
 export const sampleLabel: T = t('Sample', 'نموذج تجريبي');
 export const tbc: T = t('To be confirmed', 'قيد التأكيد');
+// Prices Shifaa quotes per project (19 Nov, Q15–Q18): the value 'quote' renders as this text, without a Sample marker.
+export const isQuote = (v?: string | null) => v === 'quote';
+export const quoteLabel: T = t('Quoted per project', 'حسب نطاق المشروع');
+export const quoteNote: T = t('Scope, timeline and price are set in your proposal', 'يُحدَّد النطاق والمدة والسعر في عرض السعر');
 
 // Packages (CEO, Dubai mid-tier ranges, 9 Nov). All "From", excl. VAT. Order = home.<lang>.ts packages.items.
 export interface PkgSample { price: string; timeline: T; revisions?: T }
-export const packages: Sample<PkgSample>[] = [
+export const packages: Slot<PkgSample>[] = [
   // 19 Nov: Shifaa's own sample figures (Q15). Still samples: replaced and approved before launch.
   s('package.brand-starter', { price: '4,500', timeline: t('2–3 weeks', '2–3 أسابيع'), revisions: t('2 revision rounds', 'جولتا تعديل') }),
   s('package.brand-system', { price: '12,000', timeline: t('4–6 weeks', '4–6 أسابيع'), revisions: t('2 revision rounds', 'جولتا تعديل') }),
   s('package.ecommerce-launch', { price: '9,500', timeline: t('5–8 weeks', '5–8 أسابيع'), revisions: t('2 revision rounds', 'جولتا تعديل') }),
-  // Content Production is quoted per project (Q15/Q16): old sample kept until an "on quote" display is approved.
-  s('package.content-production', { price: '12,000', timeline: t('2–3 weeks', '2–3 أسابيع') }),
+  // Content Production is quoted per project (Shifaa Q15/Q16): real, not a sample.
+  { id: 'package.content-production', value: { price: 'quote', timeline: t('Set per project', 'تُحدَّد لكل مشروع') } },
 ];
 
 // Package scope numbers (CEO indicative scopes, policy 9 Nov): E-commerce Launch products; Content Production deliverables.
 export const packageScope = s('package.scope', { products: '40', shootDays: '1', filmSeconds: '60', cuts: '5', photos: '20' });
 
 // Service starting points, shown as "Projects from AED …" on each service hero.
-export const serviceFrom: Record<string, Sample<{ amount: string; unit?: T; note?: T }>> = {
-  // 19 Nov: Shifaa's UAE sample figures (Q18). AI search, product and events are quoted per project: old samples kept until an "on quote" display is approved.
-  'ai-search-visibility': s('from.ai-search-visibility', { amount: '6,000', unit: t('/ month', 'شهرياً') }),
+export const serviceFrom: Record<string, Slot<{ amount: string; unit?: T; note?: T }>> = {
+  // 19 Nov: Shifaa's UAE sample figures (Q18). AI search, product and events are quoted per project ('quote' = real, shown as text).
+  'ai-search-visibility': { id: 'from.ai-search-visibility', value: { amount: 'quote' } },
   'branding-creative-design': s('from.branding-creative-design', { amount: '4,500' }),
   'creative-production': s('from.creative-production', { amount: '3,000' }),
   'web-apps-business-systems': s('from.web-apps-business-systems', { amount: '9,500' }),
   'digital-marketing-growth': s('from.digital-marketing-growth', { amount: '2,000', unit: t('/ month', 'شهرياً'), note: t('Media budget separate', 'ميزانية الإعلانات منفصلة') }),
-  'product-development-sourcing': s('from.product-development-sourcing', { amount: '15,000' }),
-  'events-brand-experiences': s('from.events-brand-experiences', { amount: '20,000' }),
+  'product-development-sourcing': { id: 'from.product-development-sourcing', value: { amount: 'quote' } },
+  'events-brand-experiences': { id: 'from.events-brand-experiences', value: { amount: 'quote' } },
 };
 
 // Timelines used inside FAQ answers. 19 Nov: indicative ranges from Shifaa (Q19), confirmed per brief, so they are real

@@ -158,3 +158,10 @@
 }
 /* QA 15 Nov: with two actions the side column was too wide for tablets and squeezed the text into a narrow strip. */
 @media (max-width: 1023px) { .ask-block--pk { grid-template-columns: 1fr; } }
+
+/* 19 Nov (Shifaa): Content Production is quoted per project: the price slot shows words, not a number. */
+.pk-card__amount--quote { font-size: 26px; line-height: 1.2; letter-spacing: -0.01em; }
+[lang='ar'] .pk-card__amount--quote { font-family: inherit; }
+.cmp__price--quote { white-space: normal; font-size: 16px; line-height: 1.3; }
+@media (min-width: 1240px) and (max-width: 1439px) { .pk-card__amount--quote { font-size: 24px; } }
+@media (max-width: 899px) { .cmp__price--quote { font-size: 13px; } }

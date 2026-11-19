@@ -364,3 +364,7 @@
   .scope { grid-auto-rows: auto auto 1fr auto; }
   .scope__card { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
 }
+
+/* 19 Nov (Shifaa): services quoted per project (AI search, product, events) and the Content Production teaser. */
+.custom__amount--quote { font-size: clamp(28px, 3vw, 40px); line-height: 1.15; letter-spacing: -0.02em; font-family: inherit; }
+.pteaser__amount--quote { font-weight: 700; }

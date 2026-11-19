@@ -727,3 +727,6 @@ html.g33-placing body { visibility: hidden; }
     .svcs > li > .svc:not(.svc--ask) { display: grid; grid-template-rows: subgrid; row-gap: 0; }
   }
 }
+
+/* 19 Nov (Shifaa): packages quoted per project show words in the price slot. */
+.pkg__amount--quote { font-size: 26px; line-height: 1.2; letter-spacing: -0.01em; }

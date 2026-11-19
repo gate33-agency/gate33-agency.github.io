@@ -15,7 +15,7 @@ import Breadcrumbs from './Breadcrumbs.astro';
 import SampleTag from './SampleTag.astro';
 import { services } from '../data/services';
 import { pagesCopy, serviceShared } from '../data/service-pages';
-import { packages as pkgSamples, SAMPLE } from '../data/placeholders';
+import { packages as pkgSamples, SAMPLE, isQuote, quoteLabel } from '../data/placeholders';
 import type { HomeCopy } from '../data/types';
 import { tail, fitClass } from '../data/text';
 interface Props { c: HomeCopy }
@@ -107,8 +107,10 @@ const n2 = (i: number) => String(i + 1).padStart(2, '0');
               <a href={`/${lang}/packages/#${p.slug}`}>
                 <span class="pteaser__name">{p.name}</span>
                 <span class="pteaser__line">{p.line}</span>
-                <span class="pteaser__price"><span class="pteaser__from">{c.packages.from}</span> <span class="pteaser__amount" data-count={SAMPLE ? pkgSamples[i].value.price : ''}>{SAMPLE ? pkgSamples[i].value.price : '—'}</span>{lang === 'ar' && ' درهم'}</span>
-                {SAMPLE && <span class="pteaser__meta">{pkgSamples[i].value.timeline[lang]}</span>}
+                {isQuote(pkgSamples[i].value.price)
+                  ? <span class="pteaser__price"><span class="pteaser__amount pteaser__amount--quote">{quoteLabel[lang]}</span></span>
+                  : <span class="pteaser__price"><span class="pteaser__from">{c.packages.from}</span> <span class="pteaser__amount" data-count={SAMPLE ? pkgSamples[i].value.price : ''}>{SAMPLE ? pkgSamples[i].value.price : '—'}</span>{lang === 'ar' && ' درهم'}</span>}
+                {SAMPLE && !isQuote(pkgSamples[i].value.price) && <span class="pteaser__meta">{pkgSamples[i].value.timeline[lang]}</span>}
               </a>
             </li>
           ))}

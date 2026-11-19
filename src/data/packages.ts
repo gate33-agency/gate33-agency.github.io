@@ -46,10 +46,11 @@ export const packageDefs: PackageDef[] = [
   {
     slug: 'content-production', service: 'creative-production',
     name: t('Content Production', 'إنتاج المحتوى'),
-    line: t(`Monthly content, ready to${nb}post.`, 'محتوى شهري جاهز للنشر.'),
-    items: [t(`Monthly photo and${nb}video shoot`, 'جلسة تصوير شهرية'), t(`Posts and${nb}reels`, 'منشورات ومقاطع ريلز'), t('Content calendar', 'تقويم محتوى')],
+    line: t(`Content shot to${nb}your identity, one-off or${nb}monthly.`, 'محتوى يُصوَّر وفق هويتك، لمرة واحدة أو شهرياً.'),
+    items: [t(`Photo and${nb}video shoots`, 'جلسات تصوير للصور والفيديو'), t(`Posts and${nb}reels`, 'منشورات ومقاطع ريلز'), t('Content calendar', 'تقويم محتوى')],
     forWho: t('Brands that post often and need content shot to their identity.', 'العلامات التي تنشر باستمرار وتحتاج إلى محتوى يُصوَّر وفق هويتها.'),
-    gets: [t(`${sc.value.shootDays} shoot day, photo and video`, 'يوم تصوير واحد للصور والفيديو'), t(`One hero film up to ${sc.value.filmSeconds} seconds`, `فيلم رئيسي حتى ${sc.value.filmSeconds} ثانية`), t(`${sc.value.cuts} vertical cuts for reels`, `${sc.value.cuts} مقاطع عمودية للريلز`), t(`${sc.value.photos} edited photos`, `${sc.value.photos} صورة معدّلة`), t('Content calendar', 'تقويم محتوى')],
+    // 19 Nov (Shifaa Q16): one-off project or ongoing monthly; deliverables, timing and price set per project.
+    gets: [t('Shoot days, photo and video', 'أيام تصوير للصور والفيديو'), t('Hero film', 'فيلم رئيسي'), t('Vertical cuts for reels, with subtitles', 'مقاطع عمودية للريلز مع ترجمة نصية'), t('Edited photos', 'صور معدّلة'), t('Content calendar', 'تقويم محتوى')],
   },
 ];
 
@@ -83,10 +84,10 @@ export const compare: CompareGroup[] = [
     { label: t('Payments and shipping set-up', 'إعداد الدفع والشحن'), cells: [false, false, true, false] },
   ] },
   { title: t('Production', 'الإنتاج'), rows: [
-    { label: t('Shoot day, photo and video', 'يوم تصوير للصور والفيديو'), cells: [false, false, false, t(`${sc.value.shootDays} day`, 'يوم واحد')], sample: true },
-    { label: t('Hero film', 'الفيلم الرئيسي'), cells: [false, false, false, t(`Up to ${sc.value.filmSeconds}${nb}s`, `حتى ${sc.value.filmSeconds} ثانية`)], sample: true },
-    { label: t('Vertical cuts for reels', 'مقاطع عمودية للريلز'), cells: [false, false, false, t(sc.value.cuts, sc.value.cuts)], sample: true },
-    { label: t('Edited photos', 'صور معدّلة'), cells: [false, false, false, t(sc.value.photos, sc.value.photos)], sample: true },
+    { label: t('Shoot days, photo and video', 'أيام تصوير للصور والفيديو'), cells: [false, false, false, inProposal] },
+    { label: t('Hero film', 'الفيلم الرئيسي'), cells: [false, false, false, inProposal] },
+    { label: t('Vertical cuts for reels', 'مقاطع عمودية للريلز'), cells: [false, false, false, inProposal] },
+    { label: t('Edited photos', 'صور معدّلة'), cells: [false, false, false, inProposal] },
     { label: t('Content calendar', 'تقويم المحتوى'), cells: [false, false, false, true] },
   ] },
   { title: t('Support', 'المتابعة'), rows: [
