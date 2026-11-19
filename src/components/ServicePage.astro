@@ -21,7 +21,7 @@ import PackageCard from './PackageCard.astro';
 import { services } from '../data/services';
 import { cases } from '../data/work';
 import { pagesCopy, serviceShared } from '../data/service-pages';
-import { packages as pkgSamples, serviceFrom, SAMPLE, isQuote, quoteLabel, quoteNote } from '../data/placeholders';
+import { packages as pkgSamples, serviceFrom, SAMPLE, isQuote, quoteLabel, quoteNote, ils, curLabel } from '../data/placeholders';
 import type { HomeCopy } from '../data/types';
 import { tail, fitClass } from '../data/text';
 interface Props { c: HomeCopy; slug: string }
@@ -70,7 +70,7 @@ const visual = sh.visual;
             ) : (
               <p class="price-chip ph-part">
                 <span class="price-chip__label">{ui.from}</span>
-                <strong class="price-chip__amount">{lang === 'en' ? 'AED ' : ''}{fromS.amount}{lang === 'ar' ? ' درهم' : ''}{fromS.unit && <span class="price-chip__unit"> {fromS.unit[lang]}</span>}</strong>
+                <strong class="price-chip__amount"><span data-ils={ils(fromS.amount) && (lang === 'en' ? `ILS ${ils(fromS.amount)}` : `${ils(fromS.amount)} شيكل`)}>{lang === 'en' ? 'AED ' : ''}{fromS.amount}{lang === 'ar' ? ' درهم' : ''}</span>{fromS.unit && <span class="price-chip__unit"> {fromS.unit[lang]}</span>}</strong>
                 <span class="price-chip__note">{[fromS.note?.[lang], ui.vat].filter(Boolean).join(' · ')}</span>
                 <SampleTag lang={lang} />
               </p>
@@ -199,7 +199,7 @@ const visual = sh.visual;
               ) : (
                 <>
                   <p class="custom__from">{ui.from}<SampleTag lang={lang} /></p>
-                  <p class="custom__amount">{lang === 'en' && <span class="custom__cur">AED</span>}<span data-count={fromS.amount}>{fromS.amount}</span>{lang === 'ar' && <span class="custom__cur">درهم</span>}</p>
+                  <p class="custom__amount">{lang === 'en' && <span class="custom__cur" data-ils="ILS">AED</span>}<span data-count={fromS.amount} data-ils={ils(fromS.amount)}>{fromS.amount}</span>{lang === 'ar' && <span class="custom__cur" data-ils={curLabel.ar.ils}>درهم</span>}</p>
                   <p class="custom__note">{[fromS.unit?.[lang], fromS.note?.[lang], ui.vat].filter(Boolean).join(' · ')}</p>
                 </>
               )}

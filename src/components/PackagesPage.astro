@@ -21,7 +21,7 @@ import Faq from './Faq.astro';
 import { packageDefs, compare, pkgPrice, type Cell } from '../data/packages';
 import { packagesPage } from '../data/packages-page';
 import { pagesCopy } from '../data/service-pages';
-import { packages as pkgSamples, SAMPLE, isQuote, quoteLabel, quoteNote } from '../data/placeholders';
+import { packages as pkgSamples, SAMPLE, isQuote, quoteLabel, quoteNote, ils, curLabel } from '../data/placeholders';
 import { tail, fitClass } from '../data/text';
 import type { HomeCopy } from '../data/types';
 interface Props { c: HomeCopy }
@@ -93,9 +93,9 @@ const isT = (v: Cell): v is { en: string; ar: string } => typeof v === 'object';
                     </div>
                   ) : (
                     <div class="pk-card__foot">
-                      <p class="pk-card__from">{c.packages.from}{SAMPLE && <SampleTag lang={lang} />}</p>
+                      <p class="pk-card__from"><span data-ils={lang === 'en' ? c.packages.from.replace('AED', 'ILS') : undefined}>{c.packages.from}</span>{SAMPLE && <SampleTag lang={lang} />}</p>
                       {amount
-                        ? <p class="pk-card__amount">{amount}{lang === 'ar' && <span class="pk-card__cur">درهم</span>}</p>
+                        ? <p class="pk-card__amount"><span data-ils={ils(amount)}>{amount}</span>{lang === 'ar' && <span class="pk-card__cur" data-ils={curLabel.ar.ils}>درهم</span>}</p>
                         : <p class="pk-card__amount pk-card__amount--todo"><span aria-hidden="true">—</span><span class="visually-hidden">{c.packages.priceNote}</span></p>}
                       <p class="pk-card__vat">{amount ? c.packages.vat : c.packages.priceNote}</p>
                       {SAMPLE && <p class="pk-card__meta"><span>{x.timeline}: {s.timeline[lang]}</span>{s.revisions && <span>{s.revisions[lang]}</span>}</p>}
@@ -168,7 +168,7 @@ const isT = (v: Cell): v is { en: string; ar: string } => typeof v === 'object';
                       </>
                     ) : (
                       <>
-                        <span class="cmp__price">{price(i) ? (lang === 'en' ? `AED ${price(i)}` : `${price(i)} درهم`) : '—'}</span>
+                        <span class="cmp__price" data-ils={ils(price(i)) && (lang === 'en' ? `ILS ${ils(price(i))}` : `${ils(price(i))} شيكل`)}>{price(i) ? (lang === 'en' ? `AED ${price(i)}` : `${price(i)} درهم`) : '—'}</span>
                         <span class="cmp__vat">{c.packages.vat}</span>
                         <a class="cmp__buy" href={`/${lang}/checkout/${p.slug}/`}>{c.packages.buy}<span class="visually-hidden">: {p.name[lang]}</span><Icon name="arrow" /></a>
                       </>

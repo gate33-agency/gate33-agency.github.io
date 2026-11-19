@@ -16,6 +16,14 @@ const t = (en: string, ar: string): T => ({ en, ar });
 
 export const sampleLabel: T = t('Sample', 'نموذج تجريبي');
 export const tbc: T = t('To be confirmed', 'قيد التأكيد');
+
+// Currency by visitor location (Shifaa Q15/Q18: shekel in Israel, dirham in the UAE/GCC, from a USD reference; Ahmed 19 Nov:
+// automatic). The page is built in AED; an inline script in BaseLayout swaps to ILS when the visitor's time zone is Israel's
+// (or ?cur=ils for testing). ILS = Shifaa's USD figures × 3.0 ILS/USD (rate checked 19 Nov 2026), rounded to 100; services she
+// gave in AED only are converted at 3.6725 AED/USD first. Every figure is still a Sample.
+const ILS_OF: Record<string, string> = { '4,500': '3,700', '12,000': '9,800', '9,500': '7,800', '3,000': '2,500', '2,000': '1,600', '6,000': '4,900', '15,000': '12,300', '20,000': '16,300' };
+export const ils = (aed?: string | null): string | undefined => (aed ? ILS_OF[aed] : undefined);
+export const curLabel = { en: { aed: 'AED', ils: 'ILS' }, ar: { aed: 'درهم', ils: 'شيكل' } };
 // Prices Shifaa quotes per project (19 Nov, Q15–Q18): the value 'quote' renders as this text, without a Sample marker.
 export const isQuote = (v?: string | null) => v === 'quote';
 export const quoteLabel: T = t('Quoted per project', 'حسب نطاق المشروع');
@@ -65,6 +73,14 @@ export const timelines = {
 };
 
 // Budget ranges offered on the proposal forms (web, marketing, events). AED.
+export const budgetRangesIls = {
+  en: ['Under ILS 16,000', 'ILS 16,000–40,000', 'ILS 40,000–80,000', 'Above ILS 80,000', 'Not sure yet'],
+  ar: ['أقل من 16,000 شيكل', '16,000–40,000 شيكل', '40,000–80,000 شيكل', 'أكثر من 80,000 شيكل', 'لم أحدّد بعد'],
+};
+export const adBudgetRangesIls = {
+  en: ['Under ILS 8,000', 'ILS 8,000–25,000', 'ILS 25,000–60,000', 'Above ILS 60,000', 'Not sure yet'],
+  ar: ['أقل من 8,000 شيكل', '8,000–25,000 شيكل', '25,000–60,000 شيكل', 'أكثر من 60,000 شيكل', 'لم أحدّد بعد'],
+};
 export const budgetRanges = s('form.budget-ranges', {
   en: ['Under AED 20,000', 'AED 20,000–50,000', 'AED 50,000–100,000', 'Above AED 100,000', 'Not sure yet'],
   ar: ['أقل من 20,000 درهم', '20,000–50,000 درهم', '50,000–100,000 درهم', 'أكثر من 100,000 درهم', 'لم أحدّد بعد'],

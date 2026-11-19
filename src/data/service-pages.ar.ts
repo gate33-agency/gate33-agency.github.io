@@ -1,11 +1,12 @@
 // صفحة الخدمات و7 صفحات خدمة، بالعربية الفصحى الرسمية (أرقام غربية). المصدر: content/services/*.md (الباحث، 8 نوفمبر 2026) كما كُتب.
 // الأرقام المعلَّمة `sample: true` مأخوذة من placeholders.ts (بيانات تجريبية ظاهرة العلامة، تُستبدل قبل الإطلاق).
 import type { PagesCopy } from './service-pages';
-import { timelines as tl, serviceFrom, budgetRanges, adBudgetRanges } from './placeholders';
+import { timelines as tl, serviceFrom, budgetRanges, adBudgetRanges, budgetRangesIls, adBudgetRangesIls, ils } from './placeholders';
 import { bindAll } from './text';
 
 const w = (k: keyof typeof tl) => tl[k].value.ar;
-const from = (slug: string) => `${serviceFrom[slug].value.amount} درهم`;
+// ⟦AED|ILS⟧ token: Faq.astro renders it as a span the currency script can swap (Israel → ILS).
+const from = (slug: string) => { const a = serviceFrom[slug].value.amount; return `⟦${a} درهم|${ils(a) ?? a} شيكل⟧`; };
 const lang3 = ['العربية', 'الإنجليزية', 'كلتاهما'];
 
 const ar: PagesCopy = {
@@ -216,7 +217,7 @@ const ar: PagesCopy = {
         { label: 'الأدوات التي تستخدمها حالياً (محاسبة، نقاط بيع، إدارة عملاء)', type: 'text' },
         { label: 'للمتاجر: كم عدد المنتجات تقريباً؟', type: 'number' },
         { label: 'موعد الإطلاق المستهدف', type: 'date' },
-        { label: 'نطاق الميزانية', type: 'select', options: budgetRanges.value.ar, sample: true },
+        { label: 'نطاق الميزانية', type: 'select', options: budgetRanges.value.ar, optionsIls: budgetRangesIls.ar, sample: true },
       ],
       custom: 'تُسعَّر المواقع والتطبيقات والأنظمة وفق نطاقها.',
     },
@@ -257,7 +258,7 @@ const ar: PagesCopy = {
         { label: 'الأسواق', type: 'multi', options: ['إسرائيل', 'الإمارات', 'السعودية', 'دول خليجية أخرى'] },
         { label: 'موقعك وحساباتك الاجتماعية', type: 'text' },
         { label: 'هل تدير إعلانات حالياً؟ على أي منصات؟', type: 'text' },
-        { label: 'ميزانية الإعلانات الشهرية (تقريباً)', type: 'select', options: adBudgetRanges.value.ar, sample: true },
+        { label: 'ميزانية الإعلانات الشهرية (تقريباً)', type: 'select', options: adBudgetRanges.value.ar, optionsIls: adBudgetRangesIls.ar, sample: true },
         { label: 'لغة المحتوى', type: 'choice', options: lang3 },
         { label: 'متى ترغب في البدء؟', type: 'date' },
       ],
@@ -342,7 +343,7 @@ const ar: PagesCopy = {
         { label: 'المدينة / القاعة', type: 'text' },
         { label: 'عدد الضيوف المتوقع', type: 'number' },
         { label: 'ما الذي تحتاجه منّا؟', type: 'multi', options: ['الفكرة', 'التنسيق', 'الموردون', 'فريق في الموقع', 'التصوير والفيديو', 'المواد الترويجية'] },
-        { label: 'نطاق الميزانية', type: 'select', options: budgetRanges.value.ar, sample: true },
+        { label: 'نطاق الميزانية', type: 'select', options: budgetRanges.value.ar, optionsIls: budgetRangesIls.ar, sample: true },
         { label: 'هل هناك ما يجب أن نعرفه؟', type: 'long' },
       ],
       custom: 'تُسعَّر كل فعالية بعد استلام الموجز، بعرض مفصّل وفق النطاق وعدد الضيوف والقاعة والموردين.',

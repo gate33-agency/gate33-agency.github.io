@@ -51,7 +51,7 @@ const id = (i: number) => `pq-${i + 1}`;
       );
       if (q.type === 'select') return (
         <label class="field"><span class="field__row">{q.label}{q.sample && SAMPLE && <Tag>{sampleLabel[lang]}</Tag>}</span>
-          <select name={id(i)}><option value="">—</option>{(q.options || []).map((o) => <option>{o}</option>)}</select>
+          <select name={id(i)}><option value="">—</option>{(q.options || []).map((o, j) => <option data-ils={q.optionsIls?.[j]}>{o}</option>)}</select>
         </label>
       );
       if (q.type === 'long') return <label class="field">{q.label}<textarea name={id(i)}></textarea></label>;

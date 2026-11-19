@@ -58,5 +58,8 @@ const preload = lang === 'ar' ? ['readexpro-regular', 'readexpro-bold'] : ['mont
     <GateEntry />
     <script>import '../scripts/ui.js';</script>
     <script>import '../scripts/motion/index.js';</script>
+    <!-- Currency by location (Shifaa Q15, Ahmed 19 Nov): built in AED; visitors whose time zone is Israel's see ILS.
+         ?cur=ils / ?cur=aed overrides (testing). Runs before the deferred modules, so count-ups use the swapped value. -->
+    <script is:inline>(function(){try{var q=(new URLSearchParams(location.search).get('cur')||'').toLowerCase();var tz=(Intl.DateTimeFormat().resolvedOptions().timeZone)||'';var on=q?q==='ils':/^Asia\/(Jerusalem|Tel_Aviv)$/.test(tz);if(!on)return;document.documentElement.dataset.cur='ILS';document.querySelectorAll('[data-ils]').forEach(function(e){var v=e.getAttribute('data-ils');if(!v)return;e.textContent=v;if(e.hasAttribute('data-count'))e.setAttribute('data-count',v);});}catch(e){}})();</script>
   </body>
 </html>

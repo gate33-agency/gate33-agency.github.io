@@ -7,7 +7,7 @@ import en from './service-pages.en';
 import ar from './service-pages.ar';
 import type { Lang } from './types';
 
-export interface Field { label: string; type: 'multi' | 'choice' | 'text' | 'long' | 'date' | 'number' | 'url' | 'select'; options?: string[]; sample?: boolean }
+export interface Field { label: string; type: 'multi' | 'choice' | 'text' | 'long' | 'date' | 'number' | 'url' | 'select'; options?: string[]; optionsIls?: string[]; sample?: boolean }
 export interface ScopeItem { name: string; desc: string; best: string }
 export interface Faq { q: string; a: string; sample?: boolean }
 export interface ServiceCopy {

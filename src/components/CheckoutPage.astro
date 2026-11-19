@@ -16,7 +16,7 @@ import SampleTag from './SampleTag.astro';
 import { packageDefs, pkgPrice } from '../data/packages';
 import { checkoutCopy, withPkg, PAYMENT_LIVE } from '../data/checkout';
 import { pagesCopy } from '../data/service-pages';
-import { packages as pkgSamples, SAMPLE } from '../data/placeholders';
+import { packages as pkgSamples, SAMPLE, ils, curLabel } from '../data/placeholders';
 import { tail } from '../data/text';
 import type { HomeCopy } from '../data/types';
 interface Props { c: HomeCopy; slug: string }
@@ -77,7 +77,7 @@ const er = (id: string) => `${id}-error`;
             <div class="co-sum__price">
               <p class="co-sum__price-h">{k.summary.price}{SAMPLE && <SampleTag lang={lang} />}</p>
               {amount
-                ? <p class="co-sum__amount">{lang === 'en' ? <><span class="co-sum__cur">AED</span>{amount}</> : <>{amount}<span class="co-sum__cur">درهم</span></>}</p>
+                ? <p class="co-sum__amount">{lang === 'en' ? <><span class="co-sum__cur" data-ils="ILS">AED</span><span data-ils={ils(amount)}>{amount}</span></> : <><span data-ils={ils(amount)}>{amount}</span><span class="co-sum__cur" data-ils={curLabel.ar.ils}>درهم</span></>}</p>
                 : <p class="co-sum__amount co-sum__amount--todo">—<span class="visually-hidden">{c.packages.priceNote}</span></p>}
               <p class="co-sum__vat">{k.summary.vat}</p>
               <dl class="co-sum__tax"><div><dt>{k.summary.vatLabel}</dt><dd>{k.summary.vatValue}</dd></div></dl>

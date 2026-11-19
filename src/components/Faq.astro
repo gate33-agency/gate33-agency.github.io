@@ -5,6 +5,8 @@ import SampleTag from './SampleTag.astro';
 import type { Faq } from '../data/service-pages';
 interface Props { items: Faq[]; lang: 'en' | 'ar'; idBase: string }
 const { items, lang, idBase } = Astro.props;
+// Prices inside answers arrive as ⟦AED text|ILS text⟧ (service-pages.<lang>.ts): shown in AED, swapped for visitors in Israel.
+const parts = (a: string) => a.split(/⟦([^|⟧]*)\|([^⟧]*)⟧/);
 ---
 <div class="faq" data-faq>
   {items.map((f, i) => (
@@ -16,7 +18,7 @@ const { items, lang, idBase } = Astro.props;
         </button>
       </h3>
       <div class="faq__a" id={`${idBase}-a${i}`} role="region" aria-labelledby={`${idBase}-q${i}`} data-faq-panel>
-        <div class="faq__in"><p>{f.a}</p>{f.sample && <SampleTag lang={lang} />}</div>
+        <div class="faq__in"><p>{parts(f.a).map((t, k) => k % 3 === 0 ? t : k % 3 === 1 ? <span data-ils={parts(f.a)[k + 1]}>{t}</span> : null)}</p>{f.sample && <SampleTag lang={lang} />}</div>
       </div>
     </div>
   ))}

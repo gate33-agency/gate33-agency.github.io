@@ -6,7 +6,7 @@ import SampleTag from './SampleTag.astro';
 import type { Pkg } from '../data/types';
 import { isTodo } from '../data/clients';
 import { tail } from '../data/text';
-import { SAMPLE, isQuote, quoteLabel, quoteNote, type PkgSample } from '../data/placeholders';
+import { SAMPLE, isQuote, quoteLabel, quoteNote, ils, curLabel, type PkgSample } from '../data/placeholders';
 // sample: indicative price / timeline / revisions from placeholders.ts (shown with the Sample marker while SAMPLE is true)
 interface Props { pkg: Pkg; popular: string; from: string; price: string; priceNote: string; vat: string; buy: string; delay?: number; sample?: PkgSample; lang?: 'en' | 'ar'; service?: string }
 const { pkg, popular, from, price, priceNote, vat, buy, delay = 0, sample, lang = 'en', service } = Astro.props;
@@ -28,8 +28,8 @@ const meta = SAMPLE && sample && !quoted ? [sample.timeline[lang], sample.revisi
       </>
     ) : (
       <>
-        <p class="pkg__from">{from}{SAMPLE && sample && <SampleTag lang={lang} />}</p>
-        {isTodo(amount) ? <p class="pkg__amount pkg__amount--todo"><span aria-hidden="true">—</span><span class="visually-hidden">{priceNote}</span></p> : <p class="pkg__amount"><span data-count={amount}>{amount}</span>{lang === 'ar' && <span class="pkg__cur">درهم</span>}</p>}
+        <p class="pkg__from"><span data-ils={lang === 'en' ? from.replace('AED', 'ILS') : undefined}>{from}</span>{SAMPLE && sample && <SampleTag lang={lang} />}</p>
+        {isTodo(amount) ? <p class="pkg__amount pkg__amount--todo"><span aria-hidden="true">—</span><span class="visually-hidden">{priceNote}</span></p> : <p class="pkg__amount"><span data-count={amount} data-ils={ils(amount)}>{amount}</span>{lang === 'ar' && <span class="pkg__cur" data-ils={curLabel.ar.ils}>درهم</span>}</p>}
         <p class="pkg__vat">{isTodo(amount) ? priceNote : vat}</p>
       </>
     )}

@@ -6,7 +6,7 @@ import { cases } from './work';
 import en from './home.en';
 import ar from './home.ar';
 import type { Lang } from './types';
-import { SAMPLE, sampleLabel, packages as pkgSamples, quoteLabel, quoteNote } from './placeholders';
+import { SAMPLE, sampleLabel, packages as pkgSamples, quoteLabel, quoteNote, ils } from './placeholders';
 
 const copy = {
   en: {
@@ -125,6 +125,9 @@ export function askGateData(lang: Lang) {
     // Stage R: the same sample prices as the package cards (marked "Sample"), so Ask Gate and the page never disagree
     prices: SAMPLE ? pkgSamples.map((p) => p.value.price) : null,
     fromPrice: lang === 'en' ? 'From AED {p}' : 'تبدأ من {p} درهم',
+    // Same prices in shekels for visitors in Israel (html[data-cur=ILS], set by BaseLayout)
+    pricesIls: SAMPLE ? pkgSamples.map((p) => ils(p.value.price) ?? p.value.price) : null,
+    fromPriceIls: lang === 'en' ? 'From ILS {p}' : 'تبدأ من {p} شيكل',
     quote: quoteLabel[lang], quoteNote: quoteNote[lang],
     sampleLabel: sampleLabel[lang],
     vat: home.packages.vat,

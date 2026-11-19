@@ -1,11 +1,12 @@
 // Services index + 7 service pages, English (UK spelling). Source: content/services/*.md (Researcher, 8 Nov 2026), as written.
 // Figures marked `sample: true` come from placeholders.ts (sample data, visibly marked; replaced before launch).
 import type { PagesCopy } from './service-pages';
-import { timelines as tl, serviceFrom, budgetRanges, adBudgetRanges } from './placeholders';
+import { timelines as tl, serviceFrom, budgetRanges, adBudgetRanges, budgetRangesIls, adBudgetRangesIls, ils } from './placeholders';
 import { bindAll } from './text';
 
 const w = (k: keyof typeof tl) => tl[k].value.en.replace(/ /g, ' ');
-const from = (slug: string) => `AED ${serviceFrom[slug].value.amount}`;
+// ⟦AED|ILS⟧ token: Faq.astro renders it as a span the currency script can swap (Israel → ILS).
+const from = (slug: string) => { const a = serviceFrom[slug].value.amount; return `⟦AED ${a}|ILS ${ils(a) ?? a}⟧`; };
 const lang3 = ['Arabic', 'English', 'Both'];
 
 const en: PagesCopy = {
@@ -216,7 +217,7 @@ const en: PagesCopy = {
         { label: 'Tools you already use (e.g. accounting, POS, CRM)', type: 'text' },
         { label: 'For stores: roughly how many products?', type: 'number' },
         { label: 'Target launch date', type: 'date' },
-        { label: 'Budget range', type: 'select', options: budgetRanges.value.en, sample: true },
+        { label: 'Budget range', type: 'select', options: budgetRanges.value.en, optionsIls: budgetRangesIls.en, sample: true },
       ],
       custom: 'Websites, apps and systems are quoted on scope.',
     },
@@ -257,7 +258,7 @@ const en: PagesCopy = {
         { label: 'Markets', type: 'multi', options: ['Israel', 'UAE', 'KSA', 'Other GCC'] },
         { label: 'Your website and social accounts', type: 'text' },
         { label: 'Are you running ads now? Which platforms?', type: 'text' },
-        { label: 'Monthly ad budget (approx.)', type: 'select', options: adBudgetRanges.value.en, sample: true },
+        { label: 'Monthly ad budget (approx.)', type: 'select', options: adBudgetRanges.value.en, optionsIls: adBudgetRangesIls.en, sample: true },
         { label: 'Language of content', type: 'choice', options: lang3 },
         { label: 'When do you want to start?', type: 'date' },
       ],
@@ -342,7 +343,7 @@ const en: PagesCopy = {
         { label: 'City / venue', type: 'text' },
         { label: 'Expected number of guests', type: 'number' },
         { label: 'What do you need from us?', type: 'multi', options: ['Concept', 'Styling', 'Vendors', 'On-site team', 'Photo/video', 'Materials'] },
-        { label: 'Budget range', type: 'select', options: budgetRanges.value.en, sample: true },
+        { label: 'Budget range', type: 'select', options: budgetRanges.value.en, optionsIls: budgetRangesIls.en, sample: true },
         { label: 'Anything we should know?', type: 'long' },
       ],
       custom: 'Every event is quoted after the brief, itemised by scope, guests, venue and vendors.',

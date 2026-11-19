@@ -1,6 +1,7 @@
-// /<lang>/privacy/ and /<lang>/terms/ copy (Stage 5-4). SAMPLE legal text: it describes only what the site really does today
-// and names, as "to be confirmed by Gate33", everything that is not decided yet. It never states a law, court, retention
-// period, refund policy, company registration, licence number or address as fact. Replace the whole text with the approved
+// /<lang>/privacy/ and /<lang>/terms/ copy (Stage 5-4). SAMPLE legal text: it describes what the site really does today.
+// 19 Nov 2026: Shifaa's proposed wording (answers Q39–Q45) is now in, always written as "proposed" and subject to review by
+// her lawyer (Israeli privacy / e-commerce lawyer, plus UAE/GCC review where contracts or payments happen there). It still
+// never states a company registration, licence number or address as fact. Replace the whole text with the approved
 // legal text before launch (then drop the sample notice, set `updated`, set noindex false and add both pages to sitemap.xml.ts).
 import type { Lang } from './types';
 
@@ -45,11 +46,12 @@ const en: { privacy: LegalDoc; terms: LegalDoc } = {
     other: { text: 'Using the site and ordering are covered in the', label: 'Terms', href: '/en/terms/' },
     sections: [
       { id: 'about', title: 'About this text', body: [
-        'This is sample text that shows how Gate33’s privacy information will be laid out. It will be replaced by the legal text Gate33 approves before the website is published.',
-        'Until then, read it as a description of how this preview behaves, not as a statement of Gate33’s legal obligations.',
+        'This is sample text. It describes how this preview behaves today and the approach Gate33 proposes once the site is live.',
+        'The final wording will be reviewed by a lawyer in Israel who specialises in privacy and e-commerce, with a further review in the UAE or the GCC where the site makes contracts or takes payments there. Until then, read it as a description, not as a statement of Gate33’s legal obligations.',
       ] },
       { id: 'who', title: 'Who is responsible', body: [
-        'The website belongs to Gate33 Agency. The legal name of the company, its registration details and its postal address are to be confirmed by Gate33.',
+        'The website belongs to Gate33 Agency, the name the agency trades under. Its registered legal name and registration details will be added from its official documents before the site is published.',
+        'Gate33 works with clients remotely and does not publish an office address. The contact details required by law will be added here once the text has been reviewed.',
       ] },
       { id: 'today', title: 'What the site does today', body: [
         'In its current preview state the site is deliberately simple:',
@@ -64,16 +66,16 @@ const en: { privacy: LegalDoc; terms: LegalDoc } = {
       ] },
       { id: 'later', title: 'Information you may share later', body: [
         'Once the forms are connected, the details you choose to enter (such as your name, email, company, phone number and a description of your project) would be used to reply to you and to prepare a proposal.',
-        'Which service receives and stores these messages, and where, is to be confirmed by Gate33.',
+        'Messages from the contact and proposal forms will go to the Gate33 team’s mailbox, gate33.adv@gmail.com. Access is limited to the team members who handle your enquiry.',
       ] },
       { id: 'services', title: 'Services we may add', body: [
-        'Gate33 may later add a payment provider, analytics and a message-handling service. None of them is active today. Each is to be confirmed by Gate33, and this text will be updated before any of them goes live.',
+        'Gate33 plans to connect a payment provider, Google Analytics and Search Console, and an AI service that lets Ask Gate answer questions. None of them is active today. This text will name each one, and what it receives, before it goes live.',
       ] },
       { id: 'keep', title: 'How long information is kept', body: [
-        'Retention periods are to be confirmed by Gate33.',
+        'Proposed: enquiries that are no longer active are deleted after 12 months, unless a legal or contractual reason requires Gate33 to keep them for longer.',
       ] },
       { id: 'choices', title: 'Your choices and questions', body: [
-        'If you have a question about your information, write to the email address shown on the Contact page. How requests are handled, and which rights apply to you under the law that applies, are to be confirmed by Gate33.',
+        'If you have a question about your information, or want it corrected or deleted, write to the email address shown on the Contact page. The rights that apply to you depend on the law that applies, and will be set out here after the legal review.',
       ] },
       { id: 'changes', title: 'Changes to this text', body: [
         'When Gate33 approves its final text, this page will be replaced and the date of the last update will be shown at the top.',
@@ -87,23 +89,26 @@ const en: { privacy: LegalDoc; terms: LegalDoc } = {
     other: { text: 'How information is handled is covered in the', label: 'Privacy page', href: '/en/privacy/' },
     sections: [
       { id: 'about', title: 'About this text', body: [
-        'This is sample text that shows how Gate33’s terms will be laid out. It will be replaced by the legal text Gate33 approves before the website is published.',
-        'Until then, read it as a description of how this preview works, not as a binding agreement.',
+        'This is sample text. It describes how this preview works today and the terms Gate33 proposes for its projects.',
+        'The final wording will be reviewed by Gate33’s lawyer before the site is published. Until then, read it as a description, not as a binding agreement. Your signed proposal or contract always takes precedence.',
       ] },
       { id: 'site', title: 'Using this site', body: [
         'The site presents Gate33’s services, work and packages. The information on it is general. While the site is a preview, prices, numbers, testimonials and some examples are samples and are labelled as such.',
       ] },
       { id: 'proposals', title: 'Services and\u00A0proposals', body: [
-        'Packages show an indicative “from” price. The scope, timeline, number of revision rounds and payment terms of a project are set out in a written proposal and agreed with you before work begins.',
+        'Packages and services show an indicative starting price or are quoted per project. Prices exclude VAT and any other applicable taxes, and are shown in the local currency (shekels in Israel, dirhams in the UAE and the GCC), based on a US dollar reference.',
+        'The scope, timeline, number of revision rounds and payment terms of a project are set out in a written proposal and agreed with you before work begins.',
       ] },
       { id: 'ordering', title: 'Ordering online', body: [
         'The Buy now button opens a checkout preview. In the preview no payment is taken and no order is created. How online payment will work, and which provider will process it, are to be confirmed by Gate33.',
       ] },
       { id: 'payments', title: 'Payments, refunds and cancellation', body: [
-        'The payment schedule, the treatment of VAT, and the approach to cancellation and refunds are to be confirmed by Gate33.',
+        'Proposed payment terms: for smaller projects, 50% when work starts and 50% before the final files are delivered. Larger projects are paid monthly or by milestone. Either way, the schedule is stated clearly in the approved proposal and contract.',
+        'Proposed approach to cancellation and refunds: they are handled under the signed proposal and the law that applies. Work already completed, and third-party costs that cannot be refunded, are charged.',
       ] },
       { id: 'work', title: 'Work, files and ownership', body: [
-        'Who owns the final work, when rights pass to the client, and whether Gate33 may show a project in its portfolio are to be confirmed by Gate33 and set out in each proposal or agreement.',
+        'Proposed: once everything due has been paid, the client receives the rights to the approved final deliverables, subject to any third-party licences (such as fonts, stock images or music).',
+        'Gate33 shows a project in its portfolio only with the client’s consent, and never shows confidential material.',
       ] },
       { id: 'names', title: 'Names and\u00A0brands shown', body: [
         'Case studies and logos on this site show work and names of other organisations. Those names and marks belong to their respective owners and appear here to describe Gate33’s work.',
@@ -115,7 +120,7 @@ const en: { privacy: LegalDoc; terms: LegalDoc } = {
         'The extent of Gate33’s responsibility, and any limits to it, are to be confirmed by Gate33.',
       ] },
       { id: 'law', title: 'Governing law and disputes', body: [
-        'The governing law, the place where disputes are resolved and how they are handled are to be confirmed by Gate33.',
+        'Proposed: Israeli law and the competent courts in Israel, for work by Gate33 as registered in Israel. Where a project in the UAE or the GCC has a different contracting entity, or local rules that must apply, the jurisdiction is set in the client’s contract.',
       ] },
       { id: 'changes', title: 'Changes and contact', body: [
         'When Gate33 approves its final text, this page will be replaced and the date of the last update will be shown at the top. Questions can be sent to the email address shown on the Contact page.',
@@ -132,11 +137,12 @@ const ar: { privacy: LegalDoc; terms: LegalDoc } = {
     other: { text: 'يرد استخدام الموقع والطلب عبره في', label: 'صفحة الشروط', href: '/ar/terms/' },
     sections: [
       { id: 'about', title: 'عن هذا النص', body: [
-        'هذا نص تجريبي يبيّن كيف ستُعرض معلومات الخصوصية الخاصة بـ Gate33، وسيُستبدل بالنص القانوني الذي تعتمده Gate33 قبل نشر الموقع.',
-        'وإلى ذلك الحين يُقرأ بوصفه وصفاً لما تفعله هذه النسخة التجريبية، لا بياناً بالتزامات Gate33 القانونية.',
+        'هذا نص تجريبي يصف ما تفعله هذه النسخة التجريبية اليوم، والنهج الذي تقترحه Gate33 بعد إطلاق الموقع.',
+        'وستُراجَع الصيغة النهائية لدى محامٍ في إسرائيل مختص بالخصوصية والتجارة الإلكترونية، مع مراجعة إضافية في الإمارات أو دول الخليج إذا أبرم الموقع عقوداً أو عالج مدفوعات هناك. وإلى ذلك الحين يُقرأ هذا النص بوصفه وصفاً، لا بياناً بالتزامات Gate33 القانونية.',
       ] },
       { id: 'who', title: 'الجهة المسؤولة', body: [
-        'هذا الموقع يخص Gate33 Agency. أما الاسم القانوني للشركة وبيانات تسجيلها وعنوانها البريدي فهي قيد التأكيد من Gate33.',
+        'هذا الموقع يخص Gate33 Agency، وهو الاسم التجاري للوكالة. وسيُضاف الاسم القانوني المسجّل وبيانات التسجيل من المستندات الرسمية قبل نشر الموقع.',
+        'تعمل Gate33 مع عملائها عن بُعد، ولا تنشر عنوان مكتب. وستُضاف بيانات التواصل التي يتطلبها القانون هنا بعد مراجعة النص.',
       ] },
       { id: 'today', title: 'ما يفعله الموقع اليوم', body: [
         'الموقع في نسخته التجريبية الحالية بسيط عن قصد:',
@@ -151,16 +157,16 @@ const ar: { privacy: LegalDoc; terms: LegalDoc } = {
       ] },
       { id: 'later', title: 'معلومات قد\u00A0تقدّمها لاحقاً', body: [
         'متى جرى تفعيل النماذج، ستُستخدم البيانات التي تختار إدخالها (كالاسم والبريد الإلكتروني والجهة ورقم الهاتف ووصف المشروع) للرد عليك وإعداد عرض مناسب.',
-        'أما الخدمة التي ستستقبل هذه الرسائل وتحفظها، ومكان حفظها، فهما قيد التأكيد من Gate33.',
+        'وستصل رسائل نموذجي التواصل وطلب العرض إلى بريد فريق Gate33: gate33.adv@gmail.com، ويقتصر الاطلاع عليها على أعضاء الفريق المعنيين باستفسارك.',
       ] },
       { id: 'services', title: 'خدمات قد تُضاف', body: [
-        'قد تضيف Gate33 لاحقاً مزوّد دفع وأدوات تحليل وخدمة لمعالجة الرسائل. لا شيء من ذلك مفعَّل اليوم، وكلٌّ منها قيد التأكيد من Gate33، وسيُحدَّث هذا النص قبل تفعيل أيٍّ منها.',
+        'تعتزم Gate33 ربط الموقع بمزوّد دفع، وبخدمتي Google Analytics وSearch Console، وبخدمة ذكاء اصطناعي تتيح لـ«اسأل Gate» الإجابة عن الأسئلة. لا شيء من ذلك مفعَّل اليوم، وسيذكر هذا النص كل خدمة وما تتلقاه من بيانات قبل تفعيلها.',
       ] },
       { id: 'keep', title: 'مدة الاحتفاظ\u00A0بالمعلومات', body: [
-        'مُدد الاحتفاظ قيد التأكيد من Gate33.',
+        'المقترح: تُحذف بيانات الاستفسارات غير النشطة بعد 12 شهراً، ما لم يستلزم سبب قانوني أو تعاقدي الاحتفاظ بها مدة أطول.',
       ] },
       { id: 'choices', title: 'خياراتك واستفساراتك', body: [
-        'إن كان لديك سؤال عن معلوماتك، فراسلنا على البريد الإلكتروني المعروض في صفحة التواصل. وآلية التعامل مع الطلبات، والحقوق التي تنطبق عليك بموجب القانون الساري، قيد التأكيد من Gate33.',
+        'إن كان لديك سؤال عن معلوماتك، أو أردت تصحيحها أو حذفها، فراسلنا على البريد الإلكتروني المعروض في صفحة التواصل. وتتوقف الحقوق التي تنطبق عليك على القانون الساري، وستُبيَّن هنا بعد المراجعة القانونية.',
       ] },
       { id: 'changes', title: 'تعديل هذا النص', body: [
         'عندما تعتمد Gate33 نصّها النهائي ستُستبدل هذه الصفحة، وسيظهر تاريخ آخر تحديث في أعلاها.',
@@ -174,23 +180,26 @@ const ar: { privacy: LegalDoc; terms: LegalDoc } = {
     other: { text: 'تُعرض كيفية التعامل مع المعلومات في', label: 'صفحة الخصوصية', href: '/ar/privacy/' },
     sections: [
       { id: 'about', title: 'عن هذا النص', body: [
-        'هذا نص تجريبي يبيّن كيف ستُعرض شروط Gate33، وسيُستبدل بالنص القانوني الذي تعتمده Gate33 قبل نشر الموقع.',
-        'وإلى ذلك الحين يُقرأ بوصفه وصفاً لآلية عمل هذه النسخة التجريبية، لا اتفاقاً ملزماً.',
+        'هذا نص تجريبي يصف آلية عمل هذه النسخة التجريبية اليوم، والشروط التي تقترحها Gate33 لمشاريعها.',
+        'وسيُراجع المستشار القانوني لـ Gate33 الصيغة النهائية قبل نشر الموقع. وإلى ذلك الحين يُقرأ هذا النص بوصفه وصفاً، لا اتفاقاً ملزماً، ويُقدَّم عليه دائماً عرض السعر أو العقد الموقّع معك.',
       ] },
       { id: 'site', title: 'استخدام الموقع', body: [
         'يعرض الموقع خدمات Gate33 وأعمالها وباقاتها، والمعلومات الواردة فيه عامة. وما دام الموقع نسخة تجريبية، فإن الأسعار والأرقام وآراء العملاء وبعض الأمثلة نماذج تجريبية، ومُعلَّمة بذلك.',
       ] },
       { id: 'proposals', title: 'الخدمات والعروض', body: [
-        'تعرض الباقات سعراً استرشادياً يبدأ من مبلغ معيّن. أما نطاق المشروع ومدته وعدد جولات التعديل وشروط الدفع، فتُحدَّد في عرض مكتوب يُتفق عليه معك قبل بدء العمل.',
+        'تعرض الباقات والخدمات سعراً استرشادياً يبدأ من مبلغ معيّن، أو تُسعَّر حسب كل مشروع. والأسعار غير شاملة ضريبة القيمة المضافة أو الضرائب المطبّقة، وتُعرض بالعملة المحلية (الشيكل في إسرائيل، والدرهم في الإمارات ودول الخليج) استناداً إلى سعر مرجعي بالدولار الأمريكي.',
+        'أما نطاق المشروع ومدته وعدد جولات التعديل وشروط الدفع، فتُحدَّد في عرض مكتوب يُتفق عليه معك قبل بدء العمل.',
       ] },
       { id: 'ordering', title: 'الطلب عبر الموقع', body: [
         'يفتح زر «اشترِ الآن» معاينةً لصفحة الدفع. وفي هذه المعاينة لا يُحصَّل أي مبلغ ولا يُنشأ أي طلب. أما آلية الدفع عبر الموقع والمزوّد الذي سيعالجه فهما قيد التأكيد من Gate33.',
       ] },
       { id: 'payments', title: 'الدفع والاسترداد والإلغاء', body: [
-        'جدول الدفعات، ومعاملة ضريبة القيمة المضافة، وسياسة الإلغاء والاسترداد، كلها قيد التأكيد من Gate33.',
+        'شروط الدفع المقترحة: في المشاريع الصغيرة، 50% عند البدء و50% قبل تسليم الملفات النهائية. أما المشاريع الكبيرة فتُقسَّم دفعاتها شهرياً أو على مراحل. وفي الحالتين يُذكر الجدول بوضوح في عرض السعر والعقد المعتمدين.',
+        'النهج المقترح للإلغاء والاسترداد: يُعالَجان وفق عرض السعر الموقّع والقانون الساري، وتُحتسب قيمة الأعمال المنجزة والتكاليف الخارجية غير القابلة للاسترداد.',
       ] },
       { id: 'work', title: 'العمل والملفات والملكية', body: [
-        'ملكية العمل النهائي، ووقت انتقال الحقوق إلى العميل، وإمكان عرض Gate33 للمشروع ضمن أعمالها، كلها قيد التأكيد من Gate33، وتُحدَّد في كل عرض أو اتفاق.',
+        'المقترح: يحصل العميل على حقوق المخرجات النهائية المعتمدة بعد سداد كامل المستحقات، مع مراعاة تراخيص الأطراف الثالثة (كالخطوط والصور والموسيقى المرخّصة).',
+        'ولا تعرض Gate33 أي مشروع ضمن أعمالها إلا بموافقة العميل، ولا تعرض المواد السرية مطلقاً.',
       ] },
       { id: 'names', title: 'الأسماء والعلامات\u00A0المعروضة', body: [
         'تعرض دراسات الحالة والشعارات في هذا الموقع أعمالاً وأسماء لجهات أخرى. وتعود هذه الأسماء والعلامات إلى أصحابها، وترد هنا لوصف أعمال Gate33.',
@@ -202,7 +211,7 @@ const ar: { privacy: LegalDoc; terms: LegalDoc } = {
         'نطاق مسؤولية Gate33 وما قد يرد عليه من حدود قيد التأكيد من Gate33.',
       ] },
       { id: 'law', title: 'القانون الواجب التطبيق والنزاعات', body: [
-        'القانون الواجب التطبيق، وجهة النظر في النزاعات وآلية معالجتها، قيد التأكيد من Gate33.',
+        'المقترح: القانون الإسرائيلي والمحاكم المختصة في إسرائيل، لأعمال Gate33 المسجّلة في إسرائيل. وإذا كان لمشروع في الإمارات أو دول الخليج كيان متعاقد مختلف، أو أحكام محلية واجبة التطبيق، فيُحدَّد الاختصاص في عقد العميل.',
       ] },
       { id: 'changes', title: 'التعديلات والتواصل', body: [
         'عندما تعتمد Gate33 نصّها النهائي ستُستبدل هذه الصفحة، وسيظهر تاريخ آخر تحديث في أعلاها. ويمكن إرسال الاستفسارات إلى البريد الإلكتروني المعروض في صفحة التواصل.',
