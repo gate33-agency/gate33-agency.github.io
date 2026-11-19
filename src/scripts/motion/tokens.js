@@ -28,3 +28,7 @@ export const REVEAL = {
 
 // Scrub for scroll-linked tweens: true = locked to the scroll position (no lag), a number = seconds of catch-up.
 export const scrubLag = () => (window.__g33Lenis ? 0.3 : true);
+
+// Phones and tablets (< 1024px): motion stays compositor-only (transform / opacity), no animated clip-path and no scrubbed
+// scaling of the playing hero film (19 Nov, Ahmed: "finish the phone performance items").
+export const isPhone = () => window.matchMedia('(max-width: 1023.98px)').matches;

@@ -1,7 +1,7 @@
 // Stage 4A: motion for the services index and the service pages. One distinct idea per section; transform / opacity /
 // clip-path only; no pins (the process stack uses CSS sticky on >= 1024px). Every function is a no-op when its section is
 // missing, and reduced motion / no JS never reach this file (index.js exits first), so everything stays visible.
-import { scrubLag } from './tokens.js';
+import { scrubLag, isPhone } from './tokens.js';
 import { DUR, STAGGER } from './tokens.js';
 const rtl = document.documentElement.dir === 'rtl';
 const passed = (el) => el.getBoundingClientRect().bottom < 0;
@@ -30,9 +30,10 @@ export function pageIntro(gsap, SplitText) {
   if (hex) {
     const frame = hex.querySelector('.svc-visual__frame');
     const media = frame.querySelectorAll('img, video');
-    tl.set(hex, { opacity: 1 }, 0)
-      .fromTo(frame, { clipPath: HEX_FROM }, { clipPath: HEX_TO, duration: 1.1, ease: 'gateHero', clearProps: 'clipPath' }, 0.25)
-      .fromTo(media, { scale: 1.15 }, { scale: 1, duration: 1.3, ease: 'gateHero', clearProps: 'transform' }, 0.25);
+    tl.set(hex, { opacity: 1 }, 0);
+    if (isPhone()) tl.fromTo(frame, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.9, ease: 'gateHero', clearProps: 'opacity,transform' }, 0.25);
+    else tl.fromTo(frame, { clipPath: HEX_FROM }, { clipPath: HEX_TO, duration: 1.1, ease: 'gateHero', clearProps: 'clipPath' }, 0.25);
+    tl.fromTo(media, { scale: 1.15 }, { scale: 1, duration: 1.3, ease: 'gateHero', clearProps: 'transform' }, 0.25);
   }
   if (header) tl.from(header, { opacity: 0, y: -12, duration: DUR.base, immediateRender: true }, 0);
   gsap.set(title, { opacity: 1 }); // lines are already hidden under their masks
@@ -61,6 +62,12 @@ export function rowsWipe(gsap) {
   const list = document.querySelector('[data-srows]');
   if (!list || passed(list)) return;
   const rows = [...list.querySelectorAll('.srow')];
+  if (isPhone()) { // phones: the rows slide in from the reading edge and fade (compositor only)
+    gsap.set(rows, { opacity: 0, x: rtl ? 24 : -24 });
+    gsap.to(rows, { opacity: 1, x: 0, duration: 0.7, ease: 'gateHero', stagger: 0.05, clearProps: 'opacity,transform',
+      scrollTrigger: { trigger: list, start: 'top 90%', once: true } });
+    return;
+  }
   const from = rtl ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)';
   gsap.set(rows, { clipPath: from });
   gsap.to(rows, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'gateHero', stagger: 0.05, clearProps: 'clipPath',
@@ -73,10 +80,12 @@ export function askGrow(gsap) {
   const block = document.querySelector('[data-ask-block]');
   if (!block || passed(block)) return;
   const inner = block.querySelectorAll('.ask-block__text > *, .ask-block > .btn');
-  gsap.set(block, { clipPath: 'circle(0% at 100% 100%)' });
+  const phone = isPhone(); // phones: the block grows from the same corner with scale + fade instead of a clip-path circle
+  if (phone) gsap.set(block, { opacity: 0, scale: 0.9, transformOrigin: '100% 100%' });
+  else gsap.set(block, { clipPath: 'circle(0% at 100% 100%)' });
   gsap.set(inner, { opacity: 0, y: 16 });
   gsap.timeline({ scrollTrigger: { trigger: block, start: 'top 80%', once: true } })
-    .to(block, { clipPath: 'circle(150% at 100% 100%)', duration: 0.9, ease: 'gateHero', clearProps: 'clipPath' })
+    .to(block, phone ? { opacity: 1, scale: 1, duration: 0.8, ease: 'gateHero', clearProps: 'opacity,transform' } : { clipPath: 'circle(150% at 100% 100%)', duration: 0.9, ease: 'gateHero', clearProps: 'clipPath' })
     .to(inner, { opacity: 1, y: 0, duration: 0.6, stagger: STAGGER.items, clearProps: 'transform,opacity' }, 0.25);
 }
 

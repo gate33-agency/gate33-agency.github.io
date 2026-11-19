@@ -4,6 +4,8 @@
 //    Transform only (the bands carry a static clip-path; nothing is clipped on the image itself).
 
 // Seconds until the gate starts to part (0 when the entry is not playing on this page view).
+import { isPhone } from './tokens.js';
+
 export const entryDelay = () => (document.documentElement.classList.contains('has-gate-entry') ? 0.8 : 0);
 
 const SLANT = 76.22 / 78.58; // rise over run of the slanted edge in the icon artwork (about 44 degrees)
@@ -13,9 +15,20 @@ const SLANT = 76.22 / 78.58; // rise over run of the slanted edge in the icon ar
 // frame while the picture settles (scale 1.18 -> 1). One-off, about 1.4 s, a single clip-path on one frame (not scrubbed).
 // Frames already in view on arrival open just after the page intro; the rest open as they come into view while scrolling.
 export function iconSlices(gsap, ScrollTrigger) {
+  const phone = isPhone(); // phones/tablets: the frame fades and settles (compositor only) instead of the animated slanted clip-path
   document.querySelectorAll('[data-slices]').forEach((frame) => {
     if (frame.getBoundingClientRect().bottom < 0) return;
     const media = frame.querySelectorAll('img, video');
+    if (phone) {
+      gsap.set(frame, { opacity: 0 });
+      gsap.set(media, { scale: 1.12 });
+      const run = (delay = 0) => {
+        gsap.to(frame, { opacity: 1, duration: 0.9, delay, ease: 'power2.out', clearProps: 'opacity' });
+        gsap.to(media, { scale: 1, duration: 1.4, delay, ease: 'power3.out', clearProps: 'transform' });
+      };
+      ScrollTrigger.create({ trigger: frame, start: frame.dataset.slicesStart || 'top 85%', once: true, onEnter: () => run(window.scrollY > 4 ? 0 : 0.35 + entryDelay()) });
+      return;
+    }
     const poly = (w, h, open) => {
       const k = h / SLANT;                       // horizontal shift of the slanted edge over the frame height
       const c = w / 2 + k / 2;                   // the slit runs through the centre of the frame

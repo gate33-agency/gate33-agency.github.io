@@ -1,7 +1,7 @@
 // Hero choreography (~1.6s on load) and the subtle scrubbed drift on scroll.
 // Order: reel settles from 1.08 + shade eases in -> overline -> headline lines rise from a mask -> lede + CTAs -> services index -> header + pause control.
 // The page is usable from the first frame (nothing blocks clicks; this is not a preloader).
-import { scrubLag } from './tokens.js';
+import { scrubLag, isPhone } from './tokens.js';
 import { DUR, STAGGER } from './tokens.js';
 import { keepFlow, markFlow } from './pages.js';
 
@@ -57,5 +57,6 @@ export function heroScroll(gsap) {
   if (!hero) return;
   const st = { trigger: hero, start: 'top top', end: 'bottom top', scrub: scrubLag() };
   gsap.to(hero.querySelectorAll('.hero__content, .hero__foot'), { y: -70, opacity: 0.25, ease: 'none', scrollTrigger: st });
-  gsap.fromTo(hero.querySelectorAll('.hero__poster, .hero__video'), { scale: 1 }, { scale: 1.06, ease: 'none', scrollTrigger: { ...st } });
+  // The playing film is not scaled on phones/tablets: rescaling a full-screen video every scroll frame is costly on iOS.
+  if (!isPhone()) gsap.fromTo(hero.querySelectorAll('.hero__poster, .hero__video'), { scale: 1 }, { scale: 1.06, ease: 'none', scrollTrigger: { ...st } });
 }

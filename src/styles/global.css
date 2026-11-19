@@ -87,6 +87,9 @@ button { cursor: pointer; }
 .header { position: fixed; z-index: 50; inset-block-start: 0; inset-inline: 0; color: var(--white); transition: background 1.3s var(--ease-gate), color 1.3s var(--ease-gate), box-shadow 1.3s var(--ease-gate); } /* slow, calm colour change (Stage 3.5 B) */
 .header.is-solid { background: rgba(240, 237, 244, 0.62); color: var(--ink); box-shadow: 0 1px 0 rgba(15, 15, 15, 0.06); -webkit-backdrop-filter: saturate(1.4) blur(12px); backdrop-filter: saturate(1.4) blur(12px); } /* Ahmed 9 Nov: glassy header on scroll */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .header.is-solid { background: var(--lavender); } }
+/* 19 Nov (phone performance): no backdrop blur under 1024px, blurring the pictures behind the header on every scroll frame is
+   costly on iOS. A nearly opaque lavender keeps the same look. */
+@media (max-width: 1023.98px) { .header.is-solid { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(240, 237, 244, 0.96); } }
 .header__bar { display: flex; align-items: center; justify-content: space-between; min-height: var(--header-h); gap: 32px; }
 /* Ahmed 9 Nov: the logo stays on the LEFT in both languages. In RTL the bar runs reversed so the logo sits left; nav items keep Arabic reading order. */
 [dir='rtl'] .header__bar { flex-direction: row-reverse; }
